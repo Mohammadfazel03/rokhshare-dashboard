@@ -17,12 +17,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final StreamController<bool> c;
+  late final StreamController<bool> sidebarController;
 
   @override
   void initState() {
-    // TODO: implement initState
-    c = StreamController<bool>();
+    sidebarController = StreamController<bool>.broadcast();
     super.initState();
   }
 
@@ -36,96 +35,90 @@ class _HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          if (width > 1024) ...[
-            SidebarMenu(
-              width: min(width / 3, 300),
-              backgroundColor: Theme.of(context).drawerTheme.backgroundColor!,
-              shape: Theme.of(context).drawerTheme.shape!,
-              padding: EdgeInsets.all(16),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: min(min(width / 3, 300) / 2, 150),
-                        height: min(min(width / 3, 300) / 2, 150),
-                        child: DecoratedBox(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    min(min(width / 3, 300) / 2, 150)),
-                                color: Colors.white,
-                                border: Border.all(width: 0),
-                                image: DecorationImage(
-                                    // scale: 0.1,
-                                    fit: BoxFit.fill,
-                                    image: AssetImage(
-                                      'assets/images/man.png',
-                                    )))),
-                      ),
-                      SizedBox(height: 8),
-                      Text(
-                        'محمد صادق فاضل',
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Text(
-                        'email@email.com',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontSize: 13),
-                      ),
-                      SizedBox(height: 8),
-                      sidebarItem(
-                          selected: true,
-                          icon: Icons.dashboard_rounded,
-                          title: "داشبورد"),
-                      SizedBox(height: 8),
-                      sidebarItem(
-                          selected: false,
-                          icon: FontAwesome5.user,
-                          title: "کاربران"),
-                      SizedBox(height: 8),
-                      sidebarItem(
-                          selected: false,
-                          icon: FontAwesome5.ad,
-                          title: "تبلیغات"),
-                      SizedBox(height: 8),
-                      sidebarItem(
-                          selected: false,
-                          icon: FontAwesome.video,
-                          title: "فیلم و سریال"),
-                      SizedBox(height: 8),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
+          if (width > 1024) ...[sidebarMenu(height: height, width: width)],
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ListTile(
-                  title: Text(
-                    "داشبورد",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  leading: Icon(
-                    Icons.dashboard_rounded,
-                    color: Colors.white,
-                  ),
-                  selected: true,
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: appbar(width: width, height: height),
                 )
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget appbar({required int height, required int width}) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              blurRadius: 5,
+              spreadRadius: 1,
+            )
+          ]),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (width <= 1024) ...[
+                  IconButton(
+                      onPressed: () {
+                        sidebarController.add(true);
+                      },
+                      icon: Sidebar(
+                          controller: sidebarController,
+                          sidebarMenu:
+                              sidebarMenu(height: height, width: width),
+                          child: Icon(Icons.menu_rounded)))
+                ],
+                Text(
+                  "داشبورد",
+                  style: Theme.of(context).textTheme.headlineSmall,
+                )
+              ],
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(24),
+                          color: Colors.white,
+                          border: Border.all(width: 0),
+                          image: DecorationImage(
+                              // scale: 0.1,
+                              fit: BoxFit.fill,
+                              image: AssetImage(
+                                'assets/images/man.png',
+                              )))),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -166,6 +159,72 @@ class _HomePageState extends State<HomePage> {
               style: Theme.of(context).textTheme.titleLarge,
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  SidebarMenu sidebarMenu({required int height, required int width}) {
+    return SidebarMenu(
+      width: min(width / 3 * 2, 300),
+      backgroundColor: Theme.of(context).drawerTheme.backgroundColor!,
+      shape: Theme.of(context).drawerTheme.shape!,
+      padding: EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: min(min(width / 3 * 2, 300) / 2, 150),
+                height: min(min(width / 3 * 2, 300) / 2, 150),
+                child: DecoratedBox(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                            min(min(width / 3 * 2, 300) / 2, 150)),
+                        color: Colors.white,
+                        border: Border.all(width: 0),
+                        image: DecorationImage(
+                            // scale: 0.1,
+                            fit: BoxFit.fill,
+                            image: AssetImage(
+                              'assets/images/man.png',
+                            )))),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'محمد صادق فاضل',
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Text(
+                'email@email.com',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge
+                    ?.copyWith(fontSize: 13),
+              ),
+              SizedBox(height: 8),
+              sidebarItem(
+                  selected: true,
+                  icon: Icons.dashboard_rounded,
+                  title: "داشبورد"),
+              SizedBox(height: 8),
+              sidebarItem(
+                  selected: false, icon: FontAwesome5.user, title: "کاربران"),
+              SizedBox(height: 8),
+              sidebarItem(
+                  selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
+              SizedBox(height: 8),
+              sidebarItem(
+                  selected: false,
+                  icon: FontAwesome.video,
+                  title: "فیلم و سریال"),
+              SizedBox(height: 8),
+            ],
+          ),
         ),
       ),
     );

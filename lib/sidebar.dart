@@ -4,20 +4,14 @@ import 'package:flutter/material.dart';
 
 class Sidebar extends StatefulWidget {
   final StreamController<bool> controller;
-  final double width;
-  final ShapeBorder shape;
-  final Color backgroundColor;
-  final EdgeInsetsGeometry padding;
+  final SidebarMenu sidebarMenu;
   final Widget? child;
 
-  const Sidebar(
-      {super.key,
-      required this.controller,
-      required this.width,
-      required this.shape,
-      required this.backgroundColor,
-      required this.padding,
-      this.child});
+  const Sidebar({
+    super.key,
+    required this.controller,
+    required this.sidebarMenu, this.child,
+  });
 
   @override
   State<Sidebar> createState() => _SidebarState();
@@ -27,11 +21,12 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
   late final OverlayPortalController _overlayPortalController;
   late final Animation<double> _animation;
   late final AnimationController _animationController;
+  late final StreamSubscription _streamSubscription;
 
   @override
   void initState() {
     _overlayPortalController = OverlayPortalController();
-    widget.controller.stream.listen((event) {
+    _streamSubscription = widget.controller.stream.listen((event) {
       if (event) {
         _animationController.forward();
         _overlayPortalController.show();
@@ -66,7 +61,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
             },
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: Colors.grey.withAlpha(150),
+                color: Theme.of(context).colorScheme.scrim.withOpacity(0.5),
               ),
               child: Stack(
                 children: [
@@ -76,25 +71,21 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                         return Positioned(
                             top: 0, right: _animation.value, child: child!);
                       },
-                      child: SidebarMenu(
-                        width: widget.width,
-                        backgroundColor: widget.backgroundColor,
-                        shape: widget.shape,
-                        padding: widget.padding,
-                        child: widget.child,
-                      ))
+                      child: widget.sidebarMenu)
                 ],
               ),
             ),
           ),
         );
       },
+      child: widget.child,
     );
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+   _animationController.dispose();
+   _streamSubscription.cancel();
     super.dispose();
   }
 }
@@ -124,9 +115,7 @@ class SidebarMenu extends StatelessWidget {
           height: MediaQuery.of(context).size.height - padding.vertical,
           width: width,
           child: DecoratedBox(
-            decoration: ShapeDecoration(
-                shape: shape,
-                color: backgroundColor),
+            decoration: ShapeDecoration(shape: shape, color: backgroundColor),
             child: child,
           ),
         ),
