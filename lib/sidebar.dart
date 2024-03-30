@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class Sidebar extends StatefulWidget {
   final StreamController<bool> controller;
   final double width;
-  final double radius;
+  final ShapeBorder shape;
   final Color backgroundColor;
   final EdgeInsetsGeometry padding;
   final Widget? child;
@@ -14,7 +14,7 @@ class Sidebar extends StatefulWidget {
       {super.key,
       required this.controller,
       required this.width,
-      required this.radius,
+      required this.shape,
       required this.backgroundColor,
       required this.padding,
       this.child});
@@ -79,7 +79,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
                       child: SidebarMenu(
                         width: widget.width,
                         backgroundColor: widget.backgroundColor,
-                        radius: widget.radius,
+                        shape: widget.shape,
                         padding: widget.padding,
                         child: widget.child,
                       ))
@@ -101,7 +101,7 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
 
 class SidebarMenu extends StatelessWidget {
   final double width;
-  final double radius;
+  final ShapeBorder shape;
   final Color backgroundColor;
   final EdgeInsetsGeometry padding;
   final Widget? child;
@@ -110,7 +110,7 @@ class SidebarMenu extends StatelessWidget {
       {super.key,
       required this.width,
       required this.backgroundColor,
-      required this.radius,
+      required this.shape,
       required this.padding,
       this.child});
 
@@ -124,8 +124,8 @@ class SidebarMenu extends StatelessWidget {
           height: MediaQuery.of(context).size.height - padding.vertical,
           width: width,
           child: DecoratedBox(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(radius)),
+            decoration: ShapeDecoration(
+                shape: shape,
                 color: backgroundColor),
             child: child,
           ),
