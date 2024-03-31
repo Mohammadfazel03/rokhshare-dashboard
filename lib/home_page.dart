@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:dashboard/dashboard_page.dart';
 import 'package:dashboard/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -45,7 +46,8 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: appbar(width: width, height: height),
-                )
+                ),
+                Expanded(child: DashboardPage())
               ],
             ),
           )
@@ -61,8 +63,8 @@ class _HomePageState extends State<HomePage> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              blurRadius: 5,
+              color: Theme.of(context).shadowColor,
+              blurRadius: 1,
               spreadRadius: 1,
             )
           ]),
