@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:dashboard/dashboard_page.dart';
-import 'package:dashboard/sidebar.dart';
+import 'package:dashboard/feature/home/presentation/screens/dashboard_page.dart';
+import 'package:dashboard/feature/home/presentation/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
     return DecoratedBox(
       decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(8),
           boxShadow: [
             BoxShadow(
               color: Theme.of(context).shadowColor,
@@ -137,13 +137,13 @@ class _HomePageState extends State<HomePage> {
                   0.0,
                   0.0,
                 ),
-                blurRadius: 5,
+                blurRadius: 1,
                 spreadRadius: 1,
               ),
             ]
           ],
           color: selected ? Color.fromRGBO(55, 97, 235, 1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(16)),
+          borderRadius: BorderRadius.circular(8)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -158,7 +158,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 8),
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             )
           ],
         ),

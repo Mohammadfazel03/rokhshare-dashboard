@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:dashboard/sidebar.dart';
+import 'package:dashboard/feature/home/presentation/widget/sidebar.dart';
 import 'package:dashboard/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'home_page.dart';
+import 'feature/home/presentation/screens/home_page.dart';
 
 void main() {
   runApp(const MyApp());
