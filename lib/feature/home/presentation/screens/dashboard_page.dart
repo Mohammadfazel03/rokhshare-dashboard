@@ -1,10 +1,13 @@
 import 'dart:math';
 
+import 'package:dashboard/feature/home/data/remote/model/plan.dart';
 import 'package:dashboard/feature/home/data/remote/model/user.dart';
+import 'package:dashboard/feature/home/presentation/entities/plan_data_grid.dart';
 import 'package:dashboard/feature/home/presentation/entities/user_data_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -19,9 +22,17 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   late final UserDataGrid _userDataGrid;
+  late final PlanDataGrid _planDataGrid;
 
   @override
   void initState() {
+    _planDataGrid = PlanDataGrid(context: context);
+    _planDataGrid.buildDataGridRows(plans: [
+      Plan(title: "طلا", days: 180, price: 180000, isEnable: true),
+      Plan(title: "نقره", days: 60, price: 90000, isEnable: false),
+      Plan(title: "نقره", days: 60, price: 120000, isEnable: true),
+      Plan(title: "برنز", days: 30, price: 90000, isEnable: true)
+    ]);
     _userDataGrid = UserDataGrid(context: context);
     _userDataGrid.buildDataGridRows(users: [
       User(
@@ -115,8 +126,9 @@ class _DashboardPageState extends State<DashboardPage> {
                 crossAxisSpacing: 16,
                 crossAxisCount: 5,
                 children: [
-                  StaggeredGridTile.fit(
-                      crossAxisCellCount: 5,
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 5 >= 150 ? 3 : 5,
+                      mainAxisExtent: 410,
                       child: Container(
                         decoration: BoxDecoration(
                             color:
@@ -137,11 +149,42 @@ class _DashboardPageState extends State<DashboardPage> {
                             Padding(
                               padding: const EdgeInsets.all(16),
                               child: Text(
-                                "کاربران جدید",
+                                "کاربران فعال اخیر",
                                 style: Theme.of(context).textTheme.titleLarge,
                               ),
                             ),
-                            userTable(),
+                            Expanded(child: userTable()),
+                          ],
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 5 >= 150 ? 2 : 5,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                "طرح های محبوب",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                            Expanded(child: planTable()),
                           ],
                         ),
                       )),
@@ -299,6 +342,56 @@ class _DashboardPageState extends State<DashboardPage> {
                 label: Container(
                     alignment: Alignment.center,
                     child: Text('تاریخ عضویت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+          ]),
+    );
+  }
+
+  Widget planTable() {
+    return SfDataGridTheme(
+      data: SfDataGridThemeData(
+          headerColor: Theme.of(context).colorScheme.primary,
+        gridLineColor: Theme.of(context).dividerColor
+      ),
+      child: SfDataGrid(
+          source: _planDataGrid,
+          columnWidthMode: ColumnWidthMode.fill,
+          shrinkWrapRows: true,
+          isScrollbarAlwaysShown: true,
+          gridLinesVisibility: GridLinesVisibility.none,
+          headerGridLinesVisibility: GridLinesVisibility.none,
+          columns: <GridColumn>[
+            GridColumn(
+                minimumWidth: 100,
+                columnName: 'title',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('عنوان',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 100,
+                columnName: 'time',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('مدت زمان',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 150,
+                columnName: 'price',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('قیمت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 150,
+                columnName: 'status',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('وضعیت',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
           ]),
