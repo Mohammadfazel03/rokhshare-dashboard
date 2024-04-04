@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       darkTheme: Themes.dark,
       theme: Themes.light,
-      themeMode: ThemeMode.light,
+      themeMode: ThemeMode.dark,
       locale: const Locale("fa", "IR"),
       localizationsDelegates: const [
         GlobalCupertinoLocalizations.delegate,

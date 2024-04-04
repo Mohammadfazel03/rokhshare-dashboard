@@ -119,7 +119,7 @@ class Themes {
               color: Color.fromRGBO(255, 255, 255, 1.0),
               fontFamily: 'iran-sans',
               fontSize: 14,
-              fontWeight: FontWeight.normal),
+              fontWeight: FontWeight.bold),
           bodyLarge: TextStyle(
               color: Color.fromRGBO(174, 178, 187, 1.0),
               fontFamily: 'iran-sans',
