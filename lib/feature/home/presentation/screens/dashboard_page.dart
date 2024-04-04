@@ -2,10 +2,12 @@ import 'dart:math';
 
 import 'package:dashboard/feature/home/data/remote/model/comment.dart';
 import 'package:dashboard/feature/home/data/remote/model/plan.dart';
+import 'package:dashboard/feature/home/data/remote/model/slider.dart';
 import 'package:dashboard/feature/home/data/remote/model/user.dart';
 import 'package:dashboard/feature/home/presentation/common/custom_grid_column_sizer.dart';
 import 'package:dashboard/feature/home/presentation/entities/comment_data_grid.dart';
 import 'package:dashboard/feature/home/presentation/entities/plan_data_grid.dart';
+import 'package:dashboard/feature/home/presentation/entities/slider_data_grid.dart';
 import 'package:dashboard/feature/home/presentation/entities/user_data_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,7 @@ class _DashboardPageState extends State<DashboardPage> {
   late final UserDataGrid _userDataGrid;
   late final PlanDataGrid _planDataGrid;
   late final CommentDataGrid _commentDataGrid;
+  late final SliderDataGrid _sliderDataGrid;
 
   late final CustomGridColumnSizer _gridColumnSizer;
 
@@ -39,6 +42,43 @@ class _DashboardPageState extends State<DashboardPage> {
       Plan(title: "نقره", days: 60, price: 90000, isEnable: false),
       Plan(title: "نقره", days: 60, price: 120000, isEnable: true),
       Plan(title: "برنز", days: 30, price: 90000, isEnable: true)
+    ]);
+
+    _sliderDataGrid = SliderDataGrid(context: context);
+    _sliderDataGrid.buildDataGridRows(sliders: [
+      SliderMovie(
+          title: "Godzilla Vs Kong",
+          priority: 1,
+          description: "میان خشم و قدرتی ویرانگر",
+          media: Media(
+              name: "Godzilla x Kong: The New Empire",
+              poster:
+                  "https://image.tmdb.org/t/p/w500/gmGK5Gw5CIGMPhOmTO0bNA9Q66c.jpg")),
+      SliderMovie(
+          title: "پاندای کونگفوکار",
+          priority: 1,
+          description: "چطوری!!؟؟ نمیدونم",
+          media: Media(
+              name: "Kung Fu Panda 4",
+              poster:
+                  "https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")),
+      SliderMovie(
+          title: "زن اینترنت",
+          priority: 1,
+          description: "برای زندگی",
+          media: Media(
+              name: "Madame Web",
+              poster:
+                  "https://image.tmdb.org/t/p/w500/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg")),
+      SliderMovie(
+          title: "خلق پادشاهی",
+          priority: 1,
+          description: "برای میراثمون!",
+          media: Media(
+              name: "Creation of the Gods I: Kingdom of Storms",
+              poster:
+                  "https://image.tmdb.org/t/p/w500/kUKEwAoWe4Uyt8sFmtp5S86rlBk.jpg")),
+
     ]);
 
     _commentDataGrid = CommentDataGrid(context: context);
@@ -158,6 +198,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return LayoutBuilder(builder: (context, constraints) {
       int width = constraints.constrainWidth().round();
       int height = constraints.constrainHeight().round();
+      print(width / 10);
       return SingleChildScrollView(
         child: Column(
           children: [
@@ -202,10 +243,10 @@ class _DashboardPageState extends State<DashboardPage> {
               child: StaggeredGrid.count(
                 mainAxisSpacing: 16,
                 crossAxisSpacing: 16,
-                crossAxisCount: 5,
+                crossAxisCount: 10,
                 children: [
                   StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 5 >= 150 ? 3 : 5,
+                      crossAxisCellCount: width / 10 >= 75 ? 6 : 10,
                       mainAxisExtent: 410,
                       child: Container(
                         decoration: BoxDecoration(
@@ -236,7 +277,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       )),
                   StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 5 >= 150 ? 2 : 5,
+                      crossAxisCellCount: width / 10 >= 75 ? 4 : 10,
                       mainAxisExtent: 410,
                       child: Container(
                         decoration: BoxDecoration(
@@ -267,7 +308,7 @@ class _DashboardPageState extends State<DashboardPage> {
                         ),
                       )),
                   StaggeredGridTile.extent(
-                      crossAxisCellCount: 5,
+                      crossAxisCellCount: 10,
                       mainAxisExtent: 410,
                       child: Container(
                         decoration: BoxDecoration(
@@ -294,6 +335,37 @@ class _DashboardPageState extends State<DashboardPage> {
                               ),
                             ),
                             Expanded(child: commentTable()),
+                          ],
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 10 > 80 ? 5 : 10,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                "صفحه اول",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                            Expanded(child: sliderTable()),
                           ],
                         ),
                       )),
@@ -563,6 +635,63 @@ class _DashboardPageState extends State<DashboardPage> {
                 label: Container(
                     alignment: Alignment.center,
                     child: Text('وضعیت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+          ]),
+    );
+  }
+
+  Widget sliderTable() {
+    return SfDataGridTheme(
+      data: SfDataGridThemeData(
+          headerColor: Theme.of(context).colorScheme.primary,
+          gridLineColor: Theme.of(context).dividerColor),
+      child: SfDataGrid(
+          source: _sliderDataGrid,
+          isScrollbarAlwaysShown: true,
+          rowHeight: 150,
+          onQueryRowHeight: (RowHeightDetails details) {
+            var descriptionHeight = details.getIntrinsicRowHeight(details.rowIndex,
+                excludedColumns: ['title', 'media', 'priority']);
+            if (descriptionHeight > details.rowHeight) {
+              return descriptionHeight;
+            }
+            return details.rowHeight;
+          },
+          columnWidthMode: ColumnWidthMode.lastColumnFill,
+          gridLinesVisibility: GridLinesVisibility.vertical,
+          headerGridLinesVisibility: GridLinesVisibility.none,
+          columns: <GridColumn>[
+            GridColumn(
+                minimumWidth: 40,
+                columnName: 'priority',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('الویت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 140,
+                columnName: 'media',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('فیلم',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 100,
+                columnName: 'title',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('عنوان',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 200,
+                columnName: 'description',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('توضیحات',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
           ]),
