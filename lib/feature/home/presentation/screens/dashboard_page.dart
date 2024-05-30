@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:dashboard/feature/home/data/remote/model/ads.dart';
 import 'package:dashboard/feature/home/data/remote/model/comment.dart';
 import 'package:dashboard/feature/home/data/remote/model/plan.dart';
 import 'package:dashboard/feature/home/data/remote/model/slider.dart';
 import 'package:dashboard/feature/home/data/remote/model/user.dart';
 import 'package:dashboard/feature/home/presentation/common/custom_grid_column_sizer.dart';
+import 'package:dashboard/feature/home/presentation/entities/ads_data_grid.dart';
 import 'package:dashboard/feature/home/presentation/entities/comment_data_grid.dart';
 import 'package:dashboard/feature/home/presentation/entities/plan_data_grid.dart';
 import 'package:dashboard/feature/home/presentation/entities/slider_data_grid.dart';
@@ -30,6 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
   late final PlanDataGrid _planDataGrid;
   late final CommentDataGrid _commentDataGrid;
   late final SliderDataGrid _sliderDataGrid;
+  late final AdsDataGrid _adsDataGrid;
 
   late final CustomGridColumnSizer _gridColumnSizer;
 
@@ -78,7 +81,30 @@ class _DashboardPageState extends State<DashboardPage> {
               name: "Creation of the Gods I: Kingdom of Storms",
               poster:
                   "https://image.tmdb.org/t/p/w500/kUKEwAoWe4Uyt8sFmtp5S86rlBk.jpg")),
+    ]);
 
+    _adsDataGrid = AdsDataGrid(context: context);
+    _adsDataGrid.buildDataGridRows(sliders: [
+      Advertise(
+          title: "شیزآلات شودر",
+          createdAt: "2024-04-02T08:56:00Z",
+          viewNumber: 88,
+          mustPlayed: 65),
+      Advertise(
+          title: "فیلیمو",
+          createdAt: "2021-04-02T08:56:00Z",
+          viewNumber: 555555,
+          mustPlayed: 65),
+      Advertise(
+          title: "نماوا",
+          createdAt: "2020-10-02T08:56:00Z",
+          viewNumber: 88,
+          mustPlayed: 5),
+      Advertise(
+          title: "اینجا هوم",
+          createdAt: "2024-04-08T08:56:00Z",
+          viewNumber: 788,
+          mustPlayed: 6555),
     ]);
 
     _commentDataGrid = CommentDataGrid(context: context);
@@ -198,7 +224,6 @@ class _DashboardPageState extends State<DashboardPage> {
     return LayoutBuilder(builder: (context, constraints) {
       int width = constraints.constrainWidth().round();
       int height = constraints.constrainHeight().round();
-      print(width / 10);
       return SingleChildScrollView(
         child: Column(
           children: [
@@ -366,6 +391,37 @@ class _DashboardPageState extends State<DashboardPage> {
                               ),
                             ),
                             Expanded(child: sliderTable()),
+                          ],
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 10 > 80 ? 5 : 10,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                "تبلیغات",
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                            ),
+                            Expanded(child: adsTable()),
                           ],
                         ),
                       )),
@@ -651,7 +707,8 @@ class _DashboardPageState extends State<DashboardPage> {
           isScrollbarAlwaysShown: true,
           rowHeight: 150,
           onQueryRowHeight: (RowHeightDetails details) {
-            var descriptionHeight = details.getIntrinsicRowHeight(details.rowIndex,
+            var descriptionHeight = details.getIntrinsicRowHeight(
+                details.rowIndex,
                 excludedColumns: ['title', 'media', 'priority']);
             if (descriptionHeight > details.rowHeight) {
               return descriptionHeight;
@@ -692,6 +749,58 @@ class _DashboardPageState extends State<DashboardPage> {
                 label: Container(
                     alignment: Alignment.center,
                     child: Text('توضیحات',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+          ]),
+    );
+  }
+
+  Widget adsTable() {
+    return SfDataGridTheme(
+      data: SfDataGridThemeData(
+          headerColor: Theme.of(context).colorScheme.primary,
+          gridLineColor: Theme.of(context).dividerColor),
+      child: SfDataGrid(
+          source: _adsDataGrid,
+          isScrollbarAlwaysShown: true,
+          rowHeight: 150,
+          onQueryRowHeight: (RowHeightDetails details) {
+            return details.rowHeight;
+          },
+          columnWidthMode: ColumnWidthMode.lastColumnFill,
+          gridLinesVisibility: GridLinesVisibility.vertical,
+          headerGridLinesVisibility: GridLinesVisibility.none,
+          columns: <GridColumn>[
+            GridColumn(
+                minimumWidth: 100,
+                columnName: 'title',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('عنوان',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 140,
+                columnName: 'createdAt',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تاریخ ثبت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 40,
+                columnName: 'viewNumber',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تماشا شده',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 40,
+                columnName: 'mustPlayed',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تعداد کل شفارش',
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
           ]),

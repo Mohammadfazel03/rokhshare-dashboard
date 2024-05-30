@@ -69,37 +69,6 @@ class CommentDataGrid extends DataGridSource {
             ],
           ),
         );
-      }if (dataGridCell.columnName == "media") {
-        return Container(
-          padding: EdgeInsets.all(8),
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  dataGridCell.value.poster,
-                  height: 96,
-                  width: 64,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              SizedBox(height: 8),
-              Flexible(
-                child: Text(
-                  dataGridCell.value.name,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(_context).textTheme.bodySmall,
-                  maxLines: 2,
-                ),
-              )
-            ],
-          ),
-        );
       }
       else if (dataGridCell.columnName == "status") {
         return Center(
