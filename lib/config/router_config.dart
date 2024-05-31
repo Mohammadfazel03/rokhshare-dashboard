@@ -1,3 +1,4 @@
+import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,12 @@ enum RoutePath {
   final String name;
   final String path;
   final String? title;
-
 }
 
 final routerConfig = GoRouter(
   initialLocation: RoutePath.dashboard.path,
   initialExtra: RoutePath.dashboard,
+  errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
   routes: [
     ShellRoute(
       builder: (BuildContext context, GoRouterState state, Widget child) {
@@ -35,7 +36,7 @@ final routerConfig = GoRouter(
             path: RoutePath.users.path,
             name: RoutePath.users.name,
             pageBuilder: (BuildContext context, GoRouterState state) =>
-            const NoTransitionPage(child: UserPage())),
+                const NoTransitionPage(child: UserPage())),
       ],
     )
   ],
