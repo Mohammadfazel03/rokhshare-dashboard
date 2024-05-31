@@ -1,11 +1,8 @@
-import 'package:dashboard/colors.dart';
-import 'package:dashboard/feature/home/data/remote/model/comment.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:dashboard/feature/home/data/remote/model/slider.dart';
+
+import '../../data/remote/model/comment.dart';
+import '../../data/remote/model/slider.dart';
 
 class SliderDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];

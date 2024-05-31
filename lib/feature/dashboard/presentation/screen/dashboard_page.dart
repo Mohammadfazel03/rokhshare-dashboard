@@ -1,16 +1,5 @@
 import 'dart:math';
 
-import 'package:dashboard/feature/home/data/remote/model/ads.dart';
-import 'package:dashboard/feature/home/data/remote/model/comment.dart';
-import 'package:dashboard/feature/home/data/remote/model/plan.dart';
-import 'package:dashboard/feature/home/data/remote/model/slider.dart';
-import 'package:dashboard/feature/home/data/remote/model/user.dart';
-import 'package:dashboard/feature/home/presentation/common/custom_grid_column_sizer.dart';
-import 'package:dashboard/feature/home/presentation/entities/ads_data_grid.dart';
-import 'package:dashboard/feature/home/presentation/entities/comment_data_grid.dart';
-import 'package:dashboard/feature/home/presentation/entities/plan_data_grid.dart';
-import 'package:dashboard/feature/home/presentation/entities/slider_data_grid.dart';
-import 'package:dashboard/feature/home/presentation/entities/user_data_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,6 +8,18 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
+
+import '../../data/remote/model/ads.dart';
+import '../../data/remote/model/comment.dart';
+import '../../data/remote/model/plan.dart';
+import '../../data/remote/model/slider.dart';
+import '../../data/remote/model/user.dart';
+import '../common/custom_grid_column_sizer.dart';
+import '../entities/ads_data_grid.dart';
+import '../entities/comment_data_grid.dart';
+import '../entities/plan_data_grid.dart';
+import '../entities/slider_data_grid.dart';
+import '../entities/user_data_grid.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});

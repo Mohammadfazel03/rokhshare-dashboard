@@ -1,7 +1,8 @@
 import 'package:dashboard/colors.dart';
-import 'package:dashboard/feature/home/data/remote/model/plan.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../../data/remote/model/plan.dart';
 
 class PlanDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];

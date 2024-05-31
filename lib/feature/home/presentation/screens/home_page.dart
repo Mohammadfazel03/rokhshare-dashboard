@@ -1,14 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:dashboard/feature/home/presentation/screens/dashboard_page.dart';
+import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
 import 'package:dashboard/feature/home/presentation/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
-import 'package:fluttericon/iconic_icons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:responsive_framework/responsive_framework.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
