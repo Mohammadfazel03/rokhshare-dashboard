@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
 import 'package:dashboard/feature/home/presentation/widget/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final Widget pageScreen;
+
+  const HomePage({super.key, required this.pageScreen});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,6 +20,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final StreamController<bool> sidebarController;
+  late final RoutePath? _routePath;
+  var isContextAvailable = true;
+
+  @override
+  void didChangeDependencies() {
+    if (isContextAvailable) {
+      try {
+        _routePath = GoRouterState.of(context).extra! as RoutePath;
+      } catch (e) {
+        _routePath = null;
+      }
+      isContextAvailable = false;
+    }
+    super.didChangeDependencies();
+  }
 
   @override
   void initState() {
@@ -44,7 +63,7 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(16),
                   child: appbar(width: width, height: height),
                 ),
-                Expanded(child: DashboardPage())
+                Expanded(child: widget.pageScreen)
               ],
             ),
           )
@@ -89,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                           child: Icon(Icons.menu_rounded)))
                 ],
                 Text(
-                  "داشبورد",
+                  _routePath?.title ?? "",
                   style: Theme.of(context).textTheme.headlineSmall,
                 )
               ],
@@ -123,41 +142,48 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget sidebarItem(
-      {required bool selected, required String title, required IconData icon}) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          boxShadow: [
-            if (selected) ...[
-              BoxShadow(
-                color: Color.fromRGBO(55, 97, 235, 1),
-                offset: const Offset(
-                  0.0,
-                  0.0,
+      {Function()? onClick,
+      required bool selected,
+      required String title,
+      required IconData icon}) {
+    return GestureDetector(
+      onTap: onClick,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            boxShadow: [
+              if (selected) ...[
+                BoxShadow(
+                  color: Color.fromRGBO(55, 97, 235, 1),
+                  offset: const Offset(
+                    0.0,
+                    0.0,
+                  ),
+                  blurRadius: 1,
+                  spreadRadius: 1,
                 ),
-                blurRadius: 1,
-                spreadRadius: 1,
+              ]
+            ],
+            color:
+                selected ? Color.fromRGBO(55, 97, 235, 1) : Colors.transparent,
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                icon,
+                color: Colors.white,
               ),
-            ]
-          ],
-          color: selected ? Color.fromRGBO(55, 97, 235, 1) : Colors.transparent,
-          borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: Colors.white,
-            ),
-            SizedBox(width: 8),
-            Text(
-              title,
-              style: Theme.of(context).textTheme.titleMedium,
-            )
-          ],
+              SizedBox(width: 8),
+              Text(
+                title,
+                style: Theme.of(context).textTheme.titleMedium,
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -207,12 +233,18 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: true,
+                  selected: RoutePath.dashboard == _routePath,
                   icon: Icons.dashboard_rounded,
-                  title: "داشبورد"),
+                  title: "داشبورد",
+                  onClick: () {
+                    context.go("/dashboard", extra: RoutePath.dashboard);
+                  }),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: false, icon: FontAwesome5.user, title: "کاربران"),
+                  selected: false,
+                  icon: FontAwesome5.user,
+                  title: "کاربران",
+                  onClick: () {}),
               SizedBox(height: 8),
               sidebarItem(
                   selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
