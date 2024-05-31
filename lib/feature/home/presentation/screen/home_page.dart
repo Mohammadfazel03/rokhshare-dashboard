@@ -2,11 +2,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dashboard/config/router_config.dart';
-import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
+import 'package:dashboard/config/theme/theme_cubit.dart';
 import 'package:dashboard/feature/home/presentation/widget/sidebar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
+import 'package:fluttericon/iconic_icons.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
@@ -97,7 +99,8 @@ class _HomePageState extends State<HomePage> {
                           controller: sidebarController,
                           sidebarMenu:
                               sidebarMenu(height: height, width: width),
-                          child: Icon(Icons.menu_rounded)))
+                          child: Icon(Icons.menu_rounded))),
+                  SizedBox(width: 8)
                 ],
                 Text(
                   getTitleByPath(_routePath ?? "") ?? "",
@@ -110,6 +113,17 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                IconButton(
+                    onPressed: () {
+                      BlocProvider.of<ThemeCubit>(context).changeTheme(
+                          Theme.of(context).brightness == Brightness.dark
+                              ? ThemeMode.light
+                              : ThemeMode.dark);
+                    },
+                    icon: Icon(Theme.of(context).brightness == Brightness.dark
+                        ? Iconic.sun_inv
+                        : Iconic.moon_inv)),
+                SizedBox(width: 8),
                 SizedBox(
                   width: 32,
                   height: 32,
@@ -138,43 +152,52 @@ class _HomePageState extends State<HomePage> {
       required bool selected,
       required String title,
       required IconData icon}) {
-    return GestureDetector(
-      onTap: onClick,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-            boxShadow: [
-              if (selected) ...[
-                BoxShadow(
-                  color: Color.fromRGBO(55, 97, 235, 1),
-                  offset: const Offset(
-                    0.0,
-                    0.0,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          sidebarController.add(false);
+          if (onClick != null) {
+            onClick();
+          }
+        },
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              boxShadow: [
+                if (selected) ...[
+                  BoxShadow(
+                    color: Color.fromRGBO(55, 97, 235, 1),
+                    offset: const Offset(
+                      0.0,
+                      0.0,
+                    ),
+                    blurRadius: 1,
+                    spreadRadius: 1,
                   ),
-                  blurRadius: 1,
-                  spreadRadius: 1,
+                ]
+              ],
+              color: selected
+                  ? Color.fromRGBO(55, 97, 235, 1)
+                  : Colors.transparent,
+              borderRadius: BorderRadius.circular(8)),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
                 ),
-              ]
-            ],
-            color:
-                selected ? Color.fromRGBO(55, 97, 235, 1) : Colors.transparent,
-            borderRadius: BorderRadius.circular(8)),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: Colors.white,
-              ),
-              SizedBox(width: 8),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleMedium,
-              )
-            ],
+                SizedBox(width: 8),
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.titleMedium,
+                )
+              ],
+            ),
           ),
         ),
       ),

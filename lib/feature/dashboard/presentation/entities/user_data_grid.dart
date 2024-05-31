@@ -1,4 +1,4 @@
-import 'package:dashboard/colors.dart';
+import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
