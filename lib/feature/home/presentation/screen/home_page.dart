@@ -20,21 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final StreamController<bool> sidebarController;
-  late final RoutePath? _routePath;
-  var isContextAvailable = true;
-
-  @override
-  void didChangeDependencies() {
-    if (isContextAvailable) {
-      try {
-        _routePath = GoRouterState.of(context).extra! as RoutePath;
-      } catch (e) {
-        _routePath = null;
-      }
-      isContextAvailable = false;
-    }
-    super.didChangeDependencies();
-  }
+  late String? _routePath;
 
   @override
   void initState() {
@@ -46,6 +32,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     int width = MediaQuery.of(context).size.width.round();
     int height = MediaQuery.of(context).size.height.round();
+    try {
+      _routePath =
+          GoRouter.of(context).routerDelegate.currentConfiguration.uri.path;
+    } catch (e) {
+      _routePath = null;
+    }
     return Scaffold(
       body: Row(
         mainAxisSize: MainAxisSize.max,
@@ -108,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                           child: Icon(Icons.menu_rounded)))
                 ],
                 Text(
-                  _routePath?.title ?? "",
+                  getTitleByPath(_routePath ?? "") ?? "",
                   style: Theme.of(context).textTheme.headlineSmall,
                 )
               ],
@@ -233,7 +225,7 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: RoutePath.dashboard == _routePath,
+                  selected: RoutePath.dashboard.path == _routePath,
                   icon: Icons.dashboard_rounded,
                   title: "داشبورد",
                   onClick: () {
@@ -241,10 +233,12 @@ class _HomePageState extends State<HomePage> {
                   }),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: false,
+                  selected: RoutePath.users.path == _routePath,
                   icon: FontAwesome5.user,
                   title: "کاربران",
-                  onClick: () {}),
+                  onClick: () {
+                    context.go("/users", extra: RoutePath.users);
+                  }),
               SizedBox(height: 8),
               sidebarItem(
                   selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
@@ -259,5 +253,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  String? getTitleByPath(String path) {
+    if (RoutePath.users.path == path) {
+      return RoutePath.users.title;
+    } else if (RoutePath.dashboard.path == path) {
+      return RoutePath.dashboard.title;
+    }
+    return "";
   }
 }
