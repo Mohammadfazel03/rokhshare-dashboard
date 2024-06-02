@@ -1,6 +1,7 @@
 import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
+import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,6 +9,7 @@ import '../feature/users/presentation/screen/user_page.dart';
 
 enum RoutePath {
   dashboard(name: "dashboard", path: "/dashboard", title: "داشبورد"),
+  login(name: "login", path: "/login", title: "ورود"),
   users(name: "users", path: "/users", title: "کاریران");
 
   const RoutePath({required this.name, required this.path, this.title});
@@ -18,10 +20,15 @@ enum RoutePath {
 }
 
 final routerConfig = GoRouter(
-  initialLocation: RoutePath.dashboard.path,
-  initialExtra: RoutePath.dashboard,
+  initialLocation: RoutePath.login.path,
+  // initialExtra: RoutePath.dashboard,
   errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
   routes: [
+    GoRoute(
+        path: RoutePath.login.path,
+        name: RoutePath.login.name,
+        pageBuilder: (BuildContext context, GoRouterState state) =>
+            const NoTransitionPage(child: LoginPage())),
     ShellRoute(
       builder: (BuildContext context, GoRouterState state, Widget child) {
         return HomePage(pageScreen: child);

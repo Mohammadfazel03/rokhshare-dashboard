@@ -237,13 +237,13 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: 8),
               Text(
                 'محمد صادق فاضل',
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               Text(
                 'email@email.com',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyLarge
+                    .labelLarge
                     ?.copyWith(fontSize: 13),
               ),
               SizedBox(height: 8),

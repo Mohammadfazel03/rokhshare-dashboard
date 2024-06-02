@@ -1,4 +1,3 @@
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -46,7 +45,7 @@ class AdsDataGrid extends DataGridSource {
           child: Text('${f.yyyy}/${f.mm}/${f.dd}',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(_context).textTheme.bodyMedium),
+              style: Theme.of(_context).textTheme.labelMedium),
         );
       }
       return Center(
@@ -54,7 +53,7 @@ class AdsDataGrid extends DataGridSource {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(dataGridCell.value.toString(),
               textAlign: TextAlign.justify,
-              style: Theme.of(_context).textTheme.bodyMedium),
+              style: Theme.of(_context).textTheme.labelMedium),
         ),
       );
     }).toList());

@@ -58,7 +58,7 @@ class SliderDataGrid extends DataGridSource {
                   dataGridCell.value.name,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  style: Theme.of(_context).textTheme.bodySmall,
+                  style: Theme.of(_context).textTheme.labelSmall,
                   maxLines: 2,
                 ),
               )
@@ -71,7 +71,7 @@ class SliderDataGrid extends DataGridSource {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(dataGridCell.value.toString(),
               textAlign: TextAlign.justify,
-              style: Theme.of(_context).textTheme.bodyMedium),
+              style: Theme.of(_context).textTheme.labelMedium),
         ),
       );
     }).toList());

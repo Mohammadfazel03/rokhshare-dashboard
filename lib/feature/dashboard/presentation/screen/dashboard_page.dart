@@ -492,7 +492,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: Theme.of(context).textTheme.labelSmall,
                       )
                     ],
                   ),
@@ -506,7 +506,7 @@ class _DashboardPageState extends State<DashboardPage> {
                           "${percent}%",
                           style: Theme.of(context)
                               .textTheme
-                              .bodySmall
+                              .labelSmall
                               ?.copyWith(
                                   color: isProfit ? Colors.green : Colors.red),
                         ),

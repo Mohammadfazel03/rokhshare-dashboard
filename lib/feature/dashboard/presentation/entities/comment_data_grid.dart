@@ -62,26 +62,24 @@ class CommentDataGrid extends DataGridSource {
                   dataGridCell.value.name,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  style: Theme.of(_context).textTheme.bodySmall,
+                  style: Theme.of(_context).textTheme.labelSmall,
                   maxLines: 2,
                 ),
               )
             ],
           ),
         );
-      }
-      else if (dataGridCell.columnName == "status") {
+      } else if (dataGridCell.columnName == "status") {
         return Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
                 color: dataGridCell.value == 1
-                    ? CustomColor.getCustomColor(_context)
-                        .successBadgeBackgroundColor
+                    ? CustomColor.successBadgeBackgroundColor.getColor(_context)
                     : dataGridCell.value == -1
-                        ? CustomColor.getCustomColor(_context)
-                            .errorBadgeBackgroundColor
-                        : CustomColor.getCustomColor(_context)
-                            .warningBadgeBackgroundColor,
+                        ? CustomColor.errorBadgeBackgroundColor
+                            .getColor(_context)
+                        : CustomColor.warningBadgeBackgroundColor
+                            .getColor(_context),
                 borderRadius: BorderRadius.circular(4)),
             child: Padding(
               padding: const EdgeInsets.all(8),
@@ -93,30 +91,27 @@ class CommentDataGrid extends DataGridSource {
                         : "رد شده",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(_context).textTheme.bodyMedium?.copyWith(
+                style: Theme.of(_context).textTheme.labelMedium?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: dataGridCell.value == 1
-                        ? CustomColor.getCustomColor(_context)
-                            .successBadgeTextColor
+                        ? CustomColor.successBadgeTextColor.getColor(_context)
                         : dataGridCell.value == -1
-                            ? CustomColor.getCustomColor(_context)
-                                .errorBadgeTextColor
-                            : CustomColor.getCustomColor(_context)
-                                .warningBadgeTextColor),
+                            ? CustomColor.errorBadgeTextColor.getColor(_context)
+                            : CustomColor.warningBadgeTextColor
+                                .getColor(_context)),
               ),
             ),
           ),
         );
-      }
-      else if (dataGridCell.columnName == 'date') {
+      } else if (dataGridCell.columnName == 'date') {
         var jDate = DateTime.parse(dataGridCell.value.toString()).toJalali();
         var f = jDate.formatter;
         return Align(
           child: Text('${f.yyyy}/${f.mm}/${f.dd}',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(_context).textTheme.bodyMedium),
+              style: Theme.of(_context).textTheme.labelMedium),
         );
       }
       return Center(
@@ -124,7 +119,7 @@ class CommentDataGrid extends DataGridSource {
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Text(dataGridCell.value.toString(),
               textAlign: TextAlign.justify,
-              style: Theme.of(_context).textTheme.bodyMedium),
+              style: Theme.of(_context).textTheme.labelMedium),
         ),
       );
     }).toList());

@@ -2,43 +2,39 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-class CustomColor {
-  final Color successBadgeBackgroundColor;
-  final Color successBadgeTextColor;
+enum CustomColor {
+  successBadgeBackgroundColor(
+      lightColor: Color.fromRGBO(19, 197, 107, 0.2),
+      darkColor: Color.fromRGBO(19, 197, 107, 0.2)),
+  successBadgeTextColor(
+      lightColor: Color.fromRGBO(19, 197, 107, 1),
+      darkColor: Color.fromRGBO(19, 197, 107, 1)),
+  errorBadgeBackgroundColor(
+      lightColor: Color.fromRGBO(237, 94, 94, 0.2),
+      darkColor: Color.fromRGBO(237, 94, 94, 0.2)),
+  errorBadgeTextColor(
+      lightColor: Color.fromRGBO(237, 94, 94, 1),
+      darkColor: Color.fromRGBO(237, 94, 94, 1)),
+  warningBadgeBackgroundColor(
+      lightColor: Color.fromRGBO(239, 174, 8, 0.2),
+      darkColor: Color.fromRGBO(239, 174, 8, 0.2)),
+  warningBadgeTextColor(
+      lightColor: Color.fromRGBO(239, 174, 8, 1),
+      darkColor: Color.fromRGBO(239, 174, 8, 1)),
+  loginBackgroundColor(
+      lightColor: Color.fromRGBO(55, 97, 235, 1),
+      darkColor: Color.fromRGBO(55, 97, 235, 1));
 
-  final Color errorBadgeBackgroundColor;
-  final Color errorBadgeTextColor;
+  final Color _lightColor;
+  final Color _darkColor;
 
-  final Color warningBadgeBackgroundColor;
-  final Color warningBadgeTextColor;
+  const CustomColor({required Color lightColor, required Color darkColor})
+      : _darkColor = darkColor,
+        _lightColor = lightColor;
 
-  CustomColor({required this.successBadgeBackgroundColor,
-    required this.successBadgeTextColor,
-    required this.errorBadgeBackgroundColor,
-    required this.errorBadgeTextColor,
-    required this.warningBadgeBackgroundColor,
-    required this.warningBadgeTextColor,
-  });
-
-  static CustomColor getCustomColor(BuildContext context) {
-    var brightness = MediaQuery
-        .of(context)
-        .platformBrightness;
-    if (brightness == Brightness.dark) {
-      return CustomColor(
-          successBadgeBackgroundColor: Color.fromRGBO(19, 197, 107, 0.2),
-          successBadgeTextColor: Color.fromRGBO(19, 197, 107, 1),
-          errorBadgeBackgroundColor: Color.fromRGBO(237, 94, 94, 0.2),
-          errorBadgeTextColor: Color.fromRGBO(237, 94, 94, 1),
-          warningBadgeBackgroundColor: Color.fromRGBO(239, 174, 8 , 0.2),
-          warningBadgeTextColor: Color.fromRGBO(239, 174, 8, 1));
-    }
-    return CustomColor(
-        successBadgeBackgroundColor: Color.fromRGBO(19, 197, 107, 0.2),
-        successBadgeTextColor: Color.fromRGBO(19, 197, 107, 1),
-        errorBadgeBackgroundColor: Color.fromRGBO(237, 94, 94, 0.2),
-        errorBadgeTextColor: Color.fromRGBO(237, 94, 94, 1),
-        warningBadgeBackgroundColor: Color.fromRGBO(239, 174, 8 , 0.2),
-        warningBadgeTextColor: Color.fromRGBO(239, 174, 8, 1));
+  Color getColor(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark
+        ? _darkColor
+        : _lightColor;
   }
 }

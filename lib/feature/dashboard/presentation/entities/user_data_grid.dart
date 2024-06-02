@@ -44,17 +44,15 @@ class UserDataGrid extends DataGridSource {
           child: Text('${f.yyyy}/${f.mm}/${f.dd}',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(_context).textTheme.bodyMedium),
+              style: Theme.of(_context).textTheme.labelMedium),
         );
       } else if (dataGridCell.columnName == "status") {
         return Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
                 color: dataGridCell.value
-                    ? CustomColor.getCustomColor(_context)
-                        .successBadgeBackgroundColor
-                    : CustomColor.getCustomColor(_context)
-                        .errorBadgeBackgroundColor,
+                    ? CustomColor.successBadgeBackgroundColor.getColor(_context)
+                    : CustomColor.errorBadgeBackgroundColor.getColor(_context),
                 borderRadius: BorderRadius.circular(4)),
             child: Padding(
               padding: const EdgeInsets.all(8),
@@ -62,14 +60,12 @@ class UserDataGrid extends DataGridSource {
                 dataGridCell.value ? "فعال" : "غیر فعال",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(_context).textTheme.bodyMedium?.copyWith(
+                style: Theme.of(_context).textTheme.labelMedium?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: dataGridCell.value
-                        ? CustomColor.getCustomColor(_context)
-                            .successBadgeTextColor
-                        : CustomColor.getCustomColor(_context)
-                            .errorBadgeTextColor),
+                        ? CustomColor.successBadgeTextColor.getColor(_context)
+                        : CustomColor.errorBadgeTextColor.getColor(_context)),
               ),
             ),
           ),
@@ -79,7 +75,7 @@ class UserDataGrid extends DataGridSource {
         child: Text(dataGridCell.value.toString(),
             textAlign: TextAlign.center,
             overflow: TextOverflow.ellipsis,
-            style: Theme.of(_context).textTheme.bodyMedium),
+            style: Theme.of(_context).textTheme.labelMedium),
       );
     }).toList());
   }
