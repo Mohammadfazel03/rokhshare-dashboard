@@ -1,8 +1,12 @@
+import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
+import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import '../feature/users/presentation/screen/user_page.dart';
@@ -20,31 +24,49 @@ enum RoutePath {
 }
 
 final routerConfig = GoRouter(
-  initialLocation: RoutePath.login.path,
-  // initialExtra: RoutePath.dashboard,
-  errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
-  routes: [
-    GoRoute(
-        path: RoutePath.login.path,
-        name: RoutePath.login.name,
-        pageBuilder: (BuildContext context, GoRouterState state) =>
-            const NoTransitionPage(child: LoginPage())),
-    ShellRoute(
-      builder: (BuildContext context, GoRouterState state, Widget child) {
-        return HomePage(pageScreen: child);
-      },
-      routes: [
-        GoRoute(
-            path: RoutePath.dashboard.path,
-            name: RoutePath.dashboard.name,
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                const NoTransitionPage(child: DashboardPage())),
-        GoRoute(
-            path: RoutePath.users.path,
-            name: RoutePath.users.name,
-            pageBuilder: (BuildContext context, GoRouterState state) =>
-                const NoTransitionPage(child: UserPage())),
-      ],
-    )
-  ],
-);
+    initialLocation: RoutePath.dashboard.path,
+    // initialExtra: RoutePath.dashboard,
+    errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
+    routes: [
+      GoRoute(
+          path: RoutePath.login.path,
+          name: RoutePath.login.name,
+          pageBuilder: (BuildContext context, GoRouterState state) =>
+          NoTransitionPage(child: BlocProvider<LoginCubit>(
+            create: (context) => getIt.get<LoginCubit>(),
+            child: const LoginPage(),
+          ))),
+      ShellRoute(
+        builder: (BuildContext context, GoRouterState state, Widget child) {
+          return HomePage(pageScreen: child);
+        },
+        routes: [
+          GoRoute(
+              path: RoutePath.dashboard.path,
+              name: RoutePath.dashboard.name,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+              const NoTransitionPage(child: DashboardPage())),
+          GoRoute(
+              path: RoutePath.users.path,
+              name: RoutePath.users.name,
+              pageBuilder: (BuildContext context, GoRouterState state) =>
+              const NoTransitionPage(child: UserPage())),
+        ],
+      )
+    ],
+    redirect: (BuildContext context, GoRouterState state) async {
+      try {
+        if (getIt.get<LocalStorageService>().getAccessToken() == null) {
+          return RoutePath.login.path;
+        }
+        if (state.uri.path == RoutePath.login.path) {
+          return RoutePath.dashboard.path;
+        }
+
+        return null;
+      } catch (e) {
+        // print(e);
+        return '/none';
+      }
+    },
+    debugLogDiagnostics: true);

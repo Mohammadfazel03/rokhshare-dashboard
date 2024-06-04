@@ -1,3 +1,4 @@
+import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/theme_cubit.dart';
 import 'package:dashboard/config/theme/themes.dart';
@@ -6,7 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setup();
   runApp(const MyApp());
 }
 
