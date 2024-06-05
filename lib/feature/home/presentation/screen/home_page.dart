@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icons.dashboard_rounded,
                   title: "داشبورد",
                   onClick: () {
-                    context.go("/dashboard", extra: RoutePath.dashboard);
+                    context.go("/dashboard");
                   }),
               SizedBox(height: 8),
               sidebarItem(
@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                   icon: FontAwesome5.user,
                   title: "کاربران",
                   onClick: () {
-                    context.go("/users", extra: RoutePath.users);
+                    context.go("/users");
                   }),
               SizedBox(height: 8),
               sidebarItem(

@@ -13,8 +13,8 @@ final getIt = GetIt.instance;
 
 Future<void> setup() async {
   // register local storage services
-  var sh = await SharedPreferences.getInstance();
-  getIt.registerSingleton<SharedPreferences>(sh, signalsReady: true);
+  getIt.registerSingletonAsync<SharedPreferences>(
+      () async => SharedPreferences.getInstance());
   getIt.registerLazySingleton<LocalStorageService>(
       () => LocalStorageService(preferences: getIt.get<SharedPreferences>()));
 
