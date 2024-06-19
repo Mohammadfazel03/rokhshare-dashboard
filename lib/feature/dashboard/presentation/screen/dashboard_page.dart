@@ -1,11 +1,12 @@
-import 'dart:math';
-
+import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_bloc.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/header_information/header_information_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:fluttericon/elusive_icons.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
@@ -228,41 +229,10 @@ class _DashboardPageState extends State<DashboardPage> {
       return SingleChildScrollView(
         child: Column(
           children: [
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              crossAxisCount: min(4, width ~/ 250),
-              scrollDirection: Axis.vertical,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              childAspectRatio: 1 / (100 / (width / min(4, width ~/ 250))),
-              padding: EdgeInsets.all(16),
-              children: [
-                informationCard(
-                    icon: CupertinoIcons.person_crop_circle_fill,
-                    title: "256K",
-                    subtitle: "کاربران",
-                    percent: "2.1",
-                    isProfit: true),
-                informationCard(
-                    icon: CupertinoIcons.videocam_circle_fill,
-                    title: "1M",
-                    subtitle: "فیلم و سریال",
-                    percent: "0.0",
-                    isProfit: false),
-                informationCard(
-                    icon: Elusive.basket_circled,
-                    title: "456",
-                    subtitle: "مشترکین",
-                    percent: "0.5",
-                    isProfit: false),
-                informationCard(
-                    icon: CupertinoIcons.money_dollar_circle_fill,
-                    title: "10",
-                    subtitle: "تبلیغات",
-                    percent: "5.0",
-                    isProfit: true),
-              ],
+            BlocProvider(
+              create: (context) =>
+                  HeaderInformationBloc(repository: getIt.get()),
+              child: HeaderInformationWidget(width: width),
             ),
             Padding(
               padding: const EdgeInsets.all(16),
@@ -433,99 +403,6 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       );
     });
-  }
-
-  Widget informationCard(
-      {required IconData icon,
-      required String title,
-      required String subtitle,
-      String? percent,
-      bool? isProfit}) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 1,
-              spreadRadius: 0.1,
-            )
-          ]),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorLight,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: FittedBox(
-                      child: Icon(icon),
-                    ),
-                  )),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      SizedBox(height: 2),
-                      Text(
-                        subtitle,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      if (isProfit != null && percent != null) ...[
-                        Text(
-                          "${percent}%",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.copyWith(
-                                  color: isProfit ? Colors.green : Colors.red),
-                        ),
-                        Icon(
-                          isProfit
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                          color: isProfit ? Colors.green : Colors.red,
-                        )
-                      ]
-                    ],
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Widget userTable() {

@@ -19,7 +19,6 @@ class Themes {
       onSurface: Color.fromRGBO(112, 116, 121, 1),
       primaryContainer: Color.fromRGBO(255, 255, 255, 1.0),
     ),
-    cardTheme: CardTheme(),
     inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         hintStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1)),

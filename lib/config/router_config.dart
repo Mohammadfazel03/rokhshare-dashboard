@@ -32,10 +32,11 @@ final routerConfig = GoRouter(
           path: RoutePath.login.path,
           name: RoutePath.login.name,
           pageBuilder: (BuildContext context, GoRouterState state) =>
-          NoTransitionPage(child: BlocProvider<LoginCubit>(
-            create: (context) => getIt.get<LoginCubit>(),
-            child: const LoginPage(),
-          ))),
+              NoTransitionPage(
+                  child: BlocProvider<LoginCubit>(
+                create: (context) => getIt.get<LoginCubit>(),
+                child: const LoginPage(),
+              ))),
       ShellRoute(
         builder: (BuildContext context, GoRouterState state, Widget child) {
           return HomePage(pageScreen: child);
@@ -45,12 +46,12 @@ final routerConfig = GoRouter(
               path: RoutePath.dashboard.path,
               name: RoutePath.dashboard.name,
               pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: DashboardPage())),
+                  const NoTransitionPage(child: DashboardPage())),
           GoRoute(
               path: RoutePath.users.path,
               name: RoutePath.users.name,
               pageBuilder: (BuildContext context, GoRouterState state) =>
-              const NoTransitionPage(child: UserPage())),
+                  const NoTransitionPage(child: UserPage())),
         ],
       )
     ],
