@@ -1,6 +1,8 @@
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/header_information_widget.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/recently_user_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,13 +16,11 @@ import '../../data/remote/model/ads.dart';
 import '../../data/remote/model/comment.dart';
 import '../../data/remote/model/plan.dart';
 import '../../data/remote/model/slider.dart';
-import '../../data/remote/model/user.dart';
 import '../common/custom_grid_column_sizer.dart';
 import '../entities/ads_data_grid.dart';
 import '../entities/comment_data_grid.dart';
 import '../entities/plan_data_grid.dart';
 import '../entities/slider_data_grid.dart';
-import '../entities/user_data_grid.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -30,7 +30,6 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late final UserDataGrid _userDataGrid;
   late final PlanDataGrid _planDataGrid;
   late final CommentDataGrid _commentDataGrid;
   late final SliderDataGrid _sliderDataGrid;
@@ -179,45 +178,6 @@ class _DashboardPageState extends State<DashboardPage> {
           date: "2024-04-02T08:56:00Z",
           isPublished: 1),
     ]);
-    _userDataGrid = UserDataGrid(context: context);
-    _userDataGrid.buildDataGridRows(users: [
-      User(
-          username: "username",
-          fullName: "Mohammad Sadeq",
-          isPremium: true,
-          dateJoined: "2015-02-11T00:00:00Z",
-          seenMovies: 345),
-      User(
-          username: "username",
-          fullName: "Narges",
-          isPremium: false,
-          dateJoined: "2015-02-11T00:00:00Z",
-          seenMovies: 345),
-      User(
-          username: "username",
-          fullName: "مریم",
-          isPremium: true,
-          dateJoined: "2015-02-11T00:00:00Z",
-          seenMovies: 345),
-      User(
-          username: "username",
-          fullName: "نگین",
-          isPremium: false,
-          dateJoined: "2015-02-11T00:00:00Z",
-          seenMovies: 102),
-      User(
-          username: "username",
-          fullName: "محسن",
-          isPremium: false,
-          dateJoined: "2015-02-11T00:00:00Z",
-          seenMovies: 345),
-      User(
-          username: "username",
-          fullName: "Mohammad",
-          isPremium: true,
-          dateJoined: "2024-03-27T08:59:34.575705Z",
-          seenMovies: 345),
-    ]);
     super.initState();
   }
 
@@ -244,33 +204,22 @@ class _DashboardPageState extends State<DashboardPage> {
                       crossAxisCellCount: width / 10 >= 75 ? 6 : 10,
                       mainAxisExtent: 410,
                       child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                "کاربران فعال اخیر",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            Expanded(child: userTable()),
-                          ],
-                        ),
-                      )),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                              borderRadius: BorderRadius.circular(8),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context).shadowColor,
+                                  blurRadius: 1,
+                                  spreadRadius: 0.1,
+                                )
+                              ]),
+                          child: BlocProvider(
+                            create: (context) => getIt.get<RecentlyUserCubit>(),
+                            child: const RecentlyUserWidget(),
+                          ))),
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 >= 75 ? 4 : 10,
                       mainAxisExtent: 410,
@@ -402,62 +351,6 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       );
     });
-  }
-
-  Widget userTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _userDataGrid,
-          columnWidthMode: ColumnWidthMode.fill,
-          isScrollbarAlwaysShown: true,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'username',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('نام کاربری',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'name',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('نام',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت اشتراک',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'movieViewed',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تعداد تماشا',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'date',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تاریخ عضویت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
   }
 
   Widget planTable() {

@@ -4,6 +4,7 @@ import 'package:dashboard/feature/dashboard/data/remote/dashboard_api_service.da
 import 'package:dashboard/feature/dashboard/data/repositories/dashboard_repository.dart';
 import 'package:dashboard/feature/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/login/data/remote/login_api_service.dart';
 import 'package:dashboard/feature/login/data/repositories/login_repository.dart';
 import 'package:dashboard/feature/login/data/repositories/login_repository_impl.dart';
@@ -45,4 +46,6 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<HeaderInformationCubit>(
       () => HeaderInformationCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<RecentlyUserCubit>(() => RecentlyUserCubit(repository: getIt.get()));
 }
