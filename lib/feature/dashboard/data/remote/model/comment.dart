@@ -1,21 +1,73 @@
 class Comment {
-  final String username;
-  final Media media;
-  final String comment;
-  final String date;
-  final int isPublished;
+  Comment({
+    String? comment,
+    String? createdAt,
+    bool? isConfirm,
+    String? username,
+    Media? media,}){
+    _comment = comment;
+    _createdAt = createdAt;
+    _isConfirm = isConfirm;
+    _username = username;
+    _media = media;
+  }
 
-  Comment(
-      {required this.username,
-      required this.media,
-      required this.comment,
-      required this.date,
-      required this.isPublished});
+  Comment.fromJson(dynamic json) {
+    _comment = json['comment'];
+    _createdAt = json['created_at'];
+    _isConfirm = json['is_confirm'];
+    _username = json['username'];
+    _media = json['media'] != null ? Media.fromJson(json['media']) : null;
+  }
+  String? _comment;
+  String? _createdAt;
+  bool? _isConfirm;
+  String? _username;
+  Media? _media;
+
+  String? get comment => _comment;
+  String? get createdAt => _createdAt;
+  bool? get isConfirm => _isConfirm;
+  String? get username => _username;
+  Media? get media => _media;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['comment'] = _comment;
+    map['created_at'] = _createdAt;
+    map['is_confirm'] = _isConfirm;
+    map['username'] = _username;
+    if (_media != null) {
+      map['media'] = _media?.toJson();
+    }
+    return map;
+  }
+
 }
 
 class Media {
-  final String name;
-  final String poster;
+  Media({
+    String? name,
+    String? poster,}){
+    _name = name;
+    _poster = poster;
+  }
 
-  Media({required this.name, required this.poster});
+  Media.fromJson(dynamic json) {
+    _name = json['name'];
+    _poster = json['poster'];
+  }
+  String? _name;
+  String? _poster;
+
+  String? get name => _name;
+  String? get poster => _poster;
+
+  Map<String, dynamic> toJson() {
+    final map = <String, dynamic>{};
+    map['name'] = _name;
+    map['poster'] = _poster;
+    return map;
+  }
+
 }

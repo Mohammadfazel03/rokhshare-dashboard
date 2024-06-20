@@ -31,4 +31,12 @@ class DashboardApiService {
               "Bearer $_accessToken"
         }));
   }
+
+  Future<dynamic> getRecentlyComment() async {
+    return await _dio.get("dashboard/recently_comment/",
+        options: Options(headers: {
+          "Authorization":
+              "Bearer $_accessToken"
+        }));
+  }
 }

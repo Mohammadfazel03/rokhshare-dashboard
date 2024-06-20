@@ -25,8 +25,8 @@ class CommentDataGrid extends DataGridSource {
             columnName: 'username', value: dataGridRow.username),
         DataGridCell<Media>(columnName: 'media', value: dataGridRow.media),
         DataGridCell<String>(columnName: 'comment', value: dataGridRow.comment),
-        DataGridCell<String>(columnName: 'date', value: dataGridRow.date),
-        DataGridCell<int>(columnName: 'status', value: dataGridRow.isPublished),
+        DataGridCell<String>(columnName: 'date', value: dataGridRow.createdAt),
+        DataGridCell<bool>(columnName: 'status', value: dataGridRow.isConfirm),
       ]);
     }).toList();
   }
@@ -73,33 +73,22 @@ class CommentDataGrid extends DataGridSource {
         return Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
-                color: dataGridCell.value == 1
+                color: dataGridCell.value
                     ? CustomColor.successBadgeBackgroundColor.getColor(_context)
-                    : dataGridCell.value == -1
-                        ? CustomColor.errorBadgeBackgroundColor
-                            .getColor(_context)
-                        : CustomColor.warningBadgeBackgroundColor
-                            .getColor(_context),
+                    : CustomColor.errorBadgeBackgroundColor.getColor(_context),
                 borderRadius: BorderRadius.circular(4)),
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                dataGridCell.value == 1
-                    ? "منتشر شده"
-                    : dataGridCell.value == 0
-                        ? "انتظار"
-                        : "رد شده",
+                dataGridCell.value ? "منتشر شده" : "رد شده",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(_context).textTheme.labelMedium?.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: dataGridCell.value == 1
+                    color: dataGridCell.value
                         ? CustomColor.successBadgeTextColor.getColor(_context)
-                        : dataGridCell.value == -1
-                            ? CustomColor.errorBadgeTextColor.getColor(_context)
-                            : CustomColor.warningBadgeTextColor
-                                .getColor(_context)),
+                        : CustomColor.errorBadgeTextColor.getColor(_context)),
               ),
             ),
           ),

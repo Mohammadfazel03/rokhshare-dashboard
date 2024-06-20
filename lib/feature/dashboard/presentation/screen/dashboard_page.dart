@@ -3,6 +3,8 @@ import 'package:dashboard/feature/dashboard/presentation/widget/header_informati
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/header_information_widget.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/bloc/popular_plan_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/popular_plan_widget.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/bloc/recently_comment_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/recently_comment_widget.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/recently_user_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,9 +19,7 @@ import 'package:syncfusion_flutter_core/theme.dart';
 import '../../data/remote/model/ads.dart';
 import '../../data/remote/model/comment.dart';
 import '../../data/remote/model/slider.dart';
-import '../common/custom_grid_column_sizer.dart';
 import '../entities/ads_data_grid.dart';
-import '../entities/comment_data_grid.dart';
 import '../entities/slider_data_grid.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -30,16 +30,11 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late final CommentDataGrid _commentDataGrid;
   late final SliderDataGrid _sliderDataGrid;
   late final AdsDataGrid _adsDataGrid;
 
-  late final CustomGridColumnSizer _gridColumnSizer;
-
   @override
   void initState() {
-    _gridColumnSizer = CustomGridColumnSizer();
-
     _sliderDataGrid = SliderDataGrid(context: context);
     _sliderDataGrid.buildDataGridRows(sliders: [
       SliderMovie(
@@ -100,76 +95,6 @@ class _DashboardPageState extends State<DashboardPage> {
           mustPlayed: 6555),
     ]);
 
-    _commentDataGrid = CommentDataGrid(context: context);
-    _commentDataGrid.buildDataGridRows(comments: [
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Godzilla x Kong: The New Empire",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/gmGK5Gw5CIGMPhOmTO0bNA9Q66c.jpg'),
-          comment:
-              "بسیار فیلم مزخرف و خسته کننده بود. اصلا قشنگ نبود. پیشنهاد نمیکنم که ببینید",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: 1),
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Kung Fu Panda 4",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg'),
-          comment: "فوق العادهههههههههه بود من برگشتم به دوران بچگیم",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: 1),
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Road House",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/bXi6IQiQDHD00JFio5ZSZOeRSBh.jpg'),
-          comment:
-              "بسیار فیلم مزخرف و خسته کننده بود. اصلا قشنگ نبود. پیشنهاد نمیکنم که ببینید",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: 0),
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Godzilla x Kong: The New Empire",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/gmGK5Gw5CIGMPhOmTO0bNA9Q66c.jpg'),
-          comment: "شاشی بود کلا",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: -1),
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Madame Web",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg'),
-          comment:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Egestas purus viverra accumsan in nisl nisi. Arcu cursus vitae congue mauris rhoncus aenean vel elit scelerisque. In egestas erat imperdiet sed euismod nisi porta lorem mollis. Morbi tristique senectus et netus. Mattis pellentesque id nibh tortor id aliquet lectus proin. Sapien faucibus et molestie ac feugiat sed lectus vestibulum. Ullamcorper velit sed ullamcorper morbi tincidunt ornare massa eget. Dictum varius duis at consectetur lorem. Nisi vitae suscipit tellus mauris a diam maecenas sed enim. Velit ut tortor pretium viverra suspendisse potenti nullam. Et molestie ac feugiat sed lectus. Non nisi est sit amet facilisis magna. Dignissim diam quis enim lobortis scelerisque fermentum. Odio ut enim blandit volutpat maecenas volutpat. Ornare lectus sit amet est placerat in egestas erat. Nisi vitae suscipit tellus mauris a diam maecenas sed. Placerat duis ultricies lacus sed turpis tincidunt id aliquet.",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: 1),
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Godzilla x Kong: The New Empire",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/gmGK5Gw5CIGMPhOmTO0bNA9Q66c.jpg'),
-          comment:
-              "خیلی ها این سریال متاسفانه درک نکردن و پایانش را بد میدانند.چون در حالی این سریال تماشا میکردند که در حال تخمه خوردن بودند و به سینما فقط برای سرگرمی وقت میگذارند. تک تک اتفاقات و دیالوگ ها اهمیت داره .در این سریال یاد خواهید گرفت از خانواده خود محافظت کنید.پست ترین انسان ها کسانی هستند که وقتی کسی اندامی ناقص دارد یا هر عیبی در پی تحقیر کردن یا نابود کردنشان هستند.خوش گذران ترین کاراکتر(کوتوله)شهوت ران ترین و مست ترین کاراکتر به کودک آزاری دست نمیزند(ازدواج با سانسا).کسی که زنای محسنه دارد (جیمی لنیستر)برای پاکدامن ماندن یک زن جانش را به خطر می اندازد و دستش قطع میشود.این سریال بی نظیره توقع پایان هالیودی و بالیودی نداشته باشید از آن درس زندگی یاد بگیرید.هر کاری کنی آخر داستان جنگ جهانی این است که در آخر آلمان شکست میخورد بالا بری پایین بیایی ته این داستان همینه هزار تا هم حالا فیلم بسازند.باید از داستانش عبرت گرفت.",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: 0),
-      Comment(
-          username: "username",
-          media: Media(
-              name: "Creation of the Gods I: Kingdom of Storms",
-              poster:
-                  'https://image.tmdb.org/t/p/w500/kUKEwAoWe4Uyt8sFmtp5S86rlBk.jpg'),
-          comment: "عالی",
-          date: "2024-04-02T08:56:00Z",
-          isPublished: 1),
-    ]);
     super.initState();
   }
 
@@ -247,21 +172,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                 spreadRadius: 0.1,
                               )
                             ]),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                "نظرات اخیر",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            Expanded(child: commentTable()),
-                          ],
-                        ),
+                        child: BlocProvider(
+  create: (context) => getIt.get<RecentlyCommentCubit>(),
+  child: const RecentlyCommentWidget(),
+),
                       )),
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 > 80 ? 5 : 10,
@@ -334,71 +248,6 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
-  Widget commentTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _commentDataGrid,
-          isScrollbarAlwaysShown: true,
-          columnSizer: _gridColumnSizer,
-          rowHeight: 150,
-          onQueryRowHeight: (RowHeightDetails details) {
-            var commentHeight = details.getIntrinsicRowHeight(details.rowIndex,
-                excludedColumns: ['username', 'media', 'date', 'status']);
-            if (commentHeight > details.rowHeight) {
-              return commentHeight;
-            }
-            return details.rowHeight;
-          },
-          gridLinesVisibility: GridLinesVisibility.vertical,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'username',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('کاربر',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'media',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('فیلم',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                columnWidthMode: ColumnWidthMode.lastColumnFill,
-                minimumWidth: 400,
-                columnName: 'comment',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('نظر',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'date',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تاریخ',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
-  }
 
   Widget sliderTable() {
     return SfDataGridTheme(

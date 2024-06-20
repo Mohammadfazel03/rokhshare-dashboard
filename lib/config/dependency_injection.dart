@@ -5,6 +5,7 @@ import 'package:dashboard/feature/dashboard/data/repositories/dashboard_reposito
 import 'package:dashboard/feature/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/bloc/popular_plan_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/bloc/recently_comment_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/login/data/remote/login_api_service.dart';
 import 'package:dashboard/feature/login/data/repositories/login_repository.dart';
@@ -48,7 +49,12 @@ Future<void> setup() async {
   getIt.registerLazySingleton<HeaderInformationCubit>(
       () => HeaderInformationCubit(repository: getIt.get()));
 
-  getIt.registerLazySingleton<RecentlyUserCubit>(() => RecentlyUserCubit(repository: getIt.get()));
+  getIt.registerLazySingleton<RecentlyUserCubit>(
+      () => RecentlyUserCubit(repository: getIt.get()));
 
-  getIt.registerLazySingleton<PopularPlanCubit>(() => PopularPlanCubit(repository: getIt.get()));
+  getIt.registerLazySingleton<PopularPlanCubit>(
+      () => PopularPlanCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<RecentlyCommentCubit>(
+      () => RecentlyCommentCubit(repository: getIt.get()));
 }
