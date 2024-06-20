@@ -23,9 +23,11 @@ enum RoutePath {
   final String? title;
 }
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+
 final routerConfig = GoRouter(
+    navigatorKey: _rootNavigatorKey,
     initialLocation: RoutePath.dashboard.path,
-    // initialExtra: RoutePath.dashboard,
     errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
     routes: [
       GoRoute(
@@ -37,23 +39,26 @@ final routerConfig = GoRouter(
                 create: (context) => getIt.get<LoginCubit>(),
                 child: const LoginPage(),
               ))),
-      ShellRoute(
-        builder: (BuildContext context, GoRouterState state, Widget child) {
-          return HomePage(pageScreen: child);
-        },
-        routes: [
-          GoRoute(
-              path: RoutePath.dashboard.path,
-              name: RoutePath.dashboard.name,
-              pageBuilder: (BuildContext context, GoRouterState state) =>
-                  const NoTransitionPage(child: DashboardPage())),
-          GoRoute(
-              path: RoutePath.users.path,
-              name: RoutePath.users.name,
-              pageBuilder: (BuildContext context, GoRouterState state) =>
-                  const NoTransitionPage(child: UserPage())),
-        ],
-      )
+      StatefulShellRoute.indexedStack(
+          builder: (BuildContext context, GoRouterState state, Widget child) {
+            return HomePage(pageScreen: child);
+          },
+          branches: [
+            StatefulShellBranch(routes: [
+              GoRoute(
+                  path: RoutePath.dashboard.path,
+                  name: RoutePath.dashboard.name,
+                  pageBuilder: (BuildContext context, GoRouterState state) =>
+                      const NoTransitionPage(child: DashboardPage()))
+            ]),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                  path: RoutePath.users.path,
+                  name: RoutePath.users.name,
+                  pageBuilder: (BuildContext context, GoRouterState state) =>
+                      const NoTransitionPage(child: UserPage()))
+            ]),
+          ])
     ],
     redirect: (BuildContext context, GoRouterState state) async {
       try {
