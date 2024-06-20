@@ -23,4 +23,12 @@ class DashboardApiService {
               "Bearer $_accessToken"
         }));
   }
+
+  Future<dynamic> getPopularPlan() async {
+    return await _dio.get("dashboard/popular_plan/",
+        options: Options(headers: {
+          "Authorization":
+              "Bearer $_accessToken"
+        }));
+  }
 }

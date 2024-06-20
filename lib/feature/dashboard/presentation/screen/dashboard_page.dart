@@ -1,6 +1,8 @@
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/header_information_widget.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/bloc/popular_plan_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/popular_plan_widget.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/recently_user_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,12 +16,10 @@ import 'package:syncfusion_flutter_core/theme.dart';
 
 import '../../data/remote/model/ads.dart';
 import '../../data/remote/model/comment.dart';
-import '../../data/remote/model/plan.dart';
 import '../../data/remote/model/slider.dart';
 import '../common/custom_grid_column_sizer.dart';
 import '../entities/ads_data_grid.dart';
 import '../entities/comment_data_grid.dart';
-import '../entities/plan_data_grid.dart';
 import '../entities/slider_data_grid.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -30,7 +30,6 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late final PlanDataGrid _planDataGrid;
   late final CommentDataGrid _commentDataGrid;
   late final SliderDataGrid _sliderDataGrid;
   late final AdsDataGrid _adsDataGrid;
@@ -40,13 +39,6 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   void initState() {
     _gridColumnSizer = CustomGridColumnSizer();
-    _planDataGrid = PlanDataGrid(context: context);
-    _planDataGrid.buildDataGridRows(plans: [
-      Plan(title: "طلا", days: 180, price: 180000, isEnable: true),
-      Plan(title: "نقره", days: 60, price: 90000, isEnable: false),
-      Plan(title: "نقره", days: 60, price: 120000, isEnable: true),
-      Plan(title: "برنز", days: 30, price: 90000, isEnable: true)
-    ]);
 
     _sliderDataGrid = SliderDataGrid(context: context);
     _sliderDataGrid.buildDataGridRows(sliders: [
@@ -235,20 +227,9 @@ class _DashboardPageState extends State<DashboardPage> {
                                 spreadRadius: 0.1,
                               )
                             ]),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                "طرح های محبوب",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            Expanded(child: planTable()),
-                          ],
+                        child: BlocProvider(
+                          create: (context) => getIt.get<PopularPlanCubit>(),
+                          child: const PopularPlanWidget(),
                         ),
                       )),
                   StaggeredGridTile.extent(
@@ -351,54 +332,6 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       );
     });
-  }
-
-  Widget planTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _planDataGrid,
-          columnWidthMode: ColumnWidthMode.fill,
-          isScrollbarAlwaysShown: true,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'title',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'time',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('مدت زمان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'price',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('قیمت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
   }
 
   Widget commentTable() {

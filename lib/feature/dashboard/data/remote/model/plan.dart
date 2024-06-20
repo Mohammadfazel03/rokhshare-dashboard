@@ -1,12 +1,28 @@
 class Plan {
-  final String title;
-  final int days;
-  final int price;
-  final bool isEnable;
+  String? _title;
+  int? _days;
+  int? _price;
+  bool? _isEnable;
 
-  Plan(
-      {required this.title,
-      required this.days,
-      required this.price,
-      required this.isEnable});
+  Plan({String? title, int? days, int? price, bool? isEnable}) {
+    _days = days;
+    _isEnable = isEnable;
+    _price = price;
+    _title = title;
+  }
+
+  bool? get isEnable => _isEnable;
+
+  int? get price => _price;
+
+  int? get days => _days;
+
+  String? get title => _title;
+
+  Plan.fromJson(dynamic json) {
+    _title = json['title'];
+    _price = json['price'];
+    _isEnable = json['is_enable'];
+    _days = json['days'];
+  }
 }
