@@ -39,4 +39,12 @@ class DashboardApiService {
               "Bearer $_accessToken"
         }));
   }
+
+  Future<dynamic> getSlider() async {
+    return await _dio.get("dashboard/slider/",
+        options: Options(headers: {
+          "Authorization":
+              "Bearer $_accessToken"
+        }));
+  }
 }

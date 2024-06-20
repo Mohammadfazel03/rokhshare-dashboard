@@ -1,4 +1,6 @@
 import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/first_screen_slider/bloc/first_screen_slider_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/first_screen_slider/first_screen_slider_widget.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/header_information_widget.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/bloc/popular_plan_cubit.dart';
@@ -17,10 +19,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
 import '../../data/remote/model/ads.dart';
-import '../../data/remote/model/comment.dart';
-import '../../data/remote/model/slider.dart';
 import '../entities/ads_data_grid.dart';
-import '../entities/slider_data_grid.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -30,47 +29,10 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
-  late final SliderDataGrid _sliderDataGrid;
   late final AdsDataGrid _adsDataGrid;
 
   @override
   void initState() {
-    _sliderDataGrid = SliderDataGrid(context: context);
-    _sliderDataGrid.buildDataGridRows(sliders: [
-      SliderMovie(
-          title: "Godzilla Vs Kong",
-          priority: 1,
-          description: "میان خشم و قدرتی ویرانگر",
-          media: Media(
-              name: "Godzilla x Kong: The New Empire",
-              poster:
-                  "https://image.tmdb.org/t/p/w500/gmGK5Gw5CIGMPhOmTO0bNA9Q66c.jpg")),
-      SliderMovie(
-          title: "پاندای کونگفوکار",
-          priority: 1,
-          description: "چطوری!!؟؟ نمیدونم",
-          media: Media(
-              name: "Kung Fu Panda 4",
-              poster:
-                  "https://image.tmdb.org/t/p/w500/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg")),
-      SliderMovie(
-          title: "زن اینترنت",
-          priority: 1,
-          description: "برای زندگی",
-          media: Media(
-              name: "Madame Web",
-              poster:
-                  "https://image.tmdb.org/t/p/w500/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg")),
-      SliderMovie(
-          title: "خلق پادشاهی",
-          priority: 1,
-          description: "برای میراثمون!",
-          media: Media(
-              name: "Creation of the Gods I: Kingdom of Storms",
-              poster:
-                  "https://image.tmdb.org/t/p/w500/kUKEwAoWe4Uyt8sFmtp5S86rlBk.jpg")),
-    ]);
-
     _adsDataGrid = AdsDataGrid(context: context);
     _adsDataGrid.buildDataGridRows(sliders: [
       Advertise(
@@ -173,9 +135,10 @@ class _DashboardPageState extends State<DashboardPage> {
                               )
                             ]),
                         child: BlocProvider(
-  create: (context) => getIt.get<RecentlyCommentCubit>(),
-  child: const RecentlyCommentWidget(),
-),
+                          create: (context) =>
+                              getIt.get<RecentlyCommentCubit>(),
+                          child: const RecentlyCommentWidget(),
+                        ),
                       )),
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 > 80 ? 5 : 10,
@@ -192,20 +155,10 @@ class _DashboardPageState extends State<DashboardPage> {
                                 spreadRadius: 0.1,
                               )
                             ]),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                "صفحه اول",
-                                style: Theme.of(context).textTheme.titleLarge,
-                              ),
-                            ),
-                            Expanded(child: sliderTable()),
-                          ],
+                        child: BlocProvider(
+                          create: (context) =>
+                              getIt.get<FirstScreenSliderCubit>(),
+                          child: const FirstScreenSliderWidget(),
                         ),
                       )),
                   StaggeredGridTile.extent(
@@ -246,65 +199,6 @@ class _DashboardPageState extends State<DashboardPage> {
         ),
       );
     });
-  }
-
-
-  Widget sliderTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _sliderDataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 150,
-          onQueryRowHeight: (RowHeightDetails details) {
-            var descriptionHeight = details.getIntrinsicRowHeight(
-                details.rowIndex,
-                excludedColumns: ['title', 'media', 'priority']);
-            if (descriptionHeight > details.rowHeight) {
-              return descriptionHeight;
-            }
-            return details.rowHeight;
-          },
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          gridLinesVisibility: GridLinesVisibility.vertical,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 40,
-                columnName: 'priority',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('الویت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'media',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('فیلم',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'title',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 200,
-                columnName: 'description',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('توضیحات',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
   }
 
   Widget adsTable() {

@@ -1,21 +1,20 @@
+import 'package:dashboard/config/dio_config.dart';
+import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-
-import '../../data/remote/model/comment.dart';
-import '../../data/remote/model/slider.dart';
 
 class SliderDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
 
-  SliderDataGrid({List<SliderMovie>? sliders, required BuildContext context})
+  SliderDataGrid({List<SliderModel>? sliders, required BuildContext context})
       : _context = context {
     if (sliders != null) {
       buildDataGridRows(sliders: sliders);
     }
   }
 
-  void buildDataGridRows({required List<SliderMovie> sliders}) {
+  void buildDataGridRows({required List<SliderModel> sliders}) {
     _dataGridRows = sliders.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
         DataGridCell<int>(columnName: 'priority', value: dataGridRow.priority),
@@ -46,7 +45,7 @@ class SliderDataGrid extends DataGridSource {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  dataGridCell.value.poster,
+                  "$baseUrl${dataGridCell.value.poster}",
                   height: 96,
                   width: 64,
                   fit: BoxFit.cover,

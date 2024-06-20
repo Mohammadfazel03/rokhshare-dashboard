@@ -1,3 +1,4 @@
+import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class CommentDataGrid extends DataGridSource {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  dataGridCell.value.poster,
+                  "$baseUrl${dataGridCell.value.poster}",
                   height: 96,
                   width: 64,
                   fit: BoxFit.cover,
