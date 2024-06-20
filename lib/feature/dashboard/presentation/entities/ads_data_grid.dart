@@ -10,15 +10,15 @@ class AdsDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
 
-  AdsDataGrid({List<Advertise>? sliders, required BuildContext context})
+  AdsDataGrid({List<Advertise>? ads, required BuildContext context})
       : _context = context {
-    if (sliders != null) {
-      buildDataGridRows(sliders: sliders);
+    if (ads != null) {
+      buildDataGridRows(ads: ads);
     }
   }
 
-  void buildDataGridRows({required List<Advertise> sliders}) {
-    _dataGridRows = sliders.map<DataGridRow>((dataGridRow) {
+  void buildDataGridRows({required List<Advertise> ads}) {
+    _dataGridRows = ads.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
         DataGridCell<String>(columnName: 'title', value: dataGridRow.title),
         DataGridCell<String>(

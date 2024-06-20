@@ -6,6 +6,7 @@ import 'package:dashboard/feature/dashboard/data/repositories/dashboard_reposito
 import 'package:dashboard/feature/dashboard/presentation/widget/first_screen_slider/bloc/first_screen_slider_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/bloc/popular_plan_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_advertise/bloc/recently_advertise_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/bloc/recently_comment_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/login/data/remote/login_api_service.dart';
@@ -61,4 +62,7 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<FirstScreenSliderCubit>(
       () => FirstScreenSliderCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<RecentlyAdvertiseCubit>(
+      () => RecentlyAdvertiseCubit(repository: getIt.get()));
 }

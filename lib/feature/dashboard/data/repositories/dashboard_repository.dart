@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:dashboard/feature/dashboard/data/remote/model/ads.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/comment.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/header_information.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/plan.dart';
@@ -17,4 +18,6 @@ abstract class DashboardRepository {
   Future<DataResponse<List<Comment>>> getRecentlyComment();
 
   Future<DataResponse<List<SliderModel>>> getSlider();
+
+  Future<DataResponse<List<Advertise>>> getAdvertise();
 }

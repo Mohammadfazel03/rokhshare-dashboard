@@ -1,4 +1,5 @@
 import 'package:dashboard/feature/dashboard/data/remote/dashboard_api_service.dart';
+import 'package:dashboard/feature/dashboard/data/remote/model/ads.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/comment.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/header_information.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/plan.dart';
@@ -126,9 +127,36 @@ class DashboardRepositoryImpl extends DashboardRepository {
     try {
       Response response = await _api.getSlider();
       if (response.statusCode == 200) {
-        List<SliderModel> comments =
+        List<SliderModel> slider =
         ((response.data) as List).map((e) => SliderModel.fromJson(e)).toList();
-        return DataSuccess(comments);
+        return DataSuccess(slider);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<List<Advertise>>> getAdvertise() async {
+    try {
+      Response response = await _api.getAdvertise();
+      if (response.statusCode == 200) {
+        List<Advertise> ads =
+        ((response.data) as List).map((e) => Advertise.fromJson(e)).toList();
+        return DataSuccess(ads);
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {

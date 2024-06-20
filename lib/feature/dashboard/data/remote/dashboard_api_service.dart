@@ -47,4 +47,12 @@ class DashboardApiService {
               "Bearer $_accessToken"
         }));
   }
+
+  Future<dynamic> getAdvertise() async {
+    return await _dio.get("dashboard/advertise/",
+        options: Options(headers: {
+          "Authorization":
+              "Bearer $_accessToken"
+        }));
+  }
 }

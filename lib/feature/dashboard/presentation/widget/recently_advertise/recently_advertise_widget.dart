@@ -2,32 +2,33 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
-import 'package:dashboard/feature/dashboard/presentation/entities/slider_data_grid.dart';
-import 'package:dashboard/feature/dashboard/presentation/widget/first_screen_slider/bloc/first_screen_slider_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/entities/ads_data_grid.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_advertise/bloc/recently_advertise_cubit.dart';
 import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:toastification/toastification.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
+import 'package:toastification/toastification.dart';
 
-class FirstScreenSliderWidget extends StatefulWidget {
-  const FirstScreenSliderWidget({super.key});
+class RecentlyAdvertiseWidget extends StatefulWidget {
+  const RecentlyAdvertiseWidget({super.key});
 
   @override
-  State<FirstScreenSliderWidget> createState() =>
-      _FirstScreenSliderWidgetState();
+  State<RecentlyAdvertiseWidget> createState() =>
+      _RecentlyAdvertiseWidgetState();
 }
 
-class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
-  late final SliderDataGrid _sliderDataGrid;
+class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
+  late final AdsDataGrid _adsDataGrid;
 
   @override
   void initState() {
-    _sliderDataGrid = SliderDataGrid(context: context);
-    BlocProvider.of<FirstScreenSliderCubit>(context).getData();
+    _adsDataGrid = AdsDataGrid(context: context);
+    BlocProvider.of<RecentlyAdvertiseCubit>(context).getData();
+
     super.initState();
   }
 
@@ -41,18 +42,18 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            "صفحه اول",
+            "آگهی های اخیر",
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        BlocConsumer<FirstScreenSliderCubit, FirstScreenSliderState>(
+        BlocConsumer<RecentlyAdvertiseCubit, RecentlyAdvertiseState>(
           listener: (context, state) {
-            if (state is FirstScreenSliderError) {
+            if (state is RecentlyAdvertiseError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
                 context.go(RoutePath.login.path);
               }
-              if (_sliderDataGrid.rows.isNotEmpty) {
+              if (_adsDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
                     animationDuration: Duration(milliseconds: 300),
                     context: context,
@@ -67,102 +68,44 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
                       );
                     });
               }
-            } else if (state is FirstScreenSliderSuccessful) {
-              _sliderDataGrid.buildDataGridRows(sliders: state.data);
+            } else if (state is RecentlyAdvertiseSuccessful) {
+              _adsDataGrid.buildDataGridRows(ads: state.data);
             }
           },
           builder: (context, state) {
-            if (state is FirstScreenSliderSuccessful) {
-              if (_sliderDataGrid.rows.isNotEmpty) {
-                return Expanded(child: sliderTable());
+            if (state is RecentlyAdvertiseSuccessful) {
+              if (_adsDataGrid.rows.isNotEmpty) {
+                return Expanded(child: adsTable());
               } else {
                 return Expanded(
                     child: Center(
                   child: Text(
-                    "فیلمی برای نمایش صفحه اول وجود ندارد.",
+                    "آگهی وجود ندارد.",
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ));
               }
-            } else if (state is FirstScreenSliderLoading) {
-              if (_sliderDataGrid.rows.isEmpty) {
+            } else if (state is RecentlyAdvertiseLoading) {
+              if (_adsDataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
                         child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 )));
               } else {
-                return Expanded(child: sliderTable());
+                return Expanded(child: adsTable());
               }
-            } else if (state is FirstScreenSliderError) {
-              if (_sliderDataGrid.rows.isEmpty) {
+            } else if (state is RecentlyAdvertiseError) {
+              if (_adsDataGrid.rows.isEmpty) {
                 return Expanded(child: _error(state.error));
               } else {
-                return Expanded(child: sliderTable());
+                return Expanded(child: adsTable());
               }
             }
             return Expanded(child: _error(null));
           },
         ),
       ],
-    );
-  }
-
-  Widget sliderTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _sliderDataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 150,
-          onQueryRowHeight: (RowHeightDetails details) {
-            var descriptionHeight = details.getIntrinsicRowHeight(
-                details.rowIndex,
-                excludedColumns: ['title', 'media', 'priority']);
-            if (descriptionHeight > details.rowHeight) {
-              return descriptionHeight;
-            }
-            return details.rowHeight;
-          },
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          gridLinesVisibility: GridLinesVisibility.vertical,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 40,
-                columnName: 'priority',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('الویت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'media',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('فیلم',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'title',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 200,
-                columnName: 'description',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('توضیحات',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
     );
   }
 
@@ -183,7 +126,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
             SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
-                  BlocProvider.of<FirstScreenSliderCubit>(context).getData();
+                  BlocProvider.of<RecentlyAdvertiseCubit>(context).getData();
                 },
                 child: Text(
                   "تلاش مجدد",
@@ -192,6 +135,58 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
           ],
         ),
       ],
+    );
+  }
+
+  Widget adsTable() {
+    return SfDataGridTheme(
+      data: SfDataGridThemeData(
+          headerColor: Theme.of(context).colorScheme.primary,
+          gridLineColor: Theme.of(context).dividerColor),
+      child: SfDataGrid(
+          source: _adsDataGrid,
+          isScrollbarAlwaysShown: true,
+          rowHeight: 150,
+          onQueryRowHeight: (RowHeightDetails details) {
+            return details.rowHeight;
+          },
+          columnWidthMode: ColumnWidthMode.lastColumnFill,
+          gridLinesVisibility: GridLinesVisibility.vertical,
+          headerGridLinesVisibility: GridLinesVisibility.none,
+          columns: <GridColumn>[
+            GridColumn(
+                minimumWidth: 100,
+                columnName: 'title',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('عنوان',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 140,
+                columnName: 'createdAt',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تاریخ ثبت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 40,
+                columnName: 'viewNumber',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تماشا شده',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                minimumWidth: 40,
+                columnName: 'mustPlayed',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تعداد کل شفارش',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+          ]),
     );
   }
 }
