@@ -12,7 +12,7 @@ import 'package:fluttericon/elusive_icons.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'bloc/header_information_bloc.dart';
+import 'bloc/header_information_cubit.dart';
 
 class HeaderInformationWidget extends StatefulWidget {
   final int width;
@@ -27,14 +27,13 @@ class HeaderInformationWidget extends StatefulWidget {
 class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
   @override
   void initState() {
-    BlocProvider.of<HeaderInformationBloc>(context)
-        .add(HeaderInformationEventGetData());
+    BlocProvider.of<HeaderInformationCubit>(context).getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HeaderInformationBloc, HeaderInformationState>(
+    return BlocConsumer<HeaderInformationCubit, HeaderInformationState>(
       listener: (context, state) {
         if (state is HeaderInformationError) {
           if (state.code == 403) {
@@ -241,8 +240,8 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                 SizedBox(height: 8),
                 OutlinedButton(
                     onPressed: () {
-                      BlocProvider.of<HeaderInformationBloc>(context)
-                          .add(HeaderInformationEventGetData());
+                      BlocProvider.of<HeaderInformationCubit>(context)
+                          .getData();
                     },
                     child: Text(
                       "تلاش مجدد",

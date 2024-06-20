@@ -1,5 +1,5 @@
 import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_bloc.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/header_information/bloc/header_information_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/header_information/header_information_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -230,8 +230,7 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           children: [
             BlocProvider(
-              create: (context) =>
-                  HeaderInformationBloc(repository: getIt.get()),
+              create: (context) => getIt.get<HeaderInformationCubit>(),
               child: HeaderInformationWidget(width: width),
             ),
             Padding(

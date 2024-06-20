@@ -1,4 +1,4 @@
-part of 'header_information_bloc.dart';
+part of 'header_information_cubit.dart';
 
 @immutable
 sealed class HeaderInformationState {}
