@@ -1,27 +1,31 @@
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../data/remote/model/plan.dart';
+import '../../../../data/remote/model/user.dart';
 
-class PlanDataGrid extends DataGridSource {
+class UserDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
 
-  PlanDataGrid({List<Plan>? plans, required BuildContext context})
+  UserDataGrid({List<User>? users, required BuildContext context})
       : _context = context {
-    if (plans != null) {
-      buildDataGridRows(plans: plans);
+    if (users != null) {
+      buildDataGridRows(users: users);
     }
   }
 
-  void buildDataGridRows({required List<Plan> plans}) {
-    _dataGridRows = plans.map<DataGridRow>((dataGridRow) {
+  void buildDataGridRows({required List<User> users}) {
+    _dataGridRows = users.map<DataGridRow>((dataGridRow) {
       return DataGridRow(cells: [
-        DataGridCell<String>(columnName: 'title', value: dataGridRow.title),
-        DataGridCell<int>(columnName: 'time', value: dataGridRow.days),
-        DataGridCell<int>(columnName: 'price', value: dataGridRow.price),
-        DataGridCell<bool>(columnName: 'status', value: dataGridRow.isEnable),
+        DataGridCell<String>(
+            columnName: 'username', value: dataGridRow.username),
+        DataGridCell<String>(columnName: 'name', value: dataGridRow.fullName),
+        DataGridCell<bool>(columnName: 'status', value: dataGridRow.isPremium),
+        DataGridCell<int>(
+            columnName: 'movieViewed', value: dataGridRow.seenMovies),
+        DataGridCell<String>(columnName: 'date', value: dataGridRow.dateJoined),
       ]);
     }).toList();
   }
@@ -33,16 +37,11 @@ class PlanDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         cells: row.getCells().map((dataGridCell) {
-      if (dataGridCell.columnName == "price") {
-        return Center(
-          child: Text("${dataGridCell.value} تومان",
-              textAlign: TextAlign.center,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(_context).textTheme.labelMedium),
-        );
-      } else if (dataGridCell.columnName == "time") {
-        return Center(
-          child: Text("${dataGridCell.value} روز",
+      if (dataGridCell.columnName == 'date') {
+        var jDate = DateTime.parse(dataGridCell.value.toString()).toJalali();
+        var f = jDate.formatter;
+        return Align(
+          child: Text('${f.yyyy}/${f.mm}/${f.dd}',
               textAlign: TextAlign.center,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(_context).textTheme.labelMedium),
@@ -79,5 +78,9 @@ class PlanDataGrid extends DataGridSource {
             style: Theme.of(_context).textTheme.labelMedium),
       );
     }).toList());
+  }
+
+  void updateDataGridSource() {
+    notifyListeners();
   }
 }

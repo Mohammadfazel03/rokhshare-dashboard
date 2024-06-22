@@ -2,7 +2,7 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
-import 'package:dashboard/feature/dashboard/presentation/entities/slider_data_grid.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/first_screen_slider/entity/slider_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/first_screen_slider/bloc/first_screen_slider_cubit.dart';
 import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
 import 'package:flutter/material.dart';

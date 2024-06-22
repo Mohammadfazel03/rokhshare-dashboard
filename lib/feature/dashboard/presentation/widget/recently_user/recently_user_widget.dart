@@ -2,7 +2,7 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
-import 'package:dashboard/feature/dashboard/presentation/entities/user_data_grid.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/entity/user_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
 import 'package:flutter/cupertino.dart';

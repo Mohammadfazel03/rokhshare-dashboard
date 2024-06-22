@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../data/remote/model/ads.dart';
+import '../../../../data/remote/model/ads.dart';
 
 class AdsDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];

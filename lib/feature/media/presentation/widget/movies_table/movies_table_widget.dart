@@ -3,7 +3,7 @@ import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
-import 'package:dashboard/feature/media/presentation/entities/movie_data_grid.dart';
+import 'package:dashboard/feature/media/presentation/widget/movies_table/entity/movie_data_grid.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
