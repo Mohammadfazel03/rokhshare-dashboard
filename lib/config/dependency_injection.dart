@@ -17,6 +17,7 @@ import 'package:dashboard/feature/media/data/remote/media_api_service.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository_impl.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -78,4 +79,7 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<MoviesTableCubit>(
       () => MoviesTableCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<SeriesTableCubit>(
+      () => SeriesTableCubit(repository: getIt.get()));
 }

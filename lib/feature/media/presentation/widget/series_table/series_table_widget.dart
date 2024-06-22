@@ -3,8 +3,8 @@ import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
-import 'package:dashboard/feature/media/presentation/widget/movies_table/entity/movie_data_grid.dart';
-import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/series_table/entity/series_data_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,20 +13,20 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
-class MoviesTableWidget extends StatefulWidget {
-  const MoviesTableWidget({super.key});
+class SeriesTableWidget extends StatefulWidget {
+  const SeriesTableWidget({super.key});
 
   @override
-  State<MoviesTableWidget> createState() => _MoviesTableWidgetState();
+  State<SeriesTableWidget> createState() => _SeriesTableWidgetState();
 }
 
-class _MoviesTableWidgetState extends State<MoviesTableWidget> {
-  late final MovieDataGrid _dataGrid;
+class _SeriesTableWidgetState extends State<SeriesTableWidget> {
+  late final SeriesDataGrid _dataGrid;
 
   @override
   void initState() {
-    _dataGrid = MovieDataGrid(context: context);
-    BlocProvider.of<MoviesTableCubit>(context).getData();
+    _dataGrid = SeriesDataGrid(context: context);
+    BlocProvider.of<SeriesTableCubit>(context).getData();
 
     super.initState();
   }
@@ -41,13 +41,13 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
         Padding(
           padding: const EdgeInsets.all(16),
           child: Text(
-            "فیلم ها",
+            "سریال ها",
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        BlocConsumer<MoviesTableCubit, MoviesTableState>(
+        BlocConsumer<SeriesTableCubit, SeriesTableState>(
           listener: (context, state) {
-            if (state is MoviesTableError) {
+            if (state is SeriesTableError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
                 context.go(RoutePath.login.path);
@@ -62,29 +62,29 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                     builder: (BuildContext context, ToastificationItem holder) {
                       return ErrorSnackBarWidget(
                         item: holder,
-                        title: "خطا در دریافت فیلم ها",
+                        title: "خطا در دریافت سریال ها",
                         message: state.error,
                       );
                     });
               }
-            } else if (state is MoviesTableSuccess) {
-              _dataGrid.buildDataGridRows(movie: state.data.results ?? []);
+            } else if (state is SeriesTableSuccess) {
+              _dataGrid.buildDataGridRows(series: state.data.results ?? []);
             }
           },
           builder: (context, state) {
-            if (state is MoviesTableSuccess) {
+            if (state is SeriesTableSuccess) {
               if (_dataGrid.rows.isNotEmpty) {
                 return Expanded(child: table());
               } else {
                 return Expanded(
                     child: Center(
                   child: Text(
-                    "فیلمی وجود ندارد",
+                    "سریالی وجود ندارد",
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
                 ));
               }
-            } else if (state is MoviesTableLoading) {
+            } else if (state is SeriesTableLoading) {
               if (_dataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
@@ -94,7 +94,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
               } else {
                 return Expanded(child: table());
               }
-            } else if (state is MoviesTableError) {
+            } else if (state is SeriesTableError) {
               if (_dataGrid.rows.isEmpty) {
                 return Expanded(child: _error(state.error));
               } else {
@@ -114,7 +114,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
           headerColor: Theme.of(context).colorScheme.primary,
           gridLineColor: Theme.of(context).dividerColor),
       child: SfDataGrid(
-        highlightRowOnHover: false,
+          highlightRowOnHover: false,
           source: _dataGrid,
           isScrollbarAlwaysShown: true,
           rowHeight: 48,
@@ -131,8 +131,8 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
             GridColumn(
-                maximumWidth: 200,
-                minimumWidth: 200,
+                maximumWidth: 180,
+                minimumWidth: 180,
                 columnName: 'name',
                 label: Container(
                     alignment: Alignment.center,
@@ -140,8 +140,26 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
             GridColumn(
-                maximumWidth: 200,
-                minimumWidth: 200,
+                maximumWidth: 80,
+                minimumWidth: 80,
+                columnName: 'seasonNumber',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تعداد فصل',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                maximumWidth: 80,
+                minimumWidth: 80,
+                columnName: 'episodeNumber',
+                label: Container(
+                    alignment: Alignment.center,
+                    child: Text('تعداد قسمت',
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.titleSmall))),
+            GridColumn(
+                maximumWidth: 180,
+                minimumWidth: 180,
                 columnName: 'genres',
                 label: Container(
                     alignment: Alignment.center,
@@ -149,8 +167,8 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
             GridColumn(
-                maximumWidth: 200,
-                minimumWidth: 200,
+                maximumWidth: 180,
+                minimumWidth: 180,
                 columnName: 'countries',
                 label: Container(
                     alignment: Alignment.center,
@@ -158,8 +176,8 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
             GridColumn(
-                maximumWidth: 150,
-                minimumWidth: 150,
+                maximumWidth: 120,
+                minimumWidth: 120,
                 columnName: 'releaseDate',
                 label: Container(
                     alignment: Alignment.center,
@@ -167,8 +185,8 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
             GridColumn(
-                maximumWidth: 150,
-                minimumWidth: 150,
+                maximumWidth: 120,
+                minimumWidth: 120,
                 columnName: 'value',
                 label: Container(
                     alignment: Alignment.center,
@@ -176,7 +194,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleSmall))),
             GridColumn(
-                minimumWidth: 180,
+                minimumWidth: 140,
                 columnName: 'actions',
                 label: Container(
                     alignment: Alignment.center,
@@ -204,7 +222,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
             SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
-                  BlocProvider.of<MoviesTableCubit>(context).getData();
+                  BlocProvider.of<SeriesTableCubit>(context).getData();
                 },
                 child: Text(
                   "تلاش مجدد",

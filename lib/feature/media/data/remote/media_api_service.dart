@@ -15,4 +15,12 @@ class MediaApiService {
               "Bearer $_accessToken"
         }));
   }
+
+  Future<dynamic> getSeries() async {
+    return await _dio.get("admin/media/series/",
+        options: Options(headers: {
+          "Authorization":
+              "Bearer $_accessToken"
+        }));
+  }
 }
