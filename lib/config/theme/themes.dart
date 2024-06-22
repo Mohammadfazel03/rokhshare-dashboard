@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Themes {
@@ -19,6 +20,11 @@ class Themes {
       onSurface: Color.fromRGBO(112, 116, 121, 1),
       primaryContainer: Color.fromRGBO(255, 255, 255, 1.0),
     ),
+      tooltipTheme: TooltipThemeData(
+          textStyle: TextStyle(
+              color: Color.fromRGBO(245, 245, 245, 1.0),
+              fontFamily: 'iran-sans',
+              fontSize: 12)),
     inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         hintStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1)),
@@ -29,6 +35,12 @@ class Themes {
         focusedBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(width: 2, color: Color.fromRGBO(205, 205, 205, 1)))),
+    chipTheme: ChipThemeData(
+      backgroundColor: const Color.fromRGBO(55, 97, 235, 1),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      side: BorderSide.none,
+      elevation: 8,
+    ),
     dividerColor: Color.fromRGBO(230, 231, 234, 1),
     primaryColorLight: const Color.fromRGBO(233, 237, 250, 1),
     shadowColor: const Color.fromRGBO(222, 222, 222, 1),
@@ -80,7 +92,9 @@ class Themes {
           fontFamily: 'iran-sans',
           fontSize: 12),
       bodyLarge: TextStyle(
-          color: Color.fromRGBO(75, 75, 75, 1), fontFamily: 'iran-sans'),
+          color: Color.fromRGBO(75, 75, 75, 1),
+          fontFamily: 'iran-sans',
+          fontSize: 12),
     ),
   );
 
@@ -102,6 +116,11 @@ class Themes {
       onSurface: Color.fromRGBO(238, 238, 238, 1),
       primaryContainer: Color.fromRGBO(30, 47, 87, 1),
     ),
+    tooltipTheme: TooltipThemeData(
+        textStyle: TextStyle(
+            color: Color.fromRGBO(50, 50, 50, 1.0),
+            fontFamily: 'iran-sans',
+            fontSize: 12)),
     dividerColor: Color.fromRGBO(230, 231, 234, 1),
     primaryColorLight: const Color.fromRGBO(49, 73, 147, 1),
     shadowColor: const Color.fromRGBO(15, 30, 69, 1),
@@ -114,6 +133,12 @@ class Themes {
       contentPadding: EdgeInsets.zero,
       tileColor: Color.fromRGBO(15, 23, 42, 1),
       minLeadingWidth: 10,
+    ),
+    chipTheme: ChipThemeData(
+      backgroundColor: Color.fromRGBO(35, 59, 141, 1.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      side: BorderSide.none,
+      elevation: 8,
     ),
     inputDecorationTheme: const InputDecorationTheme(
         filled: true,
@@ -164,7 +189,9 @@ class Themes {
           fontFamily: 'iran-sans',
           fontSize: 12),
       bodyLarge: TextStyle(
-          color: Color.fromRGBO(218, 226, 255, 1), fontFamily: 'iran-sans'),
+          color: Color.fromRGBO(218, 226, 255, 1),
+          fontFamily: 'iran-sans',
+          fontSize: 12),
     ),
   );
 }

@@ -13,6 +13,10 @@ import 'package:dashboard/feature/login/data/remote/login_api_service.dart';
 import 'package:dashboard/feature/login/data/repositories/login_repository.dart';
 import 'package:dashboard/feature/login/data/repositories/login_repository_impl.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
+import 'package:dashboard/feature/media/data/remote/media_api_service.dart';
+import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
+import 'package:dashboard/feature/media/data/repositories/media_repository_impl.dart';
+import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -42,6 +46,12 @@ Future<void> setup() async {
   getIt.registerLazySingleton<DashboardRepository>(
       () => DashboardRepositoryImpl(apiService: getIt.get()));
 
+  getIt.registerLazySingleton<MediaApiService>(() => MediaApiService(
+      dio: getIt.get(),
+      accessToken: getIt.get<LocalStorageService>().getAccessToken() ?? ""));
+  getIt.registerLazySingleton<MediaRepository>(
+      () => MediaRepositoryImpl(apiService: getIt.get()));
+
   // register state managements
   getIt.registerLazySingleton(() => ThemeCubit());
 
@@ -65,4 +75,7 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<RecentlyAdvertiseCubit>(
       () => RecentlyAdvertiseCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<MoviesTableCubit>(
+      () => MoviesTableCubit(repository: getIt.get()));
 }

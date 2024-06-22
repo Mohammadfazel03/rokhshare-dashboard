@@ -5,6 +5,7 @@ import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.d
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
+import 'package:dashboard/feature/media/presentation/screen/media_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -14,6 +15,7 @@ import '../feature/users/presentation/screen/user_page.dart';
 enum RoutePath {
   dashboard(name: "dashboard", path: "/dashboard", title: "داشبورد"),
   login(name: "login", path: "/login", title: "ورود"),
+  media(name: "media", path: "/media", title: "فیلم و سریال"),
   users(name: "users", path: "/users", title: "کاریران");
 
   const RoutePath({required this.name, required this.path, this.title});
@@ -57,6 +59,13 @@ final routerConfig = GoRouter(
                   name: RoutePath.users.name,
                   pageBuilder: (BuildContext context, GoRouterState state) =>
                       const NoTransitionPage(child: UserPage()))
+            ]),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                  path: RoutePath.media.path,
+                  name: RoutePath.media.name,
+                  pageBuilder: (BuildContext context, GoRouterState state) =>
+                      const NoTransitionPage(child: MediaPage()))
             ]),
           ])
     ],

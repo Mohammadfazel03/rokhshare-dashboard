@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icons.dashboard_rounded,
                   title: "داشبورد",
                   onClick: () {
-                    context.go("/dashboard");
+                    context.go(RoutePath.dashboard.path);
                   }),
               SizedBox(height: 8),
               sidebarItem(
@@ -260,16 +260,19 @@ class _HomePageState extends State<HomePage> {
                   icon: FontAwesome5.user,
                   title: "کاربران",
                   onClick: () {
-                    context.go("/users");
+                    context.go(RoutePath.users.path);
                   }),
               SizedBox(height: 8),
               sidebarItem(
                   selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: false,
+                  selected: RoutePath.media.path == _routePath,
                   icon: FontAwesome.video,
-                  title: "فیلم و سریال"),
+                  title: "فیلم و سریال",
+                  onClick: () {
+                    context.go(RoutePath.media.path);
+                  }),
               SizedBox(height: 8),
             ],
           ),

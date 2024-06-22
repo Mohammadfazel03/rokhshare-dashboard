@@ -23,7 +23,13 @@ enum CustomColor {
       darkColor: Color.fromRGBO(239, 174, 8, 1)),
   loginBackgroundColor(
       lightColor: Color.fromRGBO(55, 97, 235, 1),
-      darkColor: Color.fromRGBO(55, 97, 235, 1));
+      darkColor: Color.fromRGBO(55, 97, 235, 1)),
+  evenRowBackgroundColor(
+    lightColor: Color.fromRGBO(255, 255, 255, 1),
+      darkColor: Color.fromRGBO(30, 47, 87, 1)),
+  oddRowBackgroundColor(
+      lightColor: Color.fromRGBO(246, 246, 246, 1),
+      darkColor: Color.fromRGBO(28, 44, 83, 1));
 
   final Color _lightColor;
   final Color _darkColor;
