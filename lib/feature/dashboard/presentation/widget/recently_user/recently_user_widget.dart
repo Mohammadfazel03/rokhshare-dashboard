@@ -4,7 +4,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/entity/user_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
-import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
+import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,7 +60,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                     autoCloseDuration: const Duration(seconds: 4),
                     direction: TextDirection.rtl,
                     builder: (BuildContext context, ToastificationItem holder) {
-                      return CustomSnackBar(
+                      return ErrorSnackBarWidget(
                         item: holder,
                         title: "خطا در دریافت کاربران اخیر",
                         message: state.error,

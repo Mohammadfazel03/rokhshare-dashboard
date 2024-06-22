@@ -3,12 +3,12 @@ import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
 
-class CustomSnackBar extends StatelessWidget {
+class ErrorSnackBarWidget extends StatelessWidget {
   final String title;
   final String message;
   final ToastificationItem item;
 
-  const CustomSnackBar({super.key,
+  const ErrorSnackBarWidget({super.key,
     required this.item,
     required this.title,
     required this.message});

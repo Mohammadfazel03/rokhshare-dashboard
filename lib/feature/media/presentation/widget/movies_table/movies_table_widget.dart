@@ -2,7 +2,7 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
-import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
+import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/entity/movie_data_grid.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +60,9 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                     autoCloseDuration: const Duration(seconds: 4),
                     direction: TextDirection.rtl,
                     builder: (BuildContext context, ToastificationItem holder) {
-                      return CustomSnackBar(
+                      return ErrorSnackBarWidget(
                         item: holder,
-                        title: "خطا در دریافت کاربران اخیر",
+                        title: "خطا در دریافت فیلم اخیر",
                         message: state.error,
                       );
                     });

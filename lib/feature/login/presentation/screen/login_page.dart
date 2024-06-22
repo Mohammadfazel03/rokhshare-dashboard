@@ -5,7 +5,7 @@ import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
-import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
+import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -199,7 +199,7 @@ class _LoginPageState extends State<LoginPage> {
                     autoCloseDuration: const Duration(seconds: 4),
                     direction: TextDirection.rtl,
                     builder: (BuildContext context, ToastificationItem holder) {
-                      return CustomSnackBar(
+                      return ErrorSnackBarWidget(
                         item: holder,
                         title: "خطا",
                         message: state.error,

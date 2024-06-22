@@ -4,7 +4,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/entity/comment_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/bloc/recently_comment_cubit.dart';
-import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
+import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -61,9 +61,9 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                     autoCloseDuration: const Duration(seconds: 4),
                     direction: TextDirection.rtl,
                     builder: (BuildContext context, ToastificationItem holder) {
-                      return CustomSnackBar(
+                      return ErrorSnackBarWidget(
                         item: holder,
-                        title: "خطا در دریافت کاربران اخیر",
+                        title: "خطا در دریافت نظرات اخیر",
                         message: state.error,
                       );
                     });

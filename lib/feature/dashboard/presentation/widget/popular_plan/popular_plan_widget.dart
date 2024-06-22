@@ -4,7 +4,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/entity/plan_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/popular_plan/bloc/popular_plan_cubit.dart';
-import 'package:dashboard/feature/login/presentation/widget/custom_snackbar.dart';
+import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -59,9 +59,9 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
                     autoCloseDuration: const Duration(seconds: 4),
                     direction: TextDirection.rtl,
                     builder: (BuildContext context, ToastificationItem holder) {
-                      return CustomSnackBar(
+                      return ErrorSnackBarWidget(
                         item: holder,
-                        title: "خطا در دریافت کاربران اخیر",
+                        title: "خطا در دریافت طرح های محبوب",
                         message: state.error,
                       );
                     });
