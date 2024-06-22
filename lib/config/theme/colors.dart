@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 enum CustomColor {
@@ -27,6 +25,11 @@ enum CustomColor {
   evenRowBackgroundColor(
     lightColor: Color.fromRGBO(255, 255, 255, 1),
       darkColor: Color.fromRGBO(30, 47, 87, 1)),
+  disablePaginationButtonColor(
+    darkColor: Color.fromRGBO(82, 98, 124, 1),
+    lightColor: Color.fromRGBO(183, 185, 188, 1)
+    // lightColor: Color.fromRGBO(112, 116, 121, 1)
+  ),
   oddRowBackgroundColor(
       lightColor: Color.fromRGBO(246, 246, 246, 1),
       darkColor: Color.fromRGBO(28, 44, 83, 1));
