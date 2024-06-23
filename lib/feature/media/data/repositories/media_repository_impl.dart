@@ -13,9 +13,9 @@ class MediaRepositoryImpl extends MediaRepository {
       : _api = apiService;
 
   @override
-  Future<DataResponse<PageResponse<Movie>>> getMovies() async {
+  Future<DataResponse<PageResponse<Movie>>> getMovies({int page = 1}) async {
     try {
-      Response response = await _api.getMovies();
+      Response response = await _api.getMovies(page: page);
       if (response.statusCode == 200) {
         return DataSuccess(
             PageResponse.fromJson(response.data, (s) => Movie.fromJson(s)));
@@ -28,6 +28,8 @@ class MediaRepositoryImpl extends MediaRepository {
           return const DataFailed(
               'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
               code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
@@ -39,9 +41,9 @@ class MediaRepositoryImpl extends MediaRepository {
   }
 
   @override
-  Future<DataResponse<PageResponse<Series>>> getSeries() async {
+  Future<DataResponse<PageResponse<Series>>> getSeries({int page = 1}) async {
     try {
-      Response response = await _api.getSeries();
+      Response response = await _api.getSeries(page: page);
       if (response.statusCode == 200) {
         return DataSuccess(
             PageResponse.fromJson(response.data, (s) => Series.fromJson(s)));
@@ -54,6 +56,8 @@ class MediaRepositoryImpl extends MediaRepository {
           return const DataFailed(
               'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
               code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {

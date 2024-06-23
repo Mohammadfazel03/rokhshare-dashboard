@@ -12,16 +12,23 @@ class MoviesTableCubit extends Cubit<MoviesTableState> {
 
   MoviesTableCubit({required MediaRepository repository})
       : _repository = repository,
-        super(MoviesTableLoading());
+        super(const MoviesTableLoading());
 
-  Future<void> getData() async {
-    emit(MoviesTableLoading());
-    DataResponse<PageResponse<Movie>> response = await _repository.getMovies();
+  Future<void> getData({int page = 1}) async {
+    emit(MoviesTableLoading(numberPages: state.numberPages, pageIndex: page));
+    DataResponse<PageResponse<Movie>> response =
+        await _repository.getMovies(page: page);
     if (response is DataFailed) {
       emit(MoviesTableError(
-          error: response.error ?? "مشکلی پیش آمده است", code: response.code));
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: page,
+          numberPages: state.numberPages));
     } else {
-      emit(MoviesTableSuccess(data: response.data!));
+      emit(MoviesTableSuccess(
+          data: response.data!,
+          numberPages: response.data!.totalPages!,
+          pageIndex: page));
     }
   }
 }

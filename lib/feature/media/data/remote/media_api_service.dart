@@ -8,19 +8,15 @@ class MediaApiService {
       : _dio = dio,
         _accessToken = accessToken;
 
-  Future<dynamic> getMovies() async {
+  Future<dynamic> getMovies({int page = 1}) async {
     return await _dio.get("admin/media/movie/",
-        options: Options(headers: {
-          "Authorization":
-              "Bearer $_accessToken"
-        }));
+        queryParameters: {"page": page},
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 
-  Future<dynamic> getSeries() async {
+  Future<dynamic> getSeries({int page = 1}) async {
     return await _dio.get("admin/media/series/",
-        options: Options(headers: {
-          "Authorization":
-              "Bearer $_accessToken"
-        }));
+        queryParameters: {"page": page},
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 }

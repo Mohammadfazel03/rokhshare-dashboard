@@ -5,7 +5,7 @@ import 'package:dashboard/utils/page_response.dart';
 
 abstract class MediaRepository {
 
-  Future<DataResponse<PageResponse<Movie>>> getMovies();
+  Future<DataResponse<PageResponse<Movie>>> getMovies({int page= 1});
 
-  Future<DataResponse<PageResponse<Series>>> getSeries();
+  Future<DataResponse<PageResponse<Series>>> getSeries({int page= 1});
 }

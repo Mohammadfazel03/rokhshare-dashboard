@@ -12,16 +12,23 @@ class SeriesTableCubit extends Cubit<SeriesTableState> {
 
   SeriesTableCubit({required MediaRepository repository})
       : _repository = repository,
-        super(SeriesTableLoading());
+        super(const SeriesTableLoading());
 
-  Future<void> getData() async {
-    emit(SeriesTableLoading());
-    DataResponse<PageResponse<Series>> response = await _repository.getSeries();
+  Future<void> getData({int page = 1}) async {
+    emit(SeriesTableLoading(numberPages: state.numberPages, pageIndex: page));
+    DataResponse<PageResponse<Series>> response =
+        await _repository.getSeries(page: page);
     if (response is DataFailed) {
       emit(SeriesTableError(
-          error: response.error ?? "مشکلی پیش آمده است", code: response.code));
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: page,
+          numberPages: state.numberPages));
     } else {
-      emit(SeriesTableSuccess(data: response.data!));
+      emit(SeriesTableSuccess(
+          data: response.data!,
+          numberPages: response.data!.totalPages!,
+          pageIndex: page));
     }
   }
 }

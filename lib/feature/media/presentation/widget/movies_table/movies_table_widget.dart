@@ -1,3 +1,4 @@
+import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
@@ -92,7 +93,21 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 )));
               } else {
-                return Expanded(child: table());
+                return Expanded(
+                    child: Stack(
+                  children: [
+                    Positioned.fill(child: table()),
+                    Positioned.fill(
+                        child: Container(
+                      color: Colors.black12,
+                      child: Center(
+                          child: SpinKitThreeBounce(
+                        color:
+                            CustomColor.loginBackgroundColor.getColor(context),
+                      )),
+                    ))
+                  ],
+                ));
               }
             } else if (state is MoviesTableError) {
               if (_dataGrid.rows.isEmpty) {
@@ -104,6 +119,38 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
             return Expanded(child: _error(null));
           },
         ),
+        BlocBuilder<MoviesTableCubit, MoviesTableState>(
+          buildWhen: (current, previous) {
+            return current.numberPages != previous.numberPages ||
+                current.pageIndex != previous.pageIndex;
+          },
+          builder: (context, state) {
+            if (state.numberPages != 0) {
+              return Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PaginationWidget(
+                          totalPages: state.numberPages,
+                          currentPage: state.pageIndex,
+                          onChangePage: (page) {
+                            if (BlocProvider.of<MoviesTableCubit>(context).state
+                                is! MoviesTableLoading) {
+                              BlocProvider.of<MoviesTableCubit>(context)
+                                  .getData(page: page);
+                            }
+                          }),
+                    ),
+                  ),
+                ],
+              );
+            }
+            return const SizedBox();
+          },
+        )
       ],
     );
   }
@@ -114,10 +161,11 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
           headerColor: Theme.of(context).colorScheme.primary,
           gridLineColor: Theme.of(context).dividerColor),
       child: SfDataGrid(
-        highlightRowOnHover: false,
+          highlightRowOnHover: false,
           source: _dataGrid,
           isScrollbarAlwaysShown: true,
-          rowHeight: 48,
+          rowHeight: 56,
+          headerRowHeight: 56,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           gridLinesVisibility: GridLinesVisibility.none,
           headerGridLinesVisibility: GridLinesVisibility.none,
