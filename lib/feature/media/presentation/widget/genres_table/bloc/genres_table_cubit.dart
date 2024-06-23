@@ -17,7 +17,7 @@ class GenresTableCubit extends Cubit<GenresTableState> {
   Future<void> getData({int page = 1}) async {
     emit(GenresTableLoading(numberPages: state.numberPages, pageIndex: page));
     DataResponse<PageResponse<Genre>> response =
-        await _repository.getGenre(page: page);
+        await _repository.getGenres(page: page);
     if (response is DataFailed) {
       emit(GenresTableError(
           error: response.error ?? "مشکلی پیش آمده است",

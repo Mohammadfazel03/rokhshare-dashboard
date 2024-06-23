@@ -37,4 +37,10 @@ class MediaApiService {
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
+
+  Future<dynamic> getArtist({int page = 1}) async {
+    return await _dio.get("admin/media/artist/",
+        queryParameters: {"page": page},
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+  }
 }

@@ -1,4 +1,6 @@
 import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/feature/media/presentation/widget/artists_table/artists_table_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artists_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/countries_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
@@ -134,6 +136,26 @@ class _MediaPageState extends State<MediaPage> {
                         child: BlocProvider(
                           create: (context) => getIt.get<SlidersTableCubit>(),
                           child: const SlidersTableWidget(),
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: BlocProvider(
+                          create: (context) => getIt.get<ArtistsTableCubit>(),
+                          child: const ArtistsTableWidget(),
                         ),
                       )),
                 ],
