@@ -25,4 +25,10 @@ class MediaApiService {
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
+
+  Future<dynamic> getCountry({int page = 1}) async {
+    return await _dio.get("admin/media/country/",
+        queryParameters: {"page": page},
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+  }
 }

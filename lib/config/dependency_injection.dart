@@ -16,6 +16,7 @@ import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/media/data/remote/media_api_service.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository_impl.dart';
+import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
@@ -86,4 +87,7 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<GenresTableCubit>(
       () => GenresTableCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<CountriesTableCubit>(
+      () => CountriesTableCubit(repository: getIt.get()));
 }

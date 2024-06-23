@@ -1,15 +1,17 @@
+import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 
 class Series {
   Series({
-      String? name, 
-      List<Genre>? genres,
-      String? releaseDate, 
-      String? value, 
-      List<Country>? countries,
-      int? id, 
-      int? seasonNumber, 
-      int? episodeNumber,}){
+    String? name,
+    List<Genre>? genres,
+    String? releaseDate,
+    String? value,
+    List<Country>? countries,
+    int? id,
+    int? seasonNumber,
+    int? episodeNumber,
+  }) {
     _name = name;
     _genres = genres;
     _releaseDate = releaseDate;
@@ -18,7 +20,7 @@ class Series {
     _id = id;
     _seasonNumber = seasonNumber;
     _episodeNumber = episodeNumber;
-}
+  }
 
   Series.fromJson(dynamic json) {
     _name = json['name'];
@@ -40,6 +42,7 @@ class Series {
     _seasonNumber = json['season_number'];
     _episodeNumber = json['episode_number'];
   }
+
   String? _name;
   List<Genre>? _genres;
   String? _releaseDate;
@@ -50,12 +53,19 @@ class Series {
   int? _episodeNumber;
 
   String? get name => _name;
+
   List<Genre>? get genres => _genres;
+
   String? get releaseDate => _releaseDate;
+
   String? get value => _value;
+
   List<Country>? get countries => _countries;
+
   int? get id => _id;
+
   int? get seasonNumber => _seasonNumber;
+
   int? get episodeNumber => _episodeNumber;
 
   Map<String, dynamic> toJson() {
@@ -74,38 +84,4 @@ class Series {
     map['episode_number'] = _episodeNumber;
     return map;
   }
-
-}
-
-class Country {
-  Country({
-      int? id, 
-      String? name, 
-      String? flag,}){
-    _id = id;
-    _name = name;
-    _flag = flag;
-}
-
-  Country.fromJson(dynamic json) {
-    _id = json['id'];
-    _name = json['name'];
-    _flag = json['flag'];
-  }
-  int? _id;
-  String? _name;
-  String? _flag;
-
-  int? get id => _id;
-  String? get name => _name;
-  String? get flag => _flag;
-
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['name'] = _name;
-    map['flag'] = _flag;
-    return map;
-  }
-
 }
