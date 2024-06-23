@@ -7,6 +7,8 @@ import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/mo
 import 'package:dashboard/feature/media/presentation/widget/movies_table/movies_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/series_table_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/sliders_table/bloc/sliders_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/sliders_table/sliders_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -112,6 +114,26 @@ class _MediaPageState extends State<MediaPage> {
                         child: BlocProvider(
                           create: (context) => getIt.get<CountriesTableCubit>(),
                           child: const CountriesTableWidget(),
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: BlocProvider(
+                          create: (context) => getIt.get<SlidersTableCubit>(),
+                          child: const SlidersTableWidget(),
                         ),
                       )),
                 ],

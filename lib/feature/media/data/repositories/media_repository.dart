@@ -1,3 +1,4 @@
+import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/movie.dart';
@@ -13,4 +14,6 @@ abstract class MediaRepository {
   Future<DataResponse<PageResponse<Genre>>> getGenre({int page = 1});
 
   Future<DataResponse<PageResponse<Country>>> getCountry({int page = 1});
+
+  Future<DataResponse<PageResponse<SliderModel>>> getSliders({int page = 1});
 }

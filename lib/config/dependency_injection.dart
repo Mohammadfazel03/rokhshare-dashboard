@@ -20,6 +20,7 @@ import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/c
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/sliders_table/bloc/sliders_table_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -90,4 +91,7 @@ Future<void> setup() async {
 
   getIt.registerLazySingleton<CountriesTableCubit>(
       () => CountriesTableCubit(repository: getIt.get()));
+
+  getIt.registerLazySingleton<SlidersTableCubit>(
+      () => SlidersTableCubit(repository: getIt.get()));
 }
