@@ -1,4 +1,5 @@
 import 'package:dashboard/config/theme/colors.dart';
+import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/series.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

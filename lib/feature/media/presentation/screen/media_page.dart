@@ -1,4 +1,6 @@
 import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/genres_table/genres_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/movies_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
@@ -31,7 +33,7 @@ class _MediaPageState extends State<MediaPage> {
                 crossAxisCount: 10,
                 children: [
                   StaggeredGridTile.extent(
-                      crossAxisCellCount: 16,
+                      crossAxisCellCount: 10,
                       mainAxisExtent: 410,
                       child: Container(
                         decoration: BoxDecoration(
@@ -51,7 +53,7 @@ class _MediaPageState extends State<MediaPage> {
                         ),
                       )),
                   StaggeredGridTile.extent(
-                      crossAxisCellCount: 16,
+                      crossAxisCellCount: 10,
                       mainAxisExtent: 410,
                       child: Container(
                         decoration: BoxDecoration(
@@ -68,6 +70,26 @@ class _MediaPageState extends State<MediaPage> {
                         child: BlocProvider(
                           create: (context) => getIt.get<SeriesTableCubit>(),
                           child: const SeriesTableWidget(),
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: BlocProvider(
+                          create: (context) => getIt.get<GenresTableCubit>(),
+                          child: const GenresTableWidget(),
                         ),
                       )),
                 ],
