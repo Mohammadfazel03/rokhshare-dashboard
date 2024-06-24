@@ -54,7 +54,7 @@ class _MediaPageState extends State<MediaPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<MoviesTableCubit>(),
+                          create: (context) => MoviesTableCubit(repository: getIt.get()),
                           child: const MoviesTableWidget(),
                         ),
                       )),
@@ -74,7 +74,7 @@ class _MediaPageState extends State<MediaPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<SeriesTableCubit>(),
+                          create: (context) => SeriesTableCubit(repository: getIt.get()),
                           child: const SeriesTableWidget(),
                         ),
                       )),
@@ -94,7 +94,7 @@ class _MediaPageState extends State<MediaPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<GenresTableCubit>(),
+                          create: (context) => GenresTableCubit(repository: getIt.get()),
                           child: const GenresTableWidget(),
                         ),
                       )),
@@ -114,7 +114,7 @@ class _MediaPageState extends State<MediaPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<CountriesTableCubit>(),
+                          create: (context) => CountriesTableCubit(repository: getIt.get()),
                           child: const CountriesTableWidget(),
                         ),
                       )),
@@ -134,7 +134,7 @@ class _MediaPageState extends State<MediaPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<SlidersTableCubit>(),
+                          create: (context) => SlidersTableCubit(repository: getIt.get()),
                           child: const SlidersTableWidget(),
                         ),
                       )),
@@ -154,7 +154,7 @@ class _MediaPageState extends State<MediaPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<ArtistsTableCubit>(),
+                          create: (context) => ArtistsTableCubit(repository: getIt.get()),
                           child: const ArtistsTableWidget(),
                         ),
                       )),

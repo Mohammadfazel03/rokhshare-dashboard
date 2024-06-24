@@ -38,11 +38,11 @@ final routerConfig = GoRouter(
           pageBuilder: (BuildContext context, GoRouterState state) =>
               NoTransitionPage(
                   child: BlocProvider<LoginCubit>(
-                create: (context) => getIt.get<LoginCubit>(),
+                create: (context) => LoginCubit(loginRepository: getIt.get()),
                 child: const LoginPage(),
               ))),
       StatefulShellRoute.indexedStack(
-          builder: (BuildContext context, GoRouterState state, Widget child) {
+          builder: (BuildContext context, GoRouterState state, child) {
             return HomePage(pageScreen: child);
           },
           branches: [

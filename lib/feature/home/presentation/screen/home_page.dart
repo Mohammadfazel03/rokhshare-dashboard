@@ -12,7 +12,7 @@ import 'package:fluttericon/iconic_icons.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
-  final Widget pageScreen;
+  final StatefulNavigationShell pageScreen;
 
   const HomePage({super.key, required this.pageScreen});
 
@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icons.dashboard_rounded,
                   title: "داشبورد",
                   onClick: () {
-                    context.go(RoutePath.dashboard.path);
+                    widget.pageScreen.goBranch(0);
                   }),
               SizedBox(height: 8),
               sidebarItem(
@@ -260,7 +260,7 @@ class _HomePageState extends State<HomePage> {
                   icon: FontAwesome5.user,
                   title: "کاربران",
                   onClick: () {
-                    context.go(RoutePath.users.path);
+                    widget.pageScreen.goBranch(1);
                   }),
               SizedBox(height: 8),
               sidebarItem(
@@ -271,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                   icon: FontAwesome.video,
                   title: "فیلم و سریال",
                   onClick: () {
-                    context.go(RoutePath.media.path);
+                    widget.pageScreen.goBranch(2);
                   }),
               SizedBox(height: 8),
             ],

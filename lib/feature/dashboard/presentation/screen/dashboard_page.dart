@@ -35,7 +35,8 @@ class _DashboardPageState extends State<DashboardPage> {
         child: Column(
           children: [
             BlocProvider(
-              create: (context) => getIt.get<HeaderInformationCubit>(),
+              create: (context) =>
+                  HeaderInformationCubit(repository: getIt.get()),
               child: HeaderInformationWidget(width: width),
             ),
             Padding(
@@ -62,7 +63,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                 )
                               ]),
                           child: BlocProvider(
-                            create: (context) => getIt.get<RecentlyUserCubit>(),
+                            create: (context) => RecentlyUserCubit(repository: getIt.get()),
                             child: const RecentlyUserWidget(),
                           ))),
                   StaggeredGridTile.extent(
@@ -81,7 +82,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) => getIt.get<PopularPlanCubit>(),
+                          create: (context) => PopularPlanCubit(repository: getIt.get()),
                           child: const PopularPlanWidget(),
                         ),
                       )),
@@ -101,8 +102,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) =>
-                              getIt.get<RecentlyCommentCubit>(),
+                          create: (context) => RecentlyCommentCubit(repository: getIt.get()),
                           child: const RecentlyCommentWidget(),
                         ),
                       )),
@@ -122,8 +122,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) =>
-                              getIt.get<FirstScreenSliderCubit>(),
+                          create: (context) => FirstScreenSliderCubit(repository: getIt.get()),
                           child: const FirstScreenSliderWidget(),
                         ),
                       )),
@@ -143,8 +142,7 @@ class _DashboardPageState extends State<DashboardPage> {
                               )
                             ]),
                         child: BlocProvider(
-                          create: (context) =>
-                              getIt.get<RecentlyAdvertiseCubit>(),
+                          create: (context) => RecentlyAdvertiseCubit(repository: getIt.get()),
                           child: const RecentlyAdvertiseWidget(),
                         ),
                       )),
