@@ -1,6 +1,8 @@
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/artists_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artists_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/collections_table/bloc/collections_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/collections_table/collections_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/countries_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
@@ -76,6 +78,26 @@ class _MediaPageState extends State<MediaPage> {
                         child: BlocProvider(
                           create: (context) => SeriesTableCubit(repository: getIt.get()),
                           child: const SeriesTableWidget(),
+                        ),
+                      )),
+                  StaggeredGridTile.extent(
+                      crossAxisCellCount: 10,
+                      mainAxisExtent: 410,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                            Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                blurRadius: 1,
+                                spreadRadius: 0.1,
+                              )
+                            ]),
+                        child: BlocProvider(
+                          create: (context) => CollectionsTableCubit(repository: getIt.get()),
+                          child: const CollectionsTableWidget(),
                         ),
                       )),
                   StaggeredGridTile.extent(
