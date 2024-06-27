@@ -30,4 +30,12 @@ abstract class MediaRepository {
   Future<DataResponse<Genre>> getGenre({required int id});
 
   Future<DataResponse<Genre>> updateGenre({required int id, poster, title});
+
+  Future<DataResponse<Country>> postCountry({required name,required flag});
+
+  Future<DataResponse<void>> deleteCountry({required int id});
+
+  Future<DataResponse<Country>> getCountry({required int id});
+
+  Future<DataResponse<Country>> updateCountry({required int id, flag, name});
 }

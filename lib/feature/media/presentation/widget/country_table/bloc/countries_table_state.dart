@@ -16,9 +16,11 @@ final class CountriesTableLoading extends CountriesTableState {
 final class CountriesTableError extends CountriesTableState {
   final String error;
   final int? code;
+  final String title;
 
   const CountriesTableError(
       {required this.error,
+      required this.title,
       this.code,
       super.numberPages = 0,
       super.pageIndex = 0});

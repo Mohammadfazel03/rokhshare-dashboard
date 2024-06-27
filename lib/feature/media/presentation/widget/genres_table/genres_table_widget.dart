@@ -53,58 +53,51 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
                 "ژانر ها",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  FilledButton.tonalIcon(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext dialogContext) {
-                            return Dialog(
-                              child: SizedBox(
-                                  width: min(
-                                      MediaQuery.sizeOf(context).width * 0.8,
-                                      560),
-                                  child: MultiBlocProvider(
-                                    providers: [
-                                      BlocProvider.value(
-                                          value:
-                                              BlocProvider.of<GenresTableCubit>(
-                                                  context)),
-                                      BlocProvider<GenreAppendCubit>(
-                                          create: (context) => GenreAppendCubit(
-                                              repository: getIt.get())),
-                                    ],
-                                    child: GenreAppendDialogWidget(
-                                        width: min(
-                                            MediaQuery.sizeOf(context).width *
-                                                0.8,
-                                            560)),
-                                  )),
-                            );
-                          });
-                    },
-                    label: Text(
-                      "ژانر جدید",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleSmall
-                          ?.copyWith(fontSize: 12),
-                    ),
-                    icon: Icon(Icons.add),
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                          Theme.of(context).colorScheme.primary),
-                      padding: WidgetStateProperty.all(
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
-                      shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4))),
-                    ),
-                  ),
-                ],
+              FilledButton.tonalIcon(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return Dialog(
+                          child: SizedBox(
+                              width: min(
+                                  MediaQuery.sizeOf(context).width * 0.8,
+                                  560),
+                              child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<GenresTableCubit>(
+                                              context)),
+                                  BlocProvider<GenreAppendCubit>(
+                                      create: (context) => GenreAppendCubit(
+                                          repository: getIt.get())),
+                                ],
+                                child: GenreAppendDialogWidget(
+                                    width: min(
+                                        MediaQuery.sizeOf(context).width *
+                                            0.8,
+                                        560)),
+                              )),
+                        );
+                      });
+                },
+                label: Text(
+                  "ژانر جدید",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontSize: 12),
+                ),
+                icon: Icon(Icons.add),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(
+                      Theme.of(context).colorScheme.primary),
+                  padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+                ),
               )
             ],
           ),

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
@@ -5,6 +7,8 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/country_append_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/country_table/country_append_dialog_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/entity/country_data_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +29,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
 
   @override
   void initState() {
-    _dataGrid = CountryDataGrid(context: context);
+    _dataGrid = CountryDataGrid(context: context, cubit: BlocProvider.of<CountriesTableCubit>(context));
     BlocProvider.of<CountriesTableCubit>(context).getData();
 
     super.initState();
@@ -38,11 +42,66 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "کشور ها",
-            style: Theme.of(context).textTheme.titleLarge,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "کشور ها",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              FilledButton.tonalIcon(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return Dialog(
+                          child: SizedBox(
+                              width: min(
+                                  MediaQuery.sizeOf(context).width * 0.8,
+                                  560),
+                              child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                      value:
+                                      BlocProvider.of<CountriesTableCubit>(
+                                          context)),
+                                  BlocProvider<CountryAppendCubit>(
+                                      create: (context) => CountryAppendCubit(
+                                          repository: getIt.get())),
+                                ],
+                                child: CountryAppendDialogWidget(
+                                    width: min(
+                                        MediaQuery.sizeOf(context).width *
+                                            0.8,
+                                        560)),
+                              )),
+                        );
+                      });
+                },
+                label: Text(
+                  "کشور جدید",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontSize: 12),
+                ),
+                icon: Icon(Icons.add),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(
+                      Theme.of(context).colorScheme.primary),
+                  padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+                ),
+              )
+
+            ],
           ),
         ),
         BlocConsumer<CountriesTableCubit, CountriesTableState>(

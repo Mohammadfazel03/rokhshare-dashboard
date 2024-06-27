@@ -105,7 +105,7 @@ class MediaRepositoryImpl extends MediaRepository {
   Future<DataResponse<PageResponse<Country>>> getCountries(
       {int page = 1}) async {
     try {
-      Response response = await _api.getCountry(page: page);
+      Response response = await _api.getCountries(page: page);
       if (response.statusCode == 200) {
         return DataSuccess(
             PageResponse.fromJson(response.data, (s) => Country.fromJson(s)));
@@ -310,6 +310,121 @@ class MediaRepositoryImpl extends MediaRepository {
           await _api.updateGenre(id: id, poster: poster, title: title);
       if (response.statusCode == 200) {
         return DataSuccess(Genre.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('ژانر مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Country>> postCountry(
+      {required name, required flag}) async {
+    try {
+      Response response = await _api.postCountry(name: name, flag: flag);
+      if (response.statusCode == 201) {
+        return DataSuccess(Country.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+        print(exception.response?.data?.toString());
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<void>> deleteCountry({required int id}) async {
+    try {
+      Response response = await _api.deleteCountry(id: id);
+      if (response.statusCode == 204) {
+        return const DataSuccess(null);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+        print(exception.response?.data?.toString());
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Country>> getCountry({required int id}) async {
+    try {
+      Response response = await _api.getCountry(id: id);
+      if (response.statusCode == 200) {
+        return DataSuccess(Country.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      print("gfureiugferufbrebfiuer");
+      print(e);
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('ژانر مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Country>> updateCountry(
+      {required int id, flag, name}) async {
+    try {
+      Response response =
+          await _api.updateCountry(id: id, flag: flag, name: name);
+      if (response.statusCode == 200) {
+        return DataSuccess(Country.fromJson(response.data));
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {

@@ -26,7 +26,7 @@ class MediaApiService {
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 
-  Future<dynamic> getCountry({int page = 1}) async {
+  Future<dynamic> getCountries({int page = 1}) async {
     return await _dio.get("admin/media/country/",
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
@@ -87,6 +87,50 @@ class MediaApiService {
       form['title'] = title;
     }
     return await _dio.patch("genre/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap(form));
+  }
+
+  Future<dynamic> postCountry({required name, required flag}) async {
+    return await _dio.post("country/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap({
+          "flag": MultipartFile.fromBytes(flag, filename: "flag.png"),
+          "name": name
+        }));
+  }
+
+  Future<dynamic> deleteCountry({required int id}) async {
+    return await _dio.delete("country/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> getCountry({required int id}) async {
+    return await _dio.get("country/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> updateCountry({required int id, flag, name}) async {
+    Map<String, dynamic> form = {};
+    if (flag != null) {
+      form['flag'] = MultipartFile.fromBytes(flag, filename: "flag.png");
+    }
+    if (name != null) {
+      form['name'] = name;
+    }
+    return await _dio.patch("country/$id/",
         options: Options(headers: {
           "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",

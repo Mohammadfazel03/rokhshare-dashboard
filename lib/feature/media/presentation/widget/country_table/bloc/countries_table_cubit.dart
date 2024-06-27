@@ -15,11 +15,13 @@ class CountriesTableCubit extends Cubit<CountriesTableState> {
         super(const CountriesTableLoading());
 
   Future<void> getData({int page = 1}) async {
-    emit(CountriesTableLoading(numberPages: state.numberPages, pageIndex: page));
+    emit(
+        CountriesTableLoading(numberPages: state.numberPages, pageIndex: page));
     DataResponse<PageResponse<Country>> response =
         await _repository.getCountries(page: page);
     if (response is DataFailed) {
       emit(CountriesTableError(
+          title: "خطا در دریافت کشور ها",
           error: response.error ?? "مشکلی پیش آمده است",
           code: response.code,
           pageIndex: page,
@@ -29,6 +31,22 @@ class CountriesTableCubit extends Cubit<CountriesTableState> {
           data: response.data!,
           numberPages: response.data!.totalPages!,
           pageIndex: page));
+    }
+  }
+
+  Future<void> delete({required int id}) async {
+    emit(CountriesTableLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteCountry(id: id);
+    if (response is DataFailed) {
+      emit(CountriesTableError(
+          title: "خطا در حذف ژانر",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex);
     }
   }
 }

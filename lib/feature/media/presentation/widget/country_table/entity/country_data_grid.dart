@@ -1,17 +1,27 @@
+import 'dart:math';
+
+import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/country_append_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/country_table/country_append_dialog_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class CountryDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
+  final CountriesTableCubit _cubit;
 
-  CountryDataGrid({List<Country>? series, required BuildContext context})
-      : _context = context {
+  CountryDataGrid(
+      {List<Country>? series,
+      required BuildContext context,
+      required CountriesTableCubit cubit})
+      : _context = context,
+        _cubit = cubit {
     if (series != null) {
       buildDataGridRows(series: series);
     }
@@ -55,7 +65,7 @@ class CountryDataGrid extends DataGridSource {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(dataGridCell.value.name,
                         textAlign: TextAlign.justify,
                         style: Theme.of(_context).textTheme.labelMedium),
@@ -79,8 +89,35 @@ class CountryDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filledTonal(
                       tooltip: "ویرایش",
-                      onPressed: () {},
-                      icon: Icon(
+                      onPressed: () {
+                        showDialog(
+                            context: _context,
+                            builder: (BuildContext dialogContext) {
+                              return Dialog(
+                                child: SizedBox(
+                                    width: min(
+                                        MediaQuery.sizeOf(_context).width * 0.8,
+                                        560),
+                                    child: MultiBlocProvider(
+                                      providers: [
+                                        BlocProvider.value(value: _cubit),
+                                        BlocProvider<CountryAppendCubit>(
+                                            create: (context) =>
+                                                CountryAppendCubit(
+                                                    repository: getIt.get())),
+                                      ],
+                                      child: CountryAppendDialogWidget(
+                                          id: dataGridCell.value,
+                                          width: min(
+                                              MediaQuery.sizeOf(_context)
+                                                      .width *
+                                                  0.8,
+                                              560)),
+                                    )),
+                              );
+                            });
+                      },
+                      icon: const Icon(
                         Icons.edit,
                         size: 16,
                       ),
@@ -96,8 +133,84 @@ class CountryDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filledTonal(
                       tooltip: "حذف",
-                      onPressed: () {},
-                      icon: Icon(
+                      onPressed: () {
+                        showDialog(
+                            context: _context,
+                            builder: (dialogContext) => AlertDialog(
+                                    title: Text(
+                                      "حذف کشور",
+                                      style: Theme.of(dialogContext)
+                                          .textTheme
+                                          .titleLarge,
+                                    ),
+                                    content: Text(
+                                        "آیا از حذف کشور با شناسه ${dataGridCell.value} اظمینان دارید؟",
+                                        style: Theme.of(dialogContext)
+                                            .textTheme
+                                            .labelSmall),
+                                    actions: [
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.of(dialogContext).pop();
+                                        },
+                                        style: ButtonStyle(
+                                          side: WidgetStateProperty.all(
+                                              BorderSide(
+                                                  color: Theme.of(dialogContext)
+                                                      .dividerColor)),
+                                          foregroundColor:
+                                              WidgetStateProperty.all(
+                                                  Theme.of(dialogContext)
+                                                      .textTheme
+                                                      .labelSmall
+                                                      ?.color),
+                                          textStyle: WidgetStateProperty.all(
+                                              Theme.of(dialogContext)
+                                                  .textTheme
+                                                  .labelSmall),
+                                          padding: WidgetStateProperty.all(
+                                              const EdgeInsets.all(16)),
+                                          shape: WidgetStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4))),
+                                        ),
+                                        child: const Text(
+                                          "انصراف",
+                                        ),
+                                      ),
+                                      FilledButton(
+                                          style: ButtonStyle(
+                                              foregroundColor:
+                                                  WidgetStateProperty.all(
+                                                      Theme.of(dialogContext)
+                                                          .textTheme
+                                                          .titleSmall
+                                                          ?.color),
+                                              textStyle: WidgetStateProperty.all(
+                                                  Theme.of(dialogContext)
+                                                      .textTheme
+                                                      .labelSmall),
+                                              padding: WidgetStateProperty.all(
+                                                  const EdgeInsets.all(16)),
+                                              alignment: Alignment.center,
+                                              backgroundColor: WidgetStateProperty.all(
+                                                  CustomColor.loginBackgroundColor
+                                                      .getColor(dialogContext)),
+                                              shape: WidgetStateProperty.all(
+                                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
+                                          onPressed: () {
+                                            _cubit.delete(
+                                                id: dataGridCell.value);
+                                            Navigator.of(dialogContext).pop();
+                                          },
+                                          child: const Text(
+                                            "بله",
+                                          )),
+                                    ]));
+                      },
+                      icon: const Icon(
                         Icons.delete,
                         size: 16,
                       ),
