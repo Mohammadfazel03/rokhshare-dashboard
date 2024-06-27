@@ -30,6 +30,10 @@ enum CustomColor {
     lightColor: Color.fromRGBO(183, 185, 188, 1)
     // lightColor: Color.fromRGBO(112, 116, 121, 1)
   ),
+  tableButtonTextColor(
+    darkColor: Color.fromRGBO(255, 255, 255, 1),
+    lightColor: Color.fromRGBO(55, 97, 235, 1)
+  ),
   oddRowBackgroundColor(
       lightColor: Color.fromRGBO(246, 246, 246, 1),
       darkColor: Color.fromRGBO(28, 44, 83, 1));

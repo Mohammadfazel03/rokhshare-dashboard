@@ -1,9 +1,12 @@
+import 'dart:math';
 import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genre_append_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/genres_table/genre_append_dialog_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/entity/genre_data_grid.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +29,8 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
 
   @override
   void initState() {
-    _dataGrid = GenreDataGrid(context: context);
+    _dataGrid = GenreDataGrid(
+        context: context, cubit: BlocProvider.of<GenresTableCubit>(context));
     BlocProvider.of<GenresTableCubit>(context).getData();
 
     super.initState();
@@ -41,9 +45,69 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "ژانر ها",
-            style: Theme.of(context).textTheme.titleLarge,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "ژانر ها",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FilledButton.tonalIcon(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return Dialog(
+                              child: SizedBox(
+                                  width: min(
+                                      MediaQuery.sizeOf(context).width * 0.8,
+                                      560),
+                                  child: MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider.value(
+                                          value:
+                                              BlocProvider.of<GenresTableCubit>(
+                                                  context)),
+                                      BlocProvider<GenreAppendCubit>(
+                                          create: (context) => GenreAppendCubit(
+                                              repository: getIt.get())),
+                                    ],
+                                    child: GenreAppendDialogWidget(
+                                        width: min(
+                                            MediaQuery.sizeOf(context).width *
+                                                0.8,
+                                            560)),
+                                  )),
+                            );
+                          });
+                    },
+                    label: Text(
+                      "ژانر جدید",
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleSmall
+                          ?.copyWith(fontSize: 12),
+                    ),
+                    icon: Icon(Icons.add),
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                          Theme.of(context).colorScheme.primary),
+                      padding: WidgetStateProperty.all(
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
+                      shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(4))),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
         ),
         BlocConsumer<GenresTableCubit, GenresTableState>(
@@ -63,13 +127,13 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
                     builder: (BuildContext context, ToastificationItem holder) {
                       return ErrorSnackBarWidget(
                         item: holder,
-                        title: "خطا در دریافت ژانر ها",
+                        title: state.title,
                         message: state.error,
                       );
                     });
               }
             } else if (state is GenresTableSuccess) {
-              _dataGrid.buildDataGridRows(series: state.data.results ?? []);
+              _dataGrid.buildDataGridRows(genres: state.data.results ?? []);
             }
           },
           builder: (context, state) {

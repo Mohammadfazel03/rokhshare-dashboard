@@ -20,6 +20,7 @@ class GenresTableCubit extends Cubit<GenresTableState> {
         await _repository.getGenres(page: page);
     if (response is DataFailed) {
       emit(GenresTableError(
+          title: "خطا در دریافت ژانر ها",
           error: response.error ?? "مشکلی پیش آمده است",
           code: response.code,
           pageIndex: page,
@@ -29,6 +30,22 @@ class GenresTableCubit extends Cubit<GenresTableState> {
           data: response.data!,
           numberPages: response.data!.totalPages!,
           pageIndex: page));
+    }
+  }
+
+  Future<void> delete({required int id}) async {
+    emit(GenresTableLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteGenre(id: id);
+    if (response is DataFailed) {
+      emit(GenresTableError(
+          title: "خطا در حذف ژانر",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex);
     }
   }
 }

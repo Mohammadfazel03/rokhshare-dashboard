@@ -22,4 +22,12 @@ abstract class MediaRepository {
   Future<DataResponse<PageResponse<Artist>>> getArtists({int page = 1});
 
   Future<DataResponse<PageResponse<Collection>>> getCollections({int page = 1});
+
+  Future<DataResponse<Genre>> postGenre({required title,required poster});
+
+  Future<DataResponse<void>> deleteGenre({required int id});
+
+  Future<DataResponse<Genre>> getGenre({required int id});
+
+  Future<DataResponse<Genre>> updateGenre({required int id, poster, title});
 }

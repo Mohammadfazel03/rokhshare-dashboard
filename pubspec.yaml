@@ -54,6 +54,8 @@ dependencies:
   flutter_spinkit: ^5.2.1
   shimmer: ^3.0.0
   url_strategy: ^0.2.0
+  dotted_border: ^2.1.0
+  file_picker: ^8.0.5
 
 dev_dependencies:
   flutter_test:
@@ -79,11 +81,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/profile.jpg
-    - assets/images/profile_main.jpg
     - assets/images/man.png
     - assets/lottie/not_found.json
     - assets/lottie/login.json
+    - assets/images/upload_image_dark.png
+    - assets/images/upload_image_light.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

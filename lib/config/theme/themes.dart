@@ -5,7 +5,6 @@ class Themes {
   static final light = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    iconTheme: const IconThemeData(color: Color.fromRGBO(55, 97, 235, 1)),
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: Color.fromRGBO(55, 97, 235, 1),
@@ -19,7 +18,10 @@ class Themes {
       surface: Colors.white,
       onSurface: Color.fromRGBO(112, 116, 121, 1),
       primaryContainer: Color.fromRGBO(255, 255, 255, 1.0),
+      secondaryContainer: Color.fromRGBO(220, 220, 220, 1.0),
     ),
+    iconTheme: const IconThemeData(color: Color.fromRGBO(55, 97, 235, 1)),
+
       tooltipTheme: TooltipThemeData(
           textStyle: TextStyle(
               color: Color.fromRGBO(245, 245, 245, 1.0),
@@ -27,14 +29,16 @@ class Themes {
               fontSize: 12)),
     inputDecorationTheme: const InputDecorationTheme(
         filled: true,
-        hintStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1)),
+        hintStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1), fontSize: 12),
         fillColor: Color.fromRGBO(243, 243, 245, 1),
+        labelStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1), fontSize: 12),
+        floatingLabelStyle: TextStyle(color: Color.fromRGBO(55, 97, 235, 1), fontSize: 12),
         enabledBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(width: 1, color: Color.fromRGBO(205, 205, 205, 1))),
         focusedBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(width: 2, color: Color.fromRGBO(205, 205, 205, 1)))),
+                BorderSide(width: 2, color: Color.fromRGBO(55, 97, 235, 1)))),
     chipTheme: ChipThemeData(
       backgroundColor: const Color.fromRGBO(55, 97, 235, 1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -95,13 +99,16 @@ class Themes {
           color: Color.fromRGBO(75, 75, 75, 1),
           fontFamily: 'iran-sans',
           fontSize: 12),
+      bodyMedium: TextStyle(
+          color: Color.fromRGBO(75, 75, 75, 1),
+          fontFamily: 'iran-sans',
+          fontSize: 10),
     ),
   );
 
   static final dark = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-    iconTheme: const IconThemeData(color: Color.fromRGBO(255, 255, 255, 1.0)),
     colorScheme: const ColorScheme(
       brightness: Brightness.dark,
       primary: Color.fromRGBO(35, 59, 141, 1.0),
@@ -115,7 +122,9 @@ class Themes {
       surface: Color.fromRGBO(17, 35, 79, 1),
       onSurface: Color.fromRGBO(238, 238, 238, 1),
       primaryContainer: Color.fromRGBO(30, 47, 87, 1),
+      secondaryContainer: Color.fromRGBO(20, 30, 50, 1.0),
     ),
+    iconTheme: const IconThemeData(color: Color.fromRGBO(255, 255, 255, 1.0)),
     tooltipTheme: TooltipThemeData(
         textStyle: TextStyle(
             color: Color.fromRGBO(50, 50, 50, 1.0),
@@ -142,14 +151,16 @@ class Themes {
     ),
     inputDecorationTheme: const InputDecorationTheme(
         filled: true,
-        hintStyle: TextStyle(color: Color.fromRGBO(190, 196, 220, 1)),
+        hintStyle: TextStyle(color: Color.fromRGBO(190, 196, 220, 1), fontSize: 12),
+        labelStyle: TextStyle(color: Color.fromRGBO(190, 196, 220, 1), fontSize: 12),
+        floatingLabelStyle: TextStyle(color: Color.fromRGBO(57, 113 ,255, 1), fontSize: 12),
         fillColor: Color.fromRGBO(22, 44, 99, 1),
         enabledBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(width: 1, color: Color.fromRGBO(30, 60, 135, 1.0))),
         focusedBorder: OutlineInputBorder(
             borderSide:
-                BorderSide(width: 2, color: Color.fromRGBO(30, 60, 135, 1.0)))),
+                BorderSide(width: 2, color: Color.fromRGBO(57, 113 ,255, 1)))),
     textTheme: const TextTheme(
       headlineMedium: TextStyle(
           color: Color.fromRGBO(255, 255, 255, 1.0),
@@ -192,6 +203,10 @@ class Themes {
           color: Color.fromRGBO(218, 226, 255, 1),
           fontFamily: 'iran-sans',
           fontSize: 12),
+      bodyMedium: TextStyle(
+          color: Color.fromRGBO(218, 226, 255, 1),
+          fontFamily: 'iran-sans',
+          fontSize: 10),
     ),
   );
 }

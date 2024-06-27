@@ -20,7 +20,7 @@ class MediaApiService {
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 
-  Future<dynamic> getGenre({int page = 1}) async {
+  Future<dynamic> getGenres({int page = 1}) async {
     return await _dio.get("admin/media/genre/",
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
@@ -43,9 +43,54 @@ class MediaApiService {
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
+
   Future<dynamic> getCollection({int page = 1}) async {
     return await _dio.get("admin/media/collection/",
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+  }
+
+  Future<dynamic> postGenre({required title, required poster}) async {
+    return await _dio.post("genre/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap({
+          "poster": MultipartFile.fromBytes(poster, filename: "poster.png"),
+          "title": title
+        }));
+  }
+
+  Future<dynamic> deleteGenre({required int id}) async {
+    return await _dio.delete("genre/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> getGenre({required int id}) async {
+    return await _dio.get("genre/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> updateGenre({required int id, poster, title}) async {
+    Map<String, dynamic> form = {};
+    if (poster != null) {
+      form['poster'] = MultipartFile.fromBytes(poster, filename: "poster.png");
+    }
+    if (title != null) {
+      form['title'] = title;
+    }
+    return await _dio.patch("genre/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap(form));
   }
 }

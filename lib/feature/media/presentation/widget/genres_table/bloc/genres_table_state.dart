@@ -15,9 +15,11 @@ final class GenresTableLoading extends GenresTableState {
 final class GenresTableError extends GenresTableState {
   final String error;
   final int? code;
+  final String title;
 
   const GenresTableError(
       {required this.error,
+      required this.title,
       this.code,
       super.numberPages = 0,
       super.pageIndex = 0});
