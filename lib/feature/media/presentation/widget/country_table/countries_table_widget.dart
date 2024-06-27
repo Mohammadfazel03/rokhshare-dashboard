@@ -60,6 +60,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
                       context: context,
                       builder: (BuildContext dialogContext) {
                         return Dialog(
+                          clipBehavior: Clip.hardEdge,
                           child: SizedBox(
                               width: min(
                                   MediaQuery.sizeOf(context).width * 0.8,

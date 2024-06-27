@@ -59,6 +59,7 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
                       context: context,
                       builder: (BuildContext dialogContext) {
                         return Dialog(
+                          clipBehavior: Clip.hardEdge,
                           child: SizedBox(
                               width: min(
                                   MediaQuery.sizeOf(context).width * 0.8,

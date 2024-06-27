@@ -5,8 +5,7 @@ sealed class ArtistsTableState {
   final int numberPages;
   final int pageIndex;
 
-  const ArtistsTableState(
-      {required this.numberPages, required this.pageIndex});
+  const ArtistsTableState({required this.numberPages, required this.pageIndex});
 }
 
 final class ArtistsTableLoading extends ArtistsTableState {
@@ -16,9 +15,11 @@ final class ArtistsTableLoading extends ArtistsTableState {
 final class ArtistsTableError extends ArtistsTableState {
   final String error;
   final int? code;
+  final String title;
 
   const ArtistsTableError(
       {required this.error,
+      required this.title,
       this.code,
       super.numberPages = 0,
       super.pageIndex = 0});

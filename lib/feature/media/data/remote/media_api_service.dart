@@ -38,7 +38,7 @@ class MediaApiService {
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 
-  Future<dynamic> getArtist({int page = 1}) async {
+  Future<dynamic> getArtists({int page = 1}) async {
     return await _dio.get("admin/media/artist/",
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
@@ -131,6 +131,54 @@ class MediaApiService {
       form['name'] = name;
     }
     return await _dio.patch("country/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap(form));
+  }
+
+  Future<dynamic> postArtist({required name, required image, required bio}) async {
+    return await _dio.post("artist/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap({
+          "image": MultipartFile.fromBytes(image, filename: "image.png"),
+          "name": name,
+          "biography": bio
+        }));
+  }
+
+  Future<dynamic> deleteArtist({required int id}) async {
+    return await _dio.delete("artist/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> getArtist({required int id}) async {
+    return await _dio.get("artist/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> updateArtist({required int id, image, name, bio}) async {
+    Map<String, dynamic> form = {};
+    if (image != null) {
+      form['image'] = MultipartFile.fromBytes(image, filename: "image.png");
+    }
+    if (name != null) {
+      form['name'] = name;
+    }
+    if (bio != null) {
+      form['biography'] = bio;
+    }
+    return await _dio.patch("artist/$id/",
         options: Options(headers: {
           "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",

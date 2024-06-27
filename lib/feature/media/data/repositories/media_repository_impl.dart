@@ -162,7 +162,7 @@ class MediaRepositoryImpl extends MediaRepository {
   @override
   Future<DataResponse<PageResponse<Artist>>> getArtists({int page = 1}) async {
     try {
-      Response response = await _api.getArtist(page: page);
+      Response response = await _api.getArtists(page: page);
       if (response.statusCode == 200) {
         return DataSuccess(
             PageResponse.fromJson(response.data, (s) => Artist.fromJson(s)));
@@ -445,4 +445,123 @@ class MediaRepositoryImpl extends MediaRepository {
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
   }
+
+
+
+  @override
+  Future<DataResponse<Artist>> postArtist(
+      {required name, required image, required bio}) async {
+    try {
+      Response response = await _api.postArtist(name: name, image: image, bio: bio);
+      if (response.statusCode == 201) {
+        return DataSuccess(Artist.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+        print(exception.response?.data?.toString());
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<void>> deleteArtist({required int id}) async {
+    try {
+      Response response = await _api.deleteArtist(id: id);
+      if (response.statusCode == 204) {
+        return const DataSuccess(null);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+        print(exception.response?.data?.toString());
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Artist>> getArtist({required int id}) async {
+    try {
+      Response response = await _api.getArtist(id: id);
+      if (response.statusCode == 200) {
+        return DataSuccess(Artist.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      print("gfureiugferufbrebfiuer");
+      print(e);
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('ژانر مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Artist>> updateArtist(
+      {required int id, image, name, bio}) async {
+    try {
+      Response response =
+      await _api.updateArtist(id: id, image: image, name: name, bio: bio);
+      if (response.statusCode == 200) {
+        return DataSuccess(Artist.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('ژانر مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+
 }

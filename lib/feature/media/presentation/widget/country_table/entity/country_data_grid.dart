@@ -94,6 +94,7 @@ class CountryDataGrid extends DataGridSource {
                             context: _context,
                             builder: (BuildContext dialogContext) {
                               return Dialog(
+                                clipBehavior: Clip.hardEdge,
                                 child: SizedBox(
                                     width: min(
                                         MediaQuery.sizeOf(_context).width * 0.8,

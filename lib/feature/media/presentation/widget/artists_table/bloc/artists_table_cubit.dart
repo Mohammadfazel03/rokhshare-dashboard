@@ -20,6 +20,7 @@ class ArtistsTableCubit extends Cubit<ArtistsTableState> {
         await _repository.getArtists(page: page);
     if (response is DataFailed) {
       emit(ArtistsTableError(
+          title: "خطا در دریافت هنرمندان",
           error: response.error ?? "مشکلی پیش آمده است",
           code: response.code,
           pageIndex: page,
@@ -29,6 +30,22 @@ class ArtistsTableCubit extends Cubit<ArtistsTableState> {
           data: response.data!,
           numberPages: response.data!.totalPages!,
           pageIndex: page));
+    }
+  }
+
+  Future<void> delete({required int id}) async {
+    emit(ArtistsTableLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteArtist(id: id);
+    if (response is DataFailed) {
+      emit(ArtistsTableError(
+          title: "خطا در حذف هنرمند",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex);
     }
   }
 }

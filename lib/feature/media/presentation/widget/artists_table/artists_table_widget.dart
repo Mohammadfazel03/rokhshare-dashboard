@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/artists_table/artist_append_dialog_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artist_append_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artists_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/entity/artist_data_grid.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +29,7 @@ class _ArtistsTableWidgetState extends State<ArtistsTableWidget> {
 
   @override
   void initState() {
-    _dataGrid = ArtistDataGrid(context: context);
+    _dataGrid = ArtistDataGrid(context: context, cubit: BlocProvider.of<ArtistsTableCubit>(context));
     BlocProvider.of<ArtistsTableCubit>(context).getData();
 
     super.initState();
@@ -40,9 +44,63 @@ class _ArtistsTableWidgetState extends State<ArtistsTableWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "هنرمندان",
-            style: Theme.of(context).textTheme.titleLarge,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "هنرمندان",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              FilledButton.tonalIcon(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return Dialog(
+                          clipBehavior: Clip.hardEdge,
+                          child: SizedBox(
+                              width: min(
+                                  MediaQuery.sizeOf(context).width * 0.8,
+                                  560),
+                              child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                      value:
+                                      BlocProvider.of<ArtistsTableCubit>(
+                                          context)),
+                                  BlocProvider<ArtistAppendCubit>(
+                                      create: (context) => ArtistAppendCubit(
+                                          repository: getIt.get())),
+                                ],
+                                child: ArtistAppendDialogWidget(
+                                    width: min(
+                                        MediaQuery.sizeOf(context).width *
+                                            0.8,
+                                        560)),
+                              )),
+                        );
+                      });
+                },
+                label: Text(
+                  "هنرمند جدید",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall
+                      ?.copyWith(fontSize: 12),
+                ),
+                icon: Icon(Icons.add),
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all(
+                      Theme.of(context).colorScheme.primary),
+                  padding: WidgetStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+                ),
+              )
+            ],
           ),
         ),
         BlocConsumer<ArtistsTableCubit, ArtistsTableState>(
