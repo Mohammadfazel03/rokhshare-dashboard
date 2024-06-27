@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class RecentlyAdvertiseWidget extends StatefulWidget {
@@ -139,54 +138,49 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
   }
 
   Widget adsTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _adsDataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 150,
-          onQueryRowHeight: (RowHeightDetails details) {
-            return details.rowHeight;
-          },
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          gridLinesVisibility: GridLinesVisibility.vertical,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'title',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'createdAt',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تاریخ ثبت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 40,
-                columnName: 'viewNumber',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تماشا شده',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 40,
-                columnName: 'mustPlayed',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تعداد کل شفارش',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        source: _adsDataGrid,
+        isScrollbarAlwaysShown: true,
+        rowHeight: 150,
+        onQueryRowHeight: (RowHeightDetails details) {
+          return details.rowHeight;
+        },
+        columnWidthMode: ColumnWidthMode.lastColumnFill,
+        gridLinesVisibility: GridLinesVisibility.vertical,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 100,
+              columnName: 'title',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عنوان',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'createdAt',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تاریخ ثبت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 40,
+              columnName: 'viewNumber',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تماشا شده',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 40,
+              columnName: 'mustPlayed',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تعداد کل شفارش',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 }

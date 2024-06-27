@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class SeriesTableWidget extends StatefulWidget {
@@ -95,19 +94,19 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
               } else {
                 return Expanded(
                     child: Stack(
-                      children: [
-                        Positioned.fill(child: table()),
-                        Positioned.fill(
-                            child: Container(
-                              color: Colors.black12,
-                              child: Center(
-                                  child: SpinKitThreeBounce(
-                                    color:
-                                    CustomColor.loginBackgroundColor.getColor(context),
-                                  )),
-                            ))
-                      ],
-                    ));
+                  children: [
+                    Positioned.fill(child: table()),
+                    Positioned.fill(
+                        child: Container(
+                      color: Colors.black12,
+                      child: Center(
+                          child: SpinKitThreeBounce(
+                        color:
+                            CustomColor.loginBackgroundColor.getColor(context),
+                      )),
+                    ))
+                  ],
+                ));
               }
             } else if (state is SeriesTableError) {
               if (_dataGrid.rows.isEmpty) {
@@ -138,7 +137,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                           currentPage: state.pageIndex,
                           onChangePage: (page) {
                             if (BlocProvider.of<SeriesTableCubit>(context).state
-                            is! SeriesTableLoading) {
+                                is! SeriesTableLoading) {
                               BlocProvider.of<SeriesTableCubit>(context)
                                   .getData(page: page);
                             }
@@ -151,107 +150,101 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
             return const SizedBox();
           },
         )
-
       ],
     );
   }
 
   Widget table() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          highlightRowOnHover: false,
-          source: _dataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 56,
-          headerRowHeight: 56,
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 80,
-                columnName: 'id',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('شناسه',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 180,
-                minimumWidth: 180,
-                columnName: 'name',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 80,
-                minimumWidth: 80,
-                columnName: 'seasonNumber',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تعداد فصل',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 80,
-                minimumWidth: 80,
-                columnName: 'episodeNumber',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تعداد قسمت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 180,
-                minimumWidth: 180,
-                columnName: 'genres',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('ژانر',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 180,
-                minimumWidth: 180,
-                columnName: 'countries',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('کشور سازنده',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 120,
-                minimumWidth: 120,
-                columnName: 'releaseDate',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('زمان انتشار',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                maximumWidth: 120,
-                minimumWidth: 120,
-                columnName: 'value',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('ارزش',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'actions',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عملیات ها',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        highlightRowOnHover: false,
+        source: _dataGrid,
+        isScrollbarAlwaysShown: true,
+        rowHeight: 56,
+        headerRowHeight: 56,
+        columnWidthMode: ColumnWidthMode.lastColumnFill,
+        gridLinesVisibility: GridLinesVisibility.none,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 80,
+              columnName: 'id',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('شناسه',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 180,
+              minimumWidth: 180,
+              columnName: 'name',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عنوان',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 80,
+              minimumWidth: 80,
+              columnName: 'seasonNumber',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تعداد فصل',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 80,
+              minimumWidth: 80,
+              columnName: 'episodeNumber',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تعداد قسمت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 180,
+              minimumWidth: 180,
+              columnName: 'genres',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('ژانر',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 180,
+              minimumWidth: 180,
+              columnName: 'countries',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('کشور سازنده',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 120,
+              minimumWidth: 120,
+              columnName: 'releaseDate',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('زمان انتشار',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              maximumWidth: 120,
+              minimumWidth: 120,
+              columnName: 'value',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('ارزش',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'actions',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عملیات ها',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 
   Widget _error(String? error) {

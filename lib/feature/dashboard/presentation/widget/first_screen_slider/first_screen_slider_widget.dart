@@ -11,7 +11,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 
 class FirstScreenSliderWidget extends StatefulWidget {
   const FirstScreenSliderWidget({super.key});
@@ -109,61 +108,56 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
   }
 
   Widget sliderTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _sliderDataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 150,
-          onQueryRowHeight: (RowHeightDetails details) {
-            var descriptionHeight = details.getIntrinsicRowHeight(
-                details.rowIndex,
-                excludedColumns: ['title', 'media', 'priority']);
-            if (descriptionHeight > details.rowHeight) {
-              return descriptionHeight;
-            }
-            return details.rowHeight;
-          },
-          columnWidthMode: ColumnWidthMode.lastColumnFill,
-          gridLinesVisibility: GridLinesVisibility.vertical,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 40,
-                columnName: 'priority',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('الویت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'media',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('فیلم',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'title',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 200,
-                columnName: 'description',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('توضیحات',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        source: _sliderDataGrid,
+        isScrollbarAlwaysShown: true,
+        rowHeight: 150,
+        onQueryRowHeight: (RowHeightDetails details) {
+          var descriptionHeight = details.getIntrinsicRowHeight(
+              details.rowIndex,
+              excludedColumns: ['title', 'media', 'priority']);
+          if (descriptionHeight > details.rowHeight) {
+            return descriptionHeight;
+          }
+          return details.rowHeight;
+        },
+        columnWidthMode: ColumnWidthMode.lastColumnFill,
+        gridLinesVisibility: GridLinesVisibility.vertical,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 40,
+              columnName: 'priority',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('الویت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'media',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('فیلم',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 100,
+              columnName: 'title',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عنوان',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 200,
+              columnName: 'description',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('توضیحات',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 
   Widget _error(String? error) {

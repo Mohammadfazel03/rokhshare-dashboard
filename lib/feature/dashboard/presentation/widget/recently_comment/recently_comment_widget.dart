@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class RecentlyCommentWidget extends StatefulWidget {
@@ -22,6 +21,7 @@ class RecentlyCommentWidget extends StatefulWidget {
 
 class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
   late final CommentDataGrid _commentDataGrid;
+
   // late final CustomGridColumnSizer _gridColumnSizer;
 
   @override
@@ -110,69 +110,64 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
   }
 
   Widget commentTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _commentDataGrid,
-          isScrollbarAlwaysShown: true,
-          // columnSizer: _gridColumnSizer,
-          rowHeight: 150,
-          onQueryRowHeight: (RowHeightDetails details) {
-            var commentHeight = details.getIntrinsicRowHeight(details.rowIndex,
-                excludedColumns: ['username', 'media', 'date', 'status']);
-            if (commentHeight > details.rowHeight) {
-              return commentHeight;
-            }
-            return details.rowHeight;
-          },
-          gridLinesVisibility: GridLinesVisibility.vertical,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'username',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('کاربر',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'media',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('فیلم',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                columnWidthMode: ColumnWidthMode.lastColumnFill,
-                minimumWidth: 400,
-                columnName: 'comment',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('نظر',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'date',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تاریخ',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        source: _commentDataGrid,
+        isScrollbarAlwaysShown: true,
+        // columnSizer: _gridColumnSizer,
+        rowHeight: 150,
+        onQueryRowHeight: (RowHeightDetails details) {
+          var commentHeight = details.getIntrinsicRowHeight(details.rowIndex,
+              excludedColumns: ['username', 'media', 'date', 'status']);
+          if (commentHeight > details.rowHeight) {
+            return commentHeight;
+          }
+          return details.rowHeight;
+        },
+        gridLinesVisibility: GridLinesVisibility.vertical,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'username',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('کاربر',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'media',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('فیلم',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              columnWidthMode: ColumnWidthMode.lastColumnFill,
+              minimumWidth: 400,
+              columnName: 'comment',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('نظر',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'date',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تاریخ',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'status',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('وضعیت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 
   Widget _error(String? error) {

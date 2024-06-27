@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class CollectionsTableWidget extends StatefulWidget {
@@ -69,7 +68,8 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                     });
               }
             } else if (state is CollectionsTableSuccess) {
-              _dataGrid.buildDataGridRows(collections: state.data.results ?? []);
+              _dataGrid.buildDataGridRows(
+                  collections: state.data.results ?? []);
             }
           },
           builder: (context, state) {
@@ -156,70 +156,65 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
   }
 
   Widget table() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          highlightRowOnHover: false,
-          source: _dataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 150,
-          headerRowHeight: 56,
-          columnWidthMode: ColumnWidthMode.fill,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 80,
-                columnName: 'id',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('شناسه',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'media',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('مجموعه',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'owner',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('سازنده',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'date',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('زمان ساخت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'actions',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عملیات',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        highlightRowOnHover: false,
+        source: _dataGrid,
+        isScrollbarAlwaysShown: true,
+        rowHeight: 150,
+        headerRowHeight: 56,
+        columnWidthMode: ColumnWidthMode.fill,
+        gridLinesVisibility: GridLinesVisibility.none,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 80,
+              columnName: 'id',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('شناسه',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'media',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('مجموعه',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'owner',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('سازنده',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'date',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('زمان ساخت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'status',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('وضعیت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'actions',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عملیات',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 
   Widget _error(String? error) {

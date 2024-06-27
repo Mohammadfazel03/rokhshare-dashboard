@@ -10,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class PopularPlanWidget extends StatefulWidget {
@@ -108,51 +107,46 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
   }
 
   Widget planTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _planDataGrid,
-          columnWidthMode: ColumnWidthMode.fill,
-          isScrollbarAlwaysShown: true,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'title',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عنوان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 100,
-                columnName: 'time',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('مدت زمان',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'price',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('قیمت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        source: _planDataGrid,
+        columnWidthMode: ColumnWidthMode.fill,
+        isScrollbarAlwaysShown: true,
+        gridLinesVisibility: GridLinesVisibility.none,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 100,
+              columnName: 'title',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عنوان',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 100,
+              columnName: 'time',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('مدت زمان',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'price',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('قیمت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'status',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('وضعیت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 
   Widget _error(String? error) {

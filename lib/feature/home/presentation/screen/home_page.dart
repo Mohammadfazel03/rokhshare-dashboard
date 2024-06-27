@@ -10,6 +10,7 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:fluttericon/font_awesome_icons.dart';
 import 'package:fluttericon/iconic_icons.dart';
 import 'package:go_router/go_router.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 class HomePage extends StatefulWidget {
   final StatefulNavigationShell pageScreen;
@@ -40,28 +41,33 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       _routePath = null;
     }
-    return Scaffold(
-      body: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (width > 1024) ...[sidebarMenu(height: height, width: width)],
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: appbar(width: width, height: height),
-                ),
-                Expanded(child: widget.pageScreen)
-              ],
-            ),
-          )
-        ],
+    return SfDataGridTheme(
+      data: SfDataGridThemeData(
+          headerColor: Theme.of(context).colorScheme.secondary,
+          gridLineColor: Theme.of(context).dividerColor),
+      child: Scaffold(
+        body: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (width > 1024) ...[sidebarMenu(height: height, width: width)],
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: appbar(width: width, height: height),
+                  ),
+                  Expanded(child: widget.pageScreen)
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

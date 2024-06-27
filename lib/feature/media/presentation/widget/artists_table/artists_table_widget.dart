@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class ArtistsTableWidget extends StatefulWidget {
@@ -137,8 +136,8 @@ class _ArtistsTableWidgetState extends State<ArtistsTableWidget> {
                           totalPages: state.numberPages,
                           currentPage: state.pageIndex,
                           onChangePage: (page) {
-                            if (BlocProvider.of<ArtistsTableCubit>(context).state
-                                is! ArtistsTableLoading) {
+                            if (BlocProvider.of<ArtistsTableCubit>(context)
+                                .state is! ArtistsTableLoading) {
                               BlocProvider.of<ArtistsTableCubit>(context)
                                   .getData(page: page);
                             }
@@ -156,46 +155,41 @@ class _ArtistsTableWidgetState extends State<ArtistsTableWidget> {
   }
 
   Widget table() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          highlightRowOnHover: false,
-          source: _dataGrid,
-          isScrollbarAlwaysShown: true,
-          rowHeight: 56,
-          headerRowHeight: 56,
-          columnWidthMode: ColumnWidthMode.fill,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 80,
-                columnName: 'id',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('شناسه',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 220,
-                columnName: 'artist',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('هنرمند',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 140,
-                columnName: 'actions',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('عملیات ها',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        highlightRowOnHover: false,
+        source: _dataGrid,
+        isScrollbarAlwaysShown: true,
+        rowHeight: 56,
+        headerRowHeight: 56,
+        columnWidthMode: ColumnWidthMode.fill,
+        gridLinesVisibility: GridLinesVisibility.none,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 80,
+              columnName: 'id',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('شناسه',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 220,
+              columnName: 'artist',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('هنرمند',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 140,
+              columnName: 'actions',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('عملیات ها',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 
   Widget _error(String? error) {

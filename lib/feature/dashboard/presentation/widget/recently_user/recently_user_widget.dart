@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:toastification/toastification.dart';
 
 class RecentlyUserWidget extends StatefulWidget {
@@ -138,58 +137,53 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
   }
 
   Widget userTable() {
-    return SfDataGridTheme(
-      data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.primary,
-          gridLineColor: Theme.of(context).dividerColor),
-      child: SfDataGrid(
-          source: _userDataGrid,
-          columnWidthMode: ColumnWidthMode.fill,
-          isScrollbarAlwaysShown: true,
-          gridLinesVisibility: GridLinesVisibility.none,
-          headerGridLinesVisibility: GridLinesVisibility.none,
-          columns: <GridColumn>[
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'username',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('نام کاربری',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'name',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('نام',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'status',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('وضعیت اشتراک',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'movieViewed',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تعداد تماشا',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-            GridColumn(
-                minimumWidth: 150,
-                columnName: 'date',
-                label: Container(
-                    alignment: Alignment.center,
-                    child: Text('تاریخ عضویت',
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleSmall))),
-          ]),
-    );
+    return SfDataGrid(
+        source: _userDataGrid,
+        columnWidthMode: ColumnWidthMode.fill,
+        isScrollbarAlwaysShown: true,
+        gridLinesVisibility: GridLinesVisibility.none,
+        headerGridLinesVisibility: GridLinesVisibility.none,
+        columns: <GridColumn>[
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'username',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('نام کاربری',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'name',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('نام',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'status',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('وضعیت اشتراک',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'movieViewed',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تعداد تماشا',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+          GridColumn(
+              minimumWidth: 150,
+              columnName: 'date',
+              label: Container(
+                  alignment: Alignment.center,
+                  child: Text('تاریخ عضویت',
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall))),
+        ]);
   }
 }
