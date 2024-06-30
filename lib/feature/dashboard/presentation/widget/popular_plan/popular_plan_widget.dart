@@ -48,7 +48,7 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
             if (state is PopularPlanError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.path);
+                context.go(RoutePath.login.fullPath);
               }
               if (_planDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

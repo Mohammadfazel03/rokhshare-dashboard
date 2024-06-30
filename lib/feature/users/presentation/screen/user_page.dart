@@ -1,3 +1,4 @@
+import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -17,6 +18,26 @@ class _UserPageState extends State<UserPage> {
       return SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: SizedBox(
+                width: width.toDouble(),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  alignment: WrapAlignment.start,
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text("کاربران / ", style: TextStyle(
+                        color: CustomColor.navRailTextColorDisable.getColor(context),
+                        fontSize: 14
+                    ))
+                  ],
+                ),
+              ),
+            ),
+
             Padding(
               padding: const EdgeInsets.all(16),
               child: StaggeredGrid.count(

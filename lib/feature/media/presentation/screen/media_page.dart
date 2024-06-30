@@ -1,4 +1,5 @@
 import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/artists_table_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artists_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/collections_table/bloc/collections_table_cubit.dart';
@@ -33,6 +34,25 @@ class _MediaPageState extends State<MediaPage> {
       return SingleChildScrollView(
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: SizedBox(
+                width: width.toDouble(),
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 4,
+                  alignment: WrapAlignment.start,
+                  runAlignment: WrapAlignment.center,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    Text("فیلم و سریال / ", style: TextStyle(
+                        color: CustomColor.navRailTextColorDisable.getColor(context),
+                        fontSize: 14
+                    ))
+                  ],
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: StaggeredGrid.count(

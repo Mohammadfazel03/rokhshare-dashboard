@@ -23,7 +23,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late final StreamController<bool> sidebarController;
-  late String? _routePath;
+  late String? _routeName;
 
   @override
   void initState() {
@@ -36,10 +36,14 @@ class _HomePageState extends State<HomePage> {
     int width = MediaQuery.of(context).size.width.round();
     int height = MediaQuery.of(context).size.height.round();
     try {
-      _routePath =
-          GoRouter.of(context).routerDelegate.currentConfiguration.uri.path;
+      _routeName = GoRouter.of(context)
+          .routerDelegate
+          .currentConfiguration
+          .last
+          .route
+          .name;
     } catch (e) {
-      _routePath = null;
+      _routeName = null;
     }
     return SfDataGridTheme(
       data: SfDataGridThemeData(
@@ -109,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(width: 8)
                 ],
                 Text(
-                  getTitleByPath(_routePath ?? "") ?? "",
+                  getTitleByPath(_routeName ?? "") ?? "",
                   style: Theme.of(context).textTheme.headlineSmall,
                 )
               ],
@@ -254,7 +258,7 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: RoutePath.dashboard.path == _routePath,
+                  selected: widget.pageScreen.currentIndex == 0,
                   icon: Icons.dashboard_rounded,
                   title: "داشبورد",
                   onClick: () {
@@ -262,7 +266,7 @@ class _HomePageState extends State<HomePage> {
                   }),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: RoutePath.users.path == _routePath,
+                  selected: widget.pageScreen.currentIndex == 1,
                   icon: FontAwesome5.user,
                   title: "کاربران",
                   onClick: () {
@@ -273,7 +277,7 @@ class _HomePageState extends State<HomePage> {
                   selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
               SizedBox(height: 8),
               sidebarItem(
-                  selected: RoutePath.media.path == _routePath,
+                  selected: widget.pageScreen.currentIndex == 2,
                   icon: FontAwesome.video,
                   title: "فیلم و سریال",
                   onClick: () {
@@ -287,12 +291,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  String? getTitleByPath(String path) {
-    if (RoutePath.users.path == path) {
-      return RoutePath.users.title;
-    } else if (RoutePath.dashboard.path == path) {
-      return RoutePath.dashboard.title;
+  String? getTitleByPath(String name) {
+    try {
+      return RoutePath.values.firstWhere((e) => e.name == name).title;
+    } catch (e) {
+      return "";
     }
-    return "";
   }
 }

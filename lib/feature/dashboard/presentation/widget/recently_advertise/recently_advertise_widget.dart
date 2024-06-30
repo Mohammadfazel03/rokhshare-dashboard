@@ -50,7 +50,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
             if (state is RecentlyAdvertiseError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.path);
+                context.go(RoutePath.login.fullPath);
               }
               if (_adsDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

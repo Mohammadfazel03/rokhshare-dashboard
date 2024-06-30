@@ -51,7 +51,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
             if (state is RecentlyCommentError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.path);
+                context.go(RoutePath.login.fullPath);
               }
               if (_commentDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

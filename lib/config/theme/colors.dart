@@ -23,17 +23,23 @@ enum CustomColor {
       lightColor: Color.fromRGBO(55, 97, 235, 1),
       darkColor: Color.fromRGBO(55, 97, 235, 1)),
   evenRowBackgroundColor(
-    lightColor: Color.fromRGBO(255, 255, 255, 1),
+      lightColor: Color.fromRGBO(255, 255, 255, 1),
       darkColor: Color.fromRGBO(30, 47, 87, 1)),
   disablePaginationButtonColor(
-    darkColor: Color.fromRGBO(82, 98, 124, 1),
-    lightColor: Color.fromRGBO(183, 185, 188, 1)
-    // lightColor: Color.fromRGBO(112, 116, 121, 1)
-  ),
+      darkColor: Color.fromRGBO(82, 98, 124, 1),
+      lightColor: Color.fromRGBO(183, 185, 188, 1)
+      // lightColor: Color.fromRGBO(112, 116, 121, 1)
+      ),
   tableButtonTextColor(
-    darkColor: Color.fromRGBO(255, 255, 255, 1),
-    lightColor: Color.fromRGBO(55, 97, 235, 1)
-  ),
+      darkColor: Color.fromRGBO(255, 255, 255, 1),
+      lightColor: Color.fromRGBO(55, 97, 235, 1)),
+  navRailTextColorDisable(
+      lightColor: Color.fromRGBO(119, 119, 119, 1.0),
+      darkColor: Color.fromRGBO(134, 141, 157, 1.0) // 13, 28, 60, 1
+      ),
+  navRailTextColor(
+      lightColor: Color.fromRGBO(68, 68, 68, 1.0),
+      darkColor: Color.fromRGBO(174, 179, 190, 1.0)),
   oddRowBackgroundColor(
       lightColor: Color.fromRGBO(246, 246, 246, 1),
       darkColor: Color.fromRGBO(28, 44, 83, 1));

@@ -49,7 +49,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
             if (state is RecentlyUserError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.path);
+                context.go(RoutePath.login.fullPath);
               }
               if (_userDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

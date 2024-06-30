@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                 getIt
                     .get<LocalStorageService>()
                     .login(state.accessToken, state.refreshToken);
-                context.go(RoutePath.dashboard.path);
+                context.go(RoutePath.dashboard.fullPath);
               } else if (state is LoginFailed) {
                 toastification.showCustom(
                     animationDuration: Duration(milliseconds: 300),

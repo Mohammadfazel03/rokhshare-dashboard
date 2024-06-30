@@ -13,15 +13,25 @@ import 'package:go_router/go_router.dart';
 import '../feature/users/presentation/screen/user_page.dart';
 
 enum RoutePath {
-  dashboard(name: "dashboard", path: "/dashboard", title: "داشبورد"),
-  login(name: "login", path: "/login", title: "ورود"),
-  media(name: "media", path: "/media", title: "فیلم و سریال"),
-  users(name: "users", path: "/users", title: "کاریران");
+  dashboard(
+      name: "dashboard",
+      path: "/dashboard",
+      fullPath: "/dashboard",
+      title: "داشبورد"),
+  login(name: "login", path: "/login", fullPath: "/login", title: "ورود"),
+  media(
+      name: "media", path: "/media", fullPath: "/media", title: "فیلم و سریال"),
+  users(name: "users", path: "/users", fullPath: "/users", title: "کاربران");
 
-  const RoutePath({required this.name, required this.path, this.title});
+  const RoutePath(
+      {required this.name,
+      required this.path,
+      required this.fullPath,
+      this.title});
 
   final String name;
   final String path;
+  final String fullPath;
   final String? title;
 }
 
@@ -33,14 +43,14 @@ final routerConfig = GoRouter(
     errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
     routes: [
       GoRoute(
-          path: RoutePath.login.path,
+          path: RoutePath.login.fullPath,
           name: RoutePath.login.name,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               NoTransitionPage(
                   child: BlocProvider<LoginCubit>(
-                create: (context) => LoginCubit(loginRepository: getIt.get()),
-                child: const LoginPage(),
-              ))),
+                      create: (context) =>
+                          LoginCubit(loginRepository: getIt.get()),
+                      child: const LoginPage()))),
       StatefulShellRoute.indexedStack(
           builder: (BuildContext context, GoRouterState state, child) {
             return HomePage(pageScreen: child);
@@ -72,10 +82,10 @@ final routerConfig = GoRouter(
     redirect: (BuildContext context, GoRouterState state) async {
       try {
         if (getIt.get<LocalStorageService>().getAccessToken() == null) {
-          return RoutePath.login.path;
+          return RoutePath.login.fullPath;
         }
-        if (state.uri.path == RoutePath.login.path) {
-          return RoutePath.dashboard.path;
+        if (state.uri.path == RoutePath.login.fullPath) {
+          return RoutePath.dashboard.fullPath;
         }
 
         return null;

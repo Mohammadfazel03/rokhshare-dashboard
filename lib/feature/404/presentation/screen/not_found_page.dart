@@ -36,7 +36,7 @@ class _NotFoundPageState extends State<NotFoundPage> {
             SizedBox(height: 16),
             OutlinedButton(
                 onPressed: () {
-                  context.go(RoutePath.dashboard.path);
+                  context.go(RoutePath.dashboard.fullPath);
                 },
                 child: Text(
                   "رفتن به صفجه اصلی",

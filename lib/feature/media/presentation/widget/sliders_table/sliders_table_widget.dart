@@ -50,7 +50,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
             if (state is SlidersTableError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.path);
+                context.go(RoutePath.login.fullPath);
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

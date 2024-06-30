@@ -50,7 +50,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
             if (state is CollectionsTableError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.path);
+                context.go(RoutePath.login.fullPath);
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
