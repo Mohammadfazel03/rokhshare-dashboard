@@ -1,14 +1,11 @@
 import 'dart:math';
 
 import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genre_append_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genres_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/genre_append_dialog_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -45,8 +42,8 @@ class GenreDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == "actions") {
             return Padding(
@@ -61,7 +58,7 @@ class GenreDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "ویرایش",
                       onPressed: () {
                         showDialog(
@@ -96,8 +93,6 @@ class GenreDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -105,7 +100,7 @@ class GenreDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {
                         showDialog(
@@ -115,13 +110,13 @@ class GenreDataGrid extends DataGridSource {
                                       "حذف ژانر",
                                       style: Theme.of(dialogContext)
                                           .textTheme
-                                          .titleLarge,
+                                          .headlineSmall,
                                     ),
                                     content: Text(
                                         "آیا از حذف ژانر با شناسه ${dataGridCell.value} اظمینان دارید؟",
                                         style: Theme.of(dialogContext)
                                             .textTheme
-                                            .labelSmall),
+                                            .bodyMedium),
                                     actions: [
                                       OutlinedButton(
                                         onPressed: () {
@@ -131,16 +126,6 @@ class GenreDataGrid extends DataGridSource {
                                           "انصراف",
                                         ),
                                         style: ButtonStyle(
-                                          side: WidgetStateProperty.all(
-                                              BorderSide(
-                                                  color: Theme.of(dialogContext)
-                                                      .dividerColor)),
-                                          foregroundColor:
-                                              WidgetStateProperty.all(
-                                                  Theme.of(dialogContext)
-                                                      .textTheme
-                                                      .labelSmall
-                                                      ?.color),
                                           textStyle: WidgetStateProperty.all(
                                               Theme.of(dialogContext)
                                                   .textTheme
@@ -156,12 +141,6 @@ class GenreDataGrid extends DataGridSource {
                                       ),
                                       FilledButton(
                                           style: ButtonStyle(
-                                              foregroundColor:
-                                                  WidgetStateProperty.all(
-                                                      Theme.of(dialogContext)
-                                                          .textTheme
-                                                          .titleSmall
-                                                          ?.color),
                                               textStyle: WidgetStateProperty.all(
                                                   Theme.of(dialogContext)
                                                       .textTheme
@@ -169,9 +148,6 @@ class GenreDataGrid extends DataGridSource {
                                               padding: WidgetStateProperty.all(
                                                   EdgeInsets.all(16)),
                                               alignment: Alignment.center,
-                                              backgroundColor: WidgetStateProperty.all(
-                                                  CustomColor.loginBackgroundColor
-                                                      .getColor(dialogContext)),
                                               shape: WidgetStateProperty.all(
                                                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
                                           onPressed: () {
@@ -189,8 +165,6 @@ class GenreDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),

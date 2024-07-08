@@ -42,7 +42,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "سریال ها",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<SeriesTableCubit, SeriesTableState>(
@@ -172,7 +172,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('شناسه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 180,
               minimumWidth: 180,
@@ -181,7 +181,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 80,
               minimumWidth: 80,
@@ -190,7 +190,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('تعداد فصل',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 80,
               minimumWidth: 80,
@@ -199,7 +199,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('تعداد قسمت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 180,
               minimumWidth: 180,
@@ -208,7 +208,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('ژانر',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 180,
               minimumWidth: 180,
@@ -217,7 +217,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('کشور سازنده',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 120,
               minimumWidth: 120,
@@ -226,7 +226,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('زمان انتشار',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 120,
               minimumWidth: 120,
@@ -235,7 +235,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('ارزش',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'actions',
@@ -243,7 +243,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات ها',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

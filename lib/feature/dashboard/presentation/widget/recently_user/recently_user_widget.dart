@@ -41,7 +41,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "کاربران فعال اخیر",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<RecentlyUserCubit, RecentlyUserState>(
@@ -151,7 +151,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('نام کاربری',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'name',
@@ -159,7 +159,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('نام',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'status',
@@ -167,7 +167,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت اشتراک',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'movieViewed',
@@ -175,7 +175,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('تعداد تماشا',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'date',
@@ -183,7 +183,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('تاریخ عضویت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 }

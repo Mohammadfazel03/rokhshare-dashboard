@@ -42,7 +42,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "فیلم ها",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<MoviesTableCubit, MoviesTableState>(
@@ -172,7 +172,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('شناسه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 200,
               minimumWidth: 200,
@@ -181,7 +181,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 200,
               minimumWidth: 200,
@@ -190,7 +190,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('ژانر',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 200,
               minimumWidth: 200,
@@ -199,7 +199,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('کشور سازنده',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 150,
               minimumWidth: 150,
@@ -208,7 +208,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('زمان انتشار',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               maximumWidth: 150,
               minimumWidth: 150,
@@ -217,7 +217,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('ارزش',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 180,
               columnName: 'actions',
@@ -225,7 +225,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات ها',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

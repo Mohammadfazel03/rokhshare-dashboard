@@ -1,5 +1,4 @@
 import 'package:dashboard/config/dio_config.dart';
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -33,8 +32,8 @@ class SliderDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
       if (dataGridCell.columnName == "media") {
         return Container(
@@ -80,7 +79,7 @@ class SliderDataGrid extends DataGridSource {
               SizedBox(
                 width: 32,
                 height: 32,
-                child: IconButton.filledTonal(
+                child: IconButton.filled(
                   tooltip: "ویرایش",
                   onPressed: () {},
                   icon: Icon(
@@ -88,8 +87,6 @@ class SliderDataGrid extends DataGridSource {
                     size: 16,
                   ),
                   style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                          Theme.of(_context).primaryColorLight),
                       shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)))),
                 ),
@@ -97,7 +94,7 @@ class SliderDataGrid extends DataGridSource {
               SizedBox(
                 width: 32,
                 height: 32,
-                child: IconButton.filledTonal(
+                child: IconButton.filled(
                   tooltip: "حذف",
                   onPressed: () {},
                   icon: Icon(
@@ -105,8 +102,6 @@ class SliderDataGrid extends DataGridSource {
                     size: 16,
                   ),
                   style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all(
-                          Theme.of(_context).primaryColorLight),
                       shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8)))),
                 ),

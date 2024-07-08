@@ -40,7 +40,7 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "طرح های محبوب",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<PopularPlanCubit, PopularPlanState>(
@@ -121,7 +121,7 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 100,
               columnName: 'time',
@@ -129,7 +129,7 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
                   alignment: Alignment.center,
                   child: Text('مدت زمان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'price',
@@ -137,7 +137,7 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
                   alignment: Alignment.center,
                   child: Text('قیمت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'status',
@@ -145,7 +145,7 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

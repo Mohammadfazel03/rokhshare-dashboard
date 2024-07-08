@@ -61,17 +61,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
       required String subtitle,
       String? percent,
       bool? isProfit}) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 1,
-              spreadRadius: 0.1,
-            )
-          ]),
+    return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -83,13 +73,13 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
               aspectRatio: 1,
               child: DecoratedBox(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColorLight,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: FittedBox(
-                      child: Icon(icon),
+                      child: Icon(icon, color: Theme.of(context).colorScheme.primary),
                     ),
                   )),
             ),
@@ -107,12 +97,12 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                     children: [
                       Text(
                         title,
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: Theme.of(context).textTheme.labelSmall,
+                        style: Theme.of(context).textTheme.bodySmall,
                       )
                     ],
                   ),
@@ -126,7 +116,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                           "${percent}%",
                           style: Theme.of(context)
                               .textTheme
-                              .labelSmall
+                              .bodySmall
                               ?.copyWith(
                                   color: isProfit ? Colors.green : Colors.red),
                         ),
@@ -152,19 +142,19 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     return Shimmer(
         gradient: LinearGradient(colors: [
           if (Theme.of(context).brightness == Brightness.dark) ...[
-            const Color.fromRGBO(30, 47, 87, 1),
-            const Color.fromRGBO(35, 52, 92, 1),
-            const Color.fromRGBO(45, 62, 102, 1),
-            const Color.fromRGBO(35, 52, 92, 1),
-            const Color.fromRGBO(30, 47, 87, 1),
+            Color.fromRGBO(28, 27, 30, 1),
+            Color.fromRGBO(30, 29, 33, 1),
+            Color.fromRGBO(36, 34, 38, 1),
+            Color.fromRGBO(30, 29, 33, 1),
+            Color.fromRGBO(28, 27, 30, 1),
           ] else ...[
-            const Color.fromRGBO(170, 170, 170, 1.0),
-            const Color.fromRGBO(175, 175, 175, 1.0),
-            const Color.fromRGBO(186, 186, 186, 1.0),
-            const Color.fromRGBO(175, 175, 175, 1.0),
-            const Color.fromRGBO(170, 170, 170, 1.0),
+            const Color.fromRGBO(246, 242, 247, 1.0),
+            const Color.fromRGBO(241, 237, 242, 1.0),
+            const Color.fromRGBO(231, 227, 232, 1.0),
+            const Color.fromRGBO(241, 237, 242, 1.0),
+            const Color.fromRGBO(246, 242, 247, 1.0),
           ]
-        ], stops: [
+        ], stops: const [
           0.0,
           0.40,
           0.5,
@@ -183,30 +173,10 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
               1 / (100 / (widget.width / min(4, widget.width ~/ 250))),
           padding: const EdgeInsets.all(16),
           children: [
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
+            Card(),
+            Card(),
+            Card(),
+            Card(),
           ],
         ));
   }
@@ -214,42 +184,34 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
   Widget _error(String? error) {
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                color: Theme.of(context).shadowColor,
-                blurRadius: 1,
-                spreadRadius: 0.1,
-              )
-            ]),
-        padding: EdgeInsets.all(16),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(
-                  error ?? "خطا در دریافت اطلاعات!",
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-                SizedBox(height: 8),
-                OutlinedButton(
-                    onPressed: () {
-                      BlocProvider.of<HeaderInformationCubit>(context)
-                          .getData();
-                    },
-                    child: Text(
-                      "تلاش مجدد",
-                      style: Theme.of(context).textTheme.labelSmall,
-                    ))
-              ],
-            ),
-          ],
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text(
+                    error ?? "خطا در دریافت اطلاعات!",
+                    style: Theme.of(context).textTheme.labelMedium,
+                  ),
+                  SizedBox(height: 8),
+                  OutlinedButton(
+                      onPressed: () {
+                        BlocProvider.of<HeaderInformationCubit>(context)
+                            .getData();
+                      },
+                      child: Text(
+                        "تلاش مجدد",
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ))
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

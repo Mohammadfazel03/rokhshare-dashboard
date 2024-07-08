@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
@@ -107,10 +106,6 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
               "انصراف",
             ),
             style: ButtonStyle(
-              side: WidgetStateProperty.all(
-                  BorderSide(color: Theme.of(context).dividerColor)),
-              foregroundColor: WidgetStateProperty.all(
-                  Theme.of(context).textTheme.labelSmall?.color),
               textStyle: WidgetStateProperty.all(
                   Theme.of(context).textTheme.labelSmall),
               padding: WidgetStateProperty.all(EdgeInsets.all(16)),
@@ -121,14 +116,10 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
           SizedBox(width: 8),
           FilledButton(
               style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(
-                      Theme.of(context).textTheme.titleSmall?.color),
                   textStyle: WidgetStateProperty.all(
                       Theme.of(context).textTheme.labelSmall),
                   padding: WidgetStateProperty.all(EdgeInsets.all(16)),
                   alignment: Alignment.center,
-                  backgroundColor: WidgetStateProperty.all(
-                      CustomColor.loginBackgroundColor.getColor(context)),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)))),
               onPressed: () {
@@ -173,8 +164,8 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.id == null ? "کشور جدید" : "ویراش کشور",
-              style: Theme.of(context).textTheme.titleLarge,
+              widget.id == null ? "کشور جدید" : "ویرایش کشور",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 16),
             Row(
@@ -244,7 +235,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                                           "پرچم کشور خود را بارگذاری کنید",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium,
+                                              .bodySmall,
                                           textAlign: TextAlign.center,
                                         )
                                       ],
@@ -263,7 +254,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("نام کشور",
-                          style: Theme.of(context).textTheme.labelMedium),
+                          style: Theme.of(context).textTheme.titleSmall),
                       SizedBox(height: 8),
                       TextField(
                         controller: countryInputController,
@@ -288,8 +279,8 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.id == null ? "کشور جدید" : "ویراش کشور",
-              style: Theme.of(context).textTheme.titleLarge,
+              widget.id == null ? "کشور جدید" : "ویرایش کشور",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 16),
             GestureDetector(
@@ -349,7 +340,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                                   Text(
                                     "پرچم کشور خود را بارگذاری کنید",
                                     style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                        Theme.of(context).textTheme.bodySmall,
                                     textAlign: TextAlign.center,
                                   )
                                 ],

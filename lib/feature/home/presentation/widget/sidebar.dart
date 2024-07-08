@@ -10,7 +10,8 @@ class Sidebar extends StatefulWidget {
   const Sidebar({
     super.key,
     required this.controller,
-    required this.sidebarMenu, this.child,
+    required this.sidebarMenu,
+    this.child,
   });
 
   @override
@@ -84,8 +85,8 @@ class _SidebarState extends State<Sidebar> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-   _animationController.dispose();
-   _streamSubscription.cancel();
+    _animationController.dispose();
+    _streamSubscription.cancel();
     super.dispose();
   }
 }
@@ -114,8 +115,10 @@ class SidebarMenu extends StatelessWidget {
         child: SizedBox(
           height: MediaQuery.of(context).size.height - padding.vertical,
           width: width,
-          child: DecoratedBox(
-            decoration: ShapeDecoration(shape: shape, color: backgroundColor),
+          child: Material(
+            shape: shape,
+            color: backgroundColor,
+            elevation: 1,
             child: child,
           ),
         ),

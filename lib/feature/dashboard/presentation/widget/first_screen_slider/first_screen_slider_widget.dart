@@ -41,7 +41,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "صفحه اول",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<FirstScreenSliderCubit, FirstScreenSliderState>(
@@ -132,7 +132,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
                   alignment: Alignment.center,
                   child: Text('الویت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -140,7 +140,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
                   alignment: Alignment.center,
                   child: Text('فیلم',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 100,
               columnName: 'title',
@@ -148,7 +148,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 200,
               columnName: 'description',
@@ -156,7 +156,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
                   alignment: Alignment.center,
                   child: Text('توضیحات',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

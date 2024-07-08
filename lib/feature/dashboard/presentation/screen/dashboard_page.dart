@@ -46,9 +46,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   runAlignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text("داشبورد / ", style: TextStyle(
-                      color: CustomColor.navRailTextColorDisable.getColor(context),
-                      fontSize: 14
+                    Text("داشبورد / ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: CustomColor.navRailTextColorDisable.getColor(context)
                     ))
                   ],
                 ),
@@ -69,38 +68,16 @@ class _DashboardPageState extends State<DashboardPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 >= 75 ? 6 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                              borderRadius: BorderRadius.circular(8),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context).shadowColor,
-                                  blurRadius: 1,
-                                  spreadRadius: 0.1,
-                                )
-                              ]),
-                          child: BlocProvider(
-                            create: (context) => RecentlyUserCubit(repository: getIt.get()),
-                            child: const RecentlyUserWidget(),
-                          ))),
+                      child: Card(
+                        child: BlocProvider(
+                          create: (context) => RecentlyUserCubit(repository: getIt.get()),
+                          child: const RecentlyUserWidget(),
+                        ),
+                      )),
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 >= 75 ? 4 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => PopularPlanCubit(repository: getIt.get()),
                           child: const PopularPlanWidget(),
@@ -109,18 +86,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => RecentlyCommentCubit(repository: getIt.get()),
                           child: const RecentlyCommentWidget(),
@@ -129,18 +95,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 > 80 ? 5 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => FirstScreenSliderCubit(repository: getIt.get()),
                           child: const FirstScreenSliderWidget(),
@@ -149,18 +104,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 10 > 80 ? 5 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => RecentlyAdvertiseCubit(repository: getIt.get()),
                           child: const RecentlyAdvertiseWidget(),

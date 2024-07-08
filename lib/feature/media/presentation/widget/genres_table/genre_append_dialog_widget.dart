@@ -105,10 +105,6 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
               "انصراف",
             ),
             style: ButtonStyle(
-              side: WidgetStateProperty.all(
-                  BorderSide(color: Theme.of(context).dividerColor)),
-              foregroundColor: WidgetStateProperty.all(
-                  Theme.of(context).textTheme.labelSmall?.color),
               textStyle: WidgetStateProperty.all(
                   Theme.of(context).textTheme.labelSmall),
               padding: WidgetStateProperty.all(EdgeInsets.all(16)),
@@ -119,14 +115,10 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
           SizedBox(width: 8),
           FilledButton(
               style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(
-                      Theme.of(context).textTheme.titleSmall?.color),
                   textStyle: WidgetStateProperty.all(
                       Theme.of(context).textTheme.labelSmall),
                   padding: WidgetStateProperty.all(EdgeInsets.all(16)),
                   alignment: Alignment.center,
-                  backgroundColor: WidgetStateProperty.all(
-                      CustomColor.loginBackgroundColor.getColor(context)),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)))),
               onPressed: () {
@@ -171,8 +163,8 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.id == null ? "ژانر جدید" : "ویراش ژانر",
-              style: Theme.of(context).textTheme.titleLarge,
+              widget.id == null ? "ژانر جدید" : "ویرایش ژانر",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 16),
             Row(
@@ -242,7 +234,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                                           "ریز عکس ژانر خود را بارگذاری کنید",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium,
+                                              .bodySmall,
                                           textAlign: TextAlign.center,
                                         )
                                       ],
@@ -261,7 +253,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("عنوان ژانر",
-                          style: Theme.of(context).textTheme.labelMedium),
+                          style: Theme.of(context).textTheme.titleSmall),
                       SizedBox(height: 8),
                       TextField(
                         controller: genreInputController,
@@ -286,8 +278,8 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.id == null ? "ژانر جدید" : "ویراش ژانر",
-              style: Theme.of(context).textTheme.titleLarge,
+              widget.id == null ? "ژانر جدید" : "ویرایش ژانر",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             SizedBox(height: 16),
             GestureDetector(
@@ -347,7 +339,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                                   Text(
                                     "ریز عکس ژانر خود را بارگذاری کنید",
                                     style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                        Theme.of(context).textTheme.bodySmall,
                                     textAlign: TextAlign.center,
                                   )
                                 ],

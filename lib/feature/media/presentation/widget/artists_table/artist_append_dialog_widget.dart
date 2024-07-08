@@ -105,10 +105,6 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
               Navigator.of(context).pop();
             },
             style: ButtonStyle(
-              side: WidgetStateProperty.all(
-                  BorderSide(color: Theme.of(context).dividerColor)),
-              foregroundColor: WidgetStateProperty.all(
-                  Theme.of(context).textTheme.labelSmall?.color),
               textStyle: WidgetStateProperty.all(
                   Theme.of(context).textTheme.labelSmall),
               padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
@@ -122,14 +118,10 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
           const SizedBox(width: 8),
           FilledButton(
               style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all(
-                      Theme.of(context).textTheme.titleSmall?.color),
                   textStyle: WidgetStateProperty.all(
                       Theme.of(context).textTheme.labelSmall),
                   padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
                   alignment: Alignment.center,
-                  backgroundColor: WidgetStateProperty.all(
-                      CustomColor.loginBackgroundColor.getColor(context)),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)))),
               onPressed: () {
@@ -179,8 +171,8 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.id == null ? "هنرمند جدید" : "ویراش هنرمند",
-              style: Theme.of(context).textTheme.titleLarge,
+              widget.id == null ? "هنرمند جدید" : "ویرایش هنرمند",
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(height: 16),
             Row(
@@ -251,7 +243,7 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
                                           "تصویر هنرمند خود را بارگذاری کنید",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyMedium,
+                                              .bodySmall,
                                           textAlign: TextAlign.center,
                                         )
                                       ],
@@ -264,46 +256,37 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("نام هنرمند",
-                          style: Theme.of(context).textTheme.labelMedium),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: nameArtistInputController,
-                        decoration:
-                            const InputDecoration(hintText: "نوید محمد زاده"),
-                      ),
-                      const SizedBox(height: 16),
-                      Text("زندگی\u200cنامه",
-                          style: Theme.of(context).textTheme.labelMedium),
-                      const SizedBox(height: 8),
-                      TextField(
-                        maxLines: ((((widget.width / 2 - 48 - 8) -
-                                        (2 *
-                                            _textSize(
-                                                    "text",
-                                                    Theme.of(context)
-                                                        .textTheme
-                                                        .labelMedium!)
-                                                .height) -
-                                        40)) /
-                                    _textSize(
-                                            "text",
-                                            Theme.of(context)
-                                                .textTheme
-                                                .labelMedium!)
-                                        .height)
-                                .round() -
-                            2,
-                        controller: bioArtistInputController,
-                        decoration:
-                            const InputDecoration(hintText: "زندگی\u200cنامه"),
-                      )
-                    ],
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("نام هنرمند",
+                            style: Theme.of(context).textTheme.titleSmall),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: nameArtistInputController,
+                          decoration:
+                              const InputDecoration(hintText: "نوید محمد زاده"),
+                        ),
+                        const SizedBox(height: 16),
+                        Text("زندگی\u200cنامه",
+                            style: Theme.of(context).textTheme.titleSmall),
+                        const SizedBox(height: 8),
+                        Expanded(
+                          child: TextField(
+                            expands: true,
+                            minLines: null,
+                            maxLines: null,
+                            controller: bioArtistInputController,
+                            decoration: const InputDecoration(
+                                hintText: "زندگی\u200cنامه"),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -323,8 +306,8 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.id == null ? "هنرمند جدید" : "ویراش هنرمند",
-                style: Theme.of(context).textTheme.titleLarge,
+                widget.id == null ? "هنرمند جدید" : "ویرایش هنرمند",
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 16),
               GestureDetector(
@@ -386,9 +369,8 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
                                     const SizedBox(height: 8),
                                     Text(
                                       "تصویر هنرمند خود را بارگذاری کنید",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
                                       textAlign: TextAlign.center,
                                     )
                                   ],
@@ -418,13 +400,4 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
           ),
         ),
       );
-
-  Size _textSize(String text, TextStyle style) {
-    final TextPainter textPainter = TextPainter(
-        text: TextSpan(text: text, style: style),
-        maxLines: 1,
-        textDirection: TextDirection.ltr)
-      ..layout(minWidth: 0, maxWidth: double.infinity);
-    return textPainter.size;
-  }
 }

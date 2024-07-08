@@ -40,8 +40,8 @@ class CollectionDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == "media") {
             return Container(
@@ -88,7 +88,7 @@ class CollectionDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "رفع انتشار",
                       onPressed: () {},
                       icon: Icon(
@@ -96,8 +96,6 @@ class CollectionDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -106,7 +104,7 @@ class CollectionDataGrid extends DataGridSource {
                     SizedBox(
                       width: 32,
                       height: 32,
-                      child: IconButton.filledTonal(
+                      child: IconButton.filled(
                         tooltip: "انتشار",
                         onPressed: () {},
                         icon: Icon(
@@ -114,8 +112,6 @@ class CollectionDataGrid extends DataGridSource {
                           size: 16,
                         ),
                         style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                                Theme.of(_context).primaryColorLight),
                             shape: WidgetStateProperty.all(RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8)))),
                       ),
@@ -124,7 +120,7 @@ class CollectionDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "جزئیات",
                       onPressed: () {},
                       icon: Icon(
@@ -132,8 +128,6 @@ class CollectionDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -142,7 +136,7 @@ class CollectionDataGrid extends DataGridSource {
                     SizedBox(
                       width: 32,
                       height: 32,
-                      child: IconButton.filledTonal(
+                      child: IconButton.filled(
                         tooltip: "ویرایش",
                         onPressed: () {},
                         icon: Icon(
@@ -150,8 +144,6 @@ class CollectionDataGrid extends DataGridSource {
                           size: 16,
                         ),
                         style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                                Theme.of(_context).primaryColorLight),
                             shape: WidgetStateProperty.all(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)))),
@@ -161,7 +153,7 @@ class CollectionDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {},
                       icon: Icon(
@@ -169,8 +161,6 @@ class CollectionDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -195,7 +185,6 @@ class CollectionDataGrid extends DataGridSource {
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(_context).textTheme.labelMedium?.copyWith(
-                        fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: dataGridCell.value
                             ? CustomColor.successBadgeTextColor

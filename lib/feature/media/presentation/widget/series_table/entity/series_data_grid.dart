@@ -1,4 +1,3 @@
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/series.dart';
@@ -24,8 +23,10 @@ class SeriesDataGrid extends DataGridSource {
       return DataGridRow(cells: [
         DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
         DataGridCell<String>(columnName: 'name', value: dataGridRow.name),
-        DataGridCell<int>(columnName: 'seasonNumber', value: dataGridRow.seasonNumber),
-        DataGridCell<int>(columnName: 'episodeNumber', value: dataGridRow.episodeNumber),
+        DataGridCell<int>(
+            columnName: 'seasonNumber', value: dataGridRow.seasonNumber),
+        DataGridCell<int>(
+            columnName: 'episodeNumber', value: dataGridRow.episodeNumber),
         DataGridCell<List<Genre>>(
             columnName: 'genres', value: dataGridRow.genres),
         DataGridCell<List<Country>>(
@@ -45,8 +46,8 @@ class SeriesDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == 'releaseDate') {
             var jDate =
@@ -71,13 +72,26 @@ class SeriesDataGrid extends DataGridSource {
                     runAlignment: WrapAlignment.center,
                     children: [
                       for (int i = 0; i < countries.length; i++) ...[
-                        Chip(
+                        RawChip(
+                            selectedColor:
+                                Theme.of(_context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            side: BorderSide.none,
+                            elevation: 1,
+                            pressElevation: 2,
+                            showCheckmark: false,
+                            selected: true,
+                            onSelected: (s) {},
                             label: Text(countries[i].name ?? "",
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(_context)
                                     .textTheme
                                     .labelMedium
-                                    ?.copyWith(color: Colors.white)))
+                                    ?.copyWith(
+                                        color: Theme.of(_context)
+                                            .colorScheme
+                                            .onPrimary)))
                       ]
                     ],
                   ),
@@ -97,13 +111,26 @@ class SeriesDataGrid extends DataGridSource {
                     runAlignment: WrapAlignment.center,
                     children: [
                       for (int i = 0; i < genres.length; i++) ...[
-                        Chip(
-                            label: Text(genres[i].title ?? "",
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(_context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(color: Colors.white)))
+                        RawChip(
+                          selectedColor: Theme.of(_context).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          side: BorderSide.none,
+                          elevation: 1,
+                          pressElevation: 2,
+                          showCheckmark: false,
+                          selected: true,
+                          onSelected: (s) {},
+                          label: Text(genres[i].title ?? "",
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(_context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                      color: Theme.of(_context)
+                                          .colorScheme
+                                          .onPrimary)),
+                        )
                       ]
                     ],
                   ),
@@ -123,7 +150,7 @@ class SeriesDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "جزئیات",
                       onPressed: () {},
                       icon: Icon(
@@ -131,7 +158,6 @@ class SeriesDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -139,7 +165,7 @@ class SeriesDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "ویرایش",
                       onPressed: () {},
                       icon: Icon(
@@ -147,7 +173,6 @@ class SeriesDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -155,7 +180,7 @@ class SeriesDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {},
                       icon: Icon(
@@ -163,7 +188,6 @@ class SeriesDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),

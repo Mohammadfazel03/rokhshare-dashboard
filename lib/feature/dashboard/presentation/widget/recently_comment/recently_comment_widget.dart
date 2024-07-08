@@ -43,7 +43,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "نظرات اخیر",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<RecentlyCommentCubit, RecentlyCommentState>(
@@ -133,7 +133,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('کاربر',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -141,7 +141,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('فیلم',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               columnWidthMode: ColumnWidthMode.lastColumnFill,
               minimumWidth: 400,
@@ -150,7 +150,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('نظر',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'date',
@@ -158,7 +158,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('تاریخ',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'status',
@@ -166,7 +166,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

@@ -42,7 +42,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "آگهی های اخیر",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<RecentlyAdvertiseCubit, RecentlyAdvertiseState>(
@@ -156,7 +156,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'createdAt',
@@ -164,7 +164,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
                   alignment: Alignment.center,
                   child: Text('تاریخ ثبت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 40,
               columnName: 'viewNumber',
@@ -172,7 +172,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
                   alignment: Alignment.center,
                   child: Text('تماشا شده',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 40,
               columnName: 'mustPlayed',
@@ -180,7 +180,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
                   alignment: Alignment.center,
                   child: Text('تعداد کل شفارش',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 }

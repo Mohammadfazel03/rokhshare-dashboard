@@ -42,7 +42,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "صفجه اول",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<SlidersTableCubit, SlidersTableState>(
@@ -172,7 +172,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('الویت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -180,7 +180,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('فیلم',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 100,
               columnName: 'title',
@@ -188,7 +188,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'actions',
@@ -196,7 +196,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

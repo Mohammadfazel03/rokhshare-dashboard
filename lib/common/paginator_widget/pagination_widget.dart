@@ -1,4 +1,3 @@
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class PaginationWidget extends StatefulWidget {
@@ -33,30 +32,18 @@ class _PaginationWidgetState extends State<PaginationWidget> {
                 "قبلی",
               ),
               style: ButtonStyle(
-                  minimumSize: WidgetStateProperty.all(Size(36, 36)),
-                  foregroundColor: WidgetStateProperty.resolveWith((state) {
-                    if (state.contains(WidgetState.disabled)) {
-                      return CustomColor.disablePaginationButtonColor
-                          .getColor(context);
-                    }
-                    return Theme.of(context).textTheme.labelSmall?.color;
-                  }),
-                  textStyle: WidgetStateProperty.resolveWith((state) {
-                    return Theme.of(context).textTheme.labelSmall;
-                  }),
-                  padding: WidgetStateProperty.all(EdgeInsets.all(16)),
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4))),
-                  side: WidgetStateProperty.resolveWith((state) {
-                    if (state.contains(WidgetState.disabled)) {
-                      return BorderSide(
-                          color:
-                              Theme.of(context).dividerColor.withOpacity(0.5));
-                    }
-                    return BorderSide(color: Theme.of(context).dividerColor);
-                  })),
+                minimumSize: WidgetStateProperty.all(Size(36, 36)),
+                textStyle: WidgetStateProperty.resolveWith((state) {
+                  return Theme.of(context).textTheme.labelSmall;
+                }),
+                padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+                shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4))),
+              ),
             ),
+            SizedBox(width: 2),
             ..._generateButtonList(context),
+            SizedBox(width: 2),
             OutlinedButton(
               onPressed: widget.currentPage < widget.totalPages
                   ? () {
@@ -67,28 +54,14 @@ class _PaginationWidgetState extends State<PaginationWidget> {
                 "بعدی",
               ),
               style: ButtonStyle(
-                  minimumSize: WidgetStateProperty.all(Size(36, 36)),
-                  foregroundColor: WidgetStateProperty.resolveWith((state) {
-                    if (state.contains(WidgetState.disabled)) {
-                      return CustomColor.disablePaginationButtonColor
-                          .getColor(context);
-                    }
-                    return Theme.of(context).textTheme.labelSmall?.color;
-                  }),
-                  textStyle: WidgetStateProperty.resolveWith((state) {
-                    return Theme.of(context).textTheme.labelSmall;
-                  }),
-                  padding: WidgetStateProperty.all(EdgeInsets.all(16)),
-                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4))),
-                  side: WidgetStateProperty.resolveWith((state) {
-                    if (state.contains(WidgetState.disabled)) {
-                      return BorderSide(
-                          color:
-                              Theme.of(context).dividerColor.withOpacity(0.5));
-                    }
-                    return BorderSide(color: Theme.of(context).dividerColor);
-                  })),
+                minimumSize: WidgetStateProperty.all(Size(36, 36)),
+                textStyle: WidgetStateProperty.resolveWith((state) {
+                  return Theme.of(context).textTheme.labelSmall;
+                }),
+                padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+                shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(4))),
+              ),
             ),
           ],
         ));
@@ -129,7 +102,7 @@ class _PaginationWidgetState extends State<PaginationWidget> {
   }
 
   Widget _buildPageButton(BuildContext context, int index) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 2),
         child: OutlinedButton(
           onPressed: () {
             widget.onChangePage(index);
@@ -141,48 +114,12 @@ class _PaginationWidgetState extends State<PaginationWidget> {
               minimumSize: WidgetStateProperty.all(Size(24, 36)),
               backgroundColor: WidgetStateProperty.all(
                   widget.currentPage == index
-                      ? CustomColor.loginBackgroundColor.getColor(context)
+                      ? Theme.of(context).colorScheme.primary
                       : Colors.transparent),
               foregroundColor: WidgetStateProperty.all(
                   widget.currentPage == index
-                      ? Colors.white
-                      : Theme.of(context).textTheme.labelSmall?.color),
-              textStyle: WidgetStateProperty.all(
-                  Theme.of(context).textTheme.labelSmall),
-              padding: WidgetStateProperty.all(
-                  EdgeInsets.symmetric(horizontal: 12, vertical: 16)),
-              shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4))),
-              side: WidgetStateProperty.resolveWith((state) {
-                if (widget.currentPage == index) {
-                  return BorderSide(
-                      color: CustomColor.loginBackgroundColor.getColor(context),
-                      width: 0);
-                }
-                return BorderSide(color: Theme.of(context).dividerColor);
-              })),
-        ),
-      );
-
-  Widget _buildDots(BuildContext context, int index) => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: OutlinedButton(
-          onPressed: () {
-            widget.onChangePage(index);
-          },
-          child: Text(
-            "...",
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
-          style: ButtonStyle(
-              minimumSize: WidgetStateProperty.all(Size(24, 36)),
-              foregroundColor: WidgetStateProperty.resolveWith((state) {
-                if (state.contains(WidgetState.disabled)) {
-                  return CustomColor.disablePaginationButtonColor
-                      .getColor(context);
-                }
-                return Theme.of(context).textTheme.labelSmall?.color;
-              }),
+                      ? Theme.of(context).colorScheme.onPrimary
+                      : Theme.of(context).colorScheme.primary),
               textStyle: WidgetStateProperty.resolveWith((state) {
                 return Theme.of(context).textTheme.labelSmall;
               }),
@@ -191,12 +128,34 @@ class _PaginationWidgetState extends State<PaginationWidget> {
               shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4))),
               side: WidgetStateProperty.resolveWith((state) {
-                if (state.contains(WidgetState.disabled)) {
+                if (widget.currentPage == index) {
                   return BorderSide(
-                      color: Theme.of(context).dividerColor.withOpacity(0.5));
+                      color: Theme.of(context).colorScheme.primary);
                 }
-                return BorderSide(color: Theme.of(context).dividerColor);
+                return BorderSide(color: Theme.of(context).colorScheme.outline);
               })),
         ),
+      );
+
+  Widget _buildDots(BuildContext context, int index) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: OutlinedButton(
+            onPressed: () {
+              widget.onChangePage(index);
+            },
+            child: Text(
+              "...",
+            ),
+            style: ButtonStyle(
+              minimumSize: WidgetStateProperty.all(Size(24, 36)),
+              foregroundColor: WidgetStateProperty.all(
+                  Theme.of(context).colorScheme.primary),
+              textStyle: WidgetStateProperty.all(
+                  Theme.of(context).textTheme.labelSmall),
+              padding: WidgetStateProperty.all(
+                  EdgeInsets.symmetric(horizontal: 12, vertical: 16)),
+              shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4))),
+            )),
       );
 }

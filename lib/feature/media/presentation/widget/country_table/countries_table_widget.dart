@@ -52,9 +52,9 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
             children: [
               Text(
                 "کشور ها",
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-              FilledButton.tonalIcon(
+              FilledButton.icon(
                 onPressed: () {
                   showDialog(
                       context: context,
@@ -85,18 +85,12 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
                       });
                 },
                 label: Text(
-                  "کشور جدید",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall
-                      ?.copyWith(fontSize: 12),
+                  "افزودن",
                 ),
                 icon: Icon(Icons.add),
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all(
-                      Theme.of(context).colorScheme.primary),
-                  padding: WidgetStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 16, vertical: 16)),
+                  padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16)),
+                  textStyle: WidgetStateProperty.all(Theme.of(context).textTheme.labelMedium),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4))),
                 ),
@@ -232,7 +226,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('شناسه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 220,
               columnName: 'country',
@@ -240,7 +234,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('کشور',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'actions',
@@ -248,7 +242,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات ها',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

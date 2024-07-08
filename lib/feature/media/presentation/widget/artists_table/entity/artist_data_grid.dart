@@ -1,15 +1,11 @@
 import 'dart:math';
-
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/dio_config.dart';
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/artist_append_dialog_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artist_append_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artists_table_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -46,8 +42,8 @@ class ArtistDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == "artist") {
             return Center(
@@ -89,7 +85,7 @@ class ArtistDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "ویرایش",
                       onPressed: () {
                         showDialog(
@@ -125,8 +121,6 @@ class ArtistDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -134,7 +128,7 @@ class ArtistDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {
                         showDialog(
@@ -144,13 +138,13 @@ class ArtistDataGrid extends DataGridSource {
                                       "حذف هنرمند",
                                       style: Theme.of(dialogContext)
                                           .textTheme
-                                          .titleLarge,
+                                          .headlineSmall,
                                     ),
                                     content: Text(
                                         "آیا از حذف هنرمند با شناسه ${dataGridCell.value} اظمینان دارید؟",
                                         style: Theme.of(dialogContext)
                                             .textTheme
-                                            .labelSmall),
+                                            .bodyMedium),
                                     actions: [
                                       OutlinedButton(
                                         onPressed: () {
@@ -160,16 +154,6 @@ class ArtistDataGrid extends DataGridSource {
                                           "انصراف",
                                         ),
                                         style: ButtonStyle(
-                                          side: WidgetStateProperty.all(
-                                              BorderSide(
-                                                  color: Theme.of(dialogContext)
-                                                      .dividerColor)),
-                                          foregroundColor:
-                                              WidgetStateProperty.all(
-                                                  Theme.of(dialogContext)
-                                                      .textTheme
-                                                      .labelSmall
-                                                      ?.color),
                                           textStyle: WidgetStateProperty.all(
                                               Theme.of(dialogContext)
                                                   .textTheme
@@ -185,12 +169,6 @@ class ArtistDataGrid extends DataGridSource {
                                       ),
                                       FilledButton(
                                           style: ButtonStyle(
-                                              foregroundColor:
-                                                  WidgetStateProperty.all(
-                                                      Theme.of(dialogContext)
-                                                          .textTheme
-                                                          .titleSmall
-                                                          ?.color),
                                               textStyle: WidgetStateProperty.all(
                                                   Theme.of(dialogContext)
                                                       .textTheme
@@ -198,9 +176,6 @@ class ArtistDataGrid extends DataGridSource {
                                               padding: WidgetStateProperty.all(
                                                   EdgeInsets.all(16)),
                                               alignment: Alignment.center,
-                                              backgroundColor: WidgetStateProperty.all(
-                                                  CustomColor.loginBackgroundColor
-                                                      .getColor(dialogContext)),
                                               shape: WidgetStateProperty.all(
                                                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
                                           onPressed: () {
@@ -218,8 +193,6 @@ class ArtistDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),

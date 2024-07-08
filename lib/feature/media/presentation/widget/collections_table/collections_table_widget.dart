@@ -42,7 +42,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
           padding: const EdgeInsets.all(16),
           child: Text(
             "مجموعه ها",
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         BlocConsumer<CollectionsTableCubit, CollectionsTableState>(
@@ -173,7 +173,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('شناسه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -181,7 +181,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('مجموعه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'owner',
@@ -189,7 +189,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('سازنده',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'date',
@@ -197,7 +197,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('زمان ساخت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'status',
@@ -205,7 +205,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'actions',
@@ -213,7 +213,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
         ]);
   }
 

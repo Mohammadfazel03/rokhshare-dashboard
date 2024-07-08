@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/dio_config.dart';
-import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/country_append_cubit.dart';
@@ -44,8 +43,8 @@ class CountryDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == "country") {
             return Center(
@@ -87,7 +86,7 @@ class CountryDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "ویرایش",
                       onPressed: () {
                         showDialog(
@@ -123,8 +122,6 @@ class CountryDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -132,7 +129,7 @@ class CountryDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {
                         showDialog(
@@ -142,29 +139,19 @@ class CountryDataGrid extends DataGridSource {
                                       "حذف کشور",
                                       style: Theme.of(dialogContext)
                                           .textTheme
-                                          .titleLarge,
+                                          .headlineSmall,
                                     ),
                                     content: Text(
                                         "آیا از حذف کشور با شناسه ${dataGridCell.value} اظمینان دارید؟",
                                         style: Theme.of(dialogContext)
                                             .textTheme
-                                            .labelSmall),
+                                            .bodyMedium),
                                     actions: [
                                       OutlinedButton(
                                         onPressed: () {
                                           Navigator.of(dialogContext).pop();
                                         },
                                         style: ButtonStyle(
-                                          side: WidgetStateProperty.all(
-                                              BorderSide(
-                                                  color: Theme.of(dialogContext)
-                                                      .dividerColor)),
-                                          foregroundColor:
-                                              WidgetStateProperty.all(
-                                                  Theme.of(dialogContext)
-                                                      .textTheme
-                                                      .labelSmall
-                                                      ?.color),
                                           textStyle: WidgetStateProperty.all(
                                               Theme.of(dialogContext)
                                                   .textTheme
@@ -183,12 +170,6 @@ class CountryDataGrid extends DataGridSource {
                                       ),
                                       FilledButton(
                                           style: ButtonStyle(
-                                              foregroundColor:
-                                                  WidgetStateProperty.all(
-                                                      Theme.of(dialogContext)
-                                                          .textTheme
-                                                          .titleSmall
-                                                          ?.color),
                                               textStyle: WidgetStateProperty.all(
                                                   Theme.of(dialogContext)
                                                       .textTheme
@@ -196,9 +177,6 @@ class CountryDataGrid extends DataGridSource {
                                               padding: WidgetStateProperty.all(
                                                   const EdgeInsets.all(16)),
                                               alignment: Alignment.center,
-                                              backgroundColor: WidgetStateProperty.all(
-                                                  CustomColor.loginBackgroundColor
-                                                      .getColor(dialogContext)),
                                               shape: WidgetStateProperty.all(
                                                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
                                           onPressed: () {
@@ -216,8 +194,6 @@ class CountryDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                          backgroundColor: WidgetStateProperty.all(
-                              Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),

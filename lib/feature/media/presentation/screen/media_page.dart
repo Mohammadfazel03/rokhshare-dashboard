@@ -45,9 +45,8 @@ class _MediaPageState extends State<MediaPage> {
                   runAlignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text("فیلم و سریال / ", style: TextStyle(
-                        color: CustomColor.navRailTextColorDisable.getColor(context),
-                        fontSize: 14
+                    Text("فیلم و سریال / ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: CustomColor.navRailTextColorDisable.getColor(context)
                     ))
                   ],
                 ),
@@ -63,18 +62,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => MoviesTableCubit(repository: getIt.get()),
                           child: const MoviesTableWidget(),
@@ -83,18 +71,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => SeriesTableCubit(repository: getIt.get()),
                           child: const SeriesTableWidget(),
@@ -103,18 +80,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                            Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => CollectionsTableCubit(repository: getIt.get()),
                           child: const CollectionsTableWidget(),
@@ -123,18 +89,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => GenresTableCubit(repository: getIt.get()),
                           child: const GenresTableWidget(),
@@ -143,18 +98,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => CountriesTableCubit(repository: getIt.get()),
                           child: const CountriesTableWidget(),
@@ -163,18 +107,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => SlidersTableCubit(repository: getIt.get()),
                           child: const SlidersTableWidget(),
@@ -183,18 +116,7 @@ class _MediaPageState extends State<MediaPage> {
                   StaggeredGridTile.extent(
                       crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
                       mainAxisExtent: 410,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color:
-                                Theme.of(context).colorScheme.primaryContainer,
-                            borderRadius: BorderRadius.circular(8),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                blurRadius: 1,
-                                spreadRadius: 0.1,
-                              )
-                            ]),
+                      child: Card(
                         child: BlocProvider(
                           create: (context) => ArtistsTableCubit(repository: getIt.get()),
                           child: const ArtistsTableWidget(),

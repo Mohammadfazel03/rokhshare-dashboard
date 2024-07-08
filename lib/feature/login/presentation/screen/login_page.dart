@@ -57,7 +57,9 @@ class _LoginPageState extends State<LoginPage> {
                           if (width / 3 * 2 >= 400) ...[
                             DecoratedBox(
                               decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .surfaceContainerHighest),
                               child: SizedBox(
                                 height: width / 3 < height ? height : width / 3,
                                 child: Lottie.asset("assets/lottie/login.json",
@@ -93,18 +95,18 @@ class _LoginPageState extends State<LoginPage> {
                                           Text("ورود",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .headlineMedium),
+                                                  .titleLarge),
                                           SizedBox(height: 24),
                                           Text("نام\u200cکاربری یا ایمیل",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .labelMedium),
+                                                  .titleSmall),
                                           SizedBox(height: 8),
                                           BlocBuilder<LoginCubit, LoginState>(
                                             builder: (context, state) {
                                               return TextField(
-                                                readOnly: state is LoggingIn ,
-                                                enabled: state is! LoggingIn ,
+                                                  readOnly: state is LoggingIn,
+                                                  enabled: state is! LoggingIn,
                                                   controller:
                                                       usernameController,
                                                   decoration: InputDecoration(
@@ -116,48 +118,18 @@ class _LoginPageState extends State<LoginPage> {
                                           Text("رمز عبور",
                                               style: Theme.of(context)
                                                   .textTheme
-                                                  .labelMedium),
+                                                  .titleSmall),
                                           SizedBox(height: 8),
                                           BlocBuilder<LoginCubit, LoginState>(
                                               builder: (context, state) {
                                             return PasswordInputWidget(
                                               enable: state is! LoggingIn,
-                                              readOnly: state is LoggingIn ,
+                                              readOnly: state is LoggingIn,
                                               controller: passwordController,
                                             );
                                           }),
                                           SizedBox(height: 32),
-                                          BlocBuilder<LoginCubit, LoginState>(
-                                              builder: (context, state) {
-                                            return FilledButton(
-                                                style: ButtonStyle(
-                                                    padding:
-                                                        WidgetStateProperty.all(
-                                                            EdgeInsets.all(16)),
-                                                    alignment: Alignment.center,
-                                                    backgroundColor:
-                                                        WidgetStateProperty.all(
-                                                            CustomColor
-                                                                .loginBackgroundColor
-                                                                .getColor(
-                                                                    context))),
-                                                onPressed: state is LoggingIn ? null : () {
-                                                  BlocProvider.of<LoginCubit>(
-                                                          context)
-                                                      .login(
-                                                          usernameController
-                                                              .text,
-                                                          passwordController
-                                                              .text);
-                                                  // context.pushReplacement(RoutePath.dashboard.path);
-                                                },
-                                                child: Text(
-                                                  "ورود",
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .titleSmall,
-                                                ));
-                                          })
+                                          loginButton()
                                         ],
                                       ),
                                     ),
@@ -211,5 +183,44 @@ class _LoginPageState extends State<LoginPage> {
         ],
       ),
     );
+  }
+
+  Widget loginButton() {
+    return BlocBuilder<LoginCubit, LoginState>(builder: (context, state) {
+      return FilledButton(
+          style: ButtonStyle(
+              textStyle: WidgetStateProperty.resolveWith((state) {
+                if (state.contains(WidgetState.disabled)) {
+                  return Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.38));
+                }
+                return Theme.of(context)
+                    .textTheme
+                    .labelLarge
+                    ?.copyWith(color: Theme.of(context).colorScheme.onPrimary);
+              }),
+              padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+              alignment: Alignment.center,
+              backgroundColor: WidgetStateProperty.resolveWith((state) {
+                if (state.contains(WidgetState.disabled)) {
+                  return Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withOpacity(0.12);
+                }
+                return Theme.of(context).colorScheme.primary;
+              })),
+          onPressed: state is LoggingIn
+              ? null
+              : () {
+                  BlocProvider.of<LoginCubit>(context)
+                      .login(usernameController.text, passwordController.text);
+                  // context.pushReplacement(RoutePath.dashboard.path);
+                },
+          child: Text("ورود"));
+    });
   }
 }

@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     }
     return SfDataGridTheme(
       data: SfDataGridThemeData(
-          headerColor: Theme.of(context).colorScheme.secondary,
+          headerColor: Theme.of(context).colorScheme.secondaryContainer,
           gridLineColor: Theme.of(context).dividerColor),
       child: Scaffold(
         body: Row(
@@ -77,17 +77,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget appbar({required int height, required int width}) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).shadowColor,
-              blurRadius: 1,
-              spreadRadius: 1,
-            )
-          ]),
+    return Material(
+      color: Theme.of(context).colorScheme.surfaceContainer,
+      borderRadius: BorderRadius.circular(8),
+      elevation: 1,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -109,12 +102,15 @@ class _HomePageState extends State<HomePage> {
                           controller: sidebarController,
                           sidebarMenu:
                               sidebarMenu(height: height, width: width),
-                          child: Icon(Icons.menu_rounded))),
+                          child: Icon(
+                            Icons.menu_rounded,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ))),
                   SizedBox(width: 8)
                 ],
                 Text(
                   getTitleByPath(_routeName ?? "") ?? "",
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: Theme.of(context).textTheme.titleLarge,
                 )
               ],
             ),
@@ -130,9 +126,12 @@ class _HomePageState extends State<HomePage> {
                               ? ThemeMode.light
                               : ThemeMode.dark);
                     },
-                    icon: Icon(Theme.of(context).brightness == Brightness.dark
-                        ? Iconic.sun_inv
-                        : Iconic.moon_inv)),
+                    icon: Icon(
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Iconic.sun_inv
+                          : Iconic.moon_inv,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    )),
                 SizedBox(width: 8),
                 SizedBox(
                   width: 32,
@@ -171,25 +170,12 @@ class _HomePageState extends State<HomePage> {
             onClick();
           }
         },
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              boxShadow: [
-                if (selected) ...[
-                  BoxShadow(
-                    color: Color.fromRGBO(55, 97, 235, 1),
-                    offset: const Offset(
-                      0.0,
-                      0.0,
-                    ),
-                    blurRadius: 1,
-                    spreadRadius: 1,
-                  ),
-                ]
-              ],
-              color: selected
-                  ? Color.fromRGBO(55, 97, 235, 1)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(8)),
+        child: Material(
+          elevation: selected ? 2 : 0,
+          color: selected
+              ? Theme.of(context).colorScheme.secondaryContainer
+              : Theme.of(context).colorScheme.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(8),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -199,12 +185,18 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Icon(
                   icon,
-                  color: Colors.white,
+                  color: selected
+                      ? Theme.of(context).colorScheme.onSecondaryContainer
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                  size: 24,
                 ),
                 SizedBox(width: 8),
                 Text(
                   title,
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: selected
+                          ? Theme.of(context).colorScheme.onSecondaryContainer
+                          : Theme.of(context).colorScheme.onSurfaceVariant),
                 )
               ],
             ),
@@ -217,7 +209,7 @@ class _HomePageState extends State<HomePage> {
   SidebarMenu sidebarMenu({required int height, required int width}) {
     return SidebarMenu(
       width: min(width / 3 * 2, 300),
-      backgroundColor: Theme.of(context).drawerTheme.backgroundColor!,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       shape: Theme.of(context).drawerTheme.shape!,
       padding: EdgeInsets.all(16),
       child: Padding(
@@ -245,16 +237,14 @@ class _HomePageState extends State<HomePage> {
                             )))),
               ),
               SizedBox(height: 8),
-              Text(
-                'محمد صادق فاضل',
-                style: Theme.of(context).textTheme.labelLarge,
-              ),
+              Text('محمد صادق فاضل',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
               Text(
                 'email@email.com',
-                style: Theme.of(context)
-                    .textTheme
-                    .labelLarge
-                    ?.copyWith(fontSize: 13),
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontSize: 13,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
               SizedBox(height: 8),
               sidebarItem(

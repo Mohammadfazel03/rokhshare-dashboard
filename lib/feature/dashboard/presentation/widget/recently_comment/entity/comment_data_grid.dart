@@ -85,7 +85,6 @@ class CommentDataGrid extends DataGridSource {
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(_context).textTheme.labelMedium?.copyWith(
-                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: dataGridCell.value
                         ? CustomColor.successBadgeTextColor.getColor(_context)

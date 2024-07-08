@@ -1,10 +1,11 @@
-import 'package:dashboard/config/theme/colors.dart';
+import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/movie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -43,8 +44,8 @@ class MovieDataGrid extends DataGridSource {
   DataGridRowAdapter? buildRow(DataGridRow row) {
     return DataGridRowAdapter(
         color: effectiveRows.indexOf(row) % 2 == 0
-            ? CustomColor.evenRowBackgroundColor.getColor(_context)
-            : CustomColor.oddRowBackgroundColor.getColor(_context),
+            ? Theme.of(_context).colorScheme.surfaceContainerLow
+            : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == 'releaseDate') {
             var jDate =
@@ -69,13 +70,24 @@ class MovieDataGrid extends DataGridSource {
                     runAlignment: WrapAlignment.center,
                     children: [
                       for (int i = 0; i < countries.length; i++) ...[
-                        Chip(
+                        RawChip(
+                            selectedColor: Theme.of(_context).colorScheme.primary,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16)),
+                            side: BorderSide.none,
+                            elevation: 1,
+                            pressElevation: 2,
+                            showCheckmark: false,
+                            selected: true,
+                            onSelected: (s) {},
                             label: Text(countries[i].name ?? "",
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(_context)
                                     .textTheme
                                     .labelMedium
-                                    ?.copyWith(color: Colors.white)))
+                                    ?.copyWith(color: Theme.of(_context)
+                                    .colorScheme
+                                    .onPrimary)))
                       ]
                     ],
                   ),
@@ -95,13 +107,26 @@ class MovieDataGrid extends DataGridSource {
                     runAlignment: WrapAlignment.center,
                     children: [
                       for (int i = 0; i < genres.length; i++) ...[
-                        Chip(
-                            label: Text(genres[i].title ?? "",
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(_context)
-                                    .textTheme
-                                    .labelMedium
-                                    ?.copyWith(color: Colors.white)))
+                        RawChip(
+                          selectedColor: Theme.of(_context).colorScheme.primary,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16)),
+                          side: BorderSide.none,
+                          elevation: 1,
+                          pressElevation: 2,
+                          showCheckmark: false,
+                          selected: true,
+                          onSelected: (s) {},
+                          label: Text(genres[i].title ?? "",
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(_context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                      color: Theme.of(_context)
+                                          .colorScheme
+                                          .onPrimary)),
+                        )
                       ]
                     ],
                   ),
@@ -121,7 +146,7 @@ class MovieDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "جزئیات",
                       onPressed: () {},
                       icon: Icon(
@@ -129,7 +154,6 @@ class MovieDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -137,15 +161,17 @@ class MovieDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "ویرایش",
-                      onPressed: () {},
+                      onPressed: () {
+                        _context.go(
+                            "${RoutePath.editMovie.fullPath}${dataGridCell.value}");
+                      },
                       icon: Icon(
                         Icons.edit,
                         size: 16,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -153,7 +179,7 @@ class MovieDataGrid extends DataGridSource {
                   SizedBox(
                     width: 32,
                     height: 32,
-                    child: IconButton.filledTonal(
+                    child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {},
                       icon: Icon(
@@ -161,7 +187,6 @@ class MovieDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Theme.of(_context).primaryColorLight),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),

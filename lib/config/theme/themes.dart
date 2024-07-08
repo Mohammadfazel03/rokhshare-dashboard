@@ -3,210 +3,289 @@ import 'package:flutter/material.dart';
 
 class Themes {
   static final light = ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.light,
-    colorScheme: const ColorScheme(
+      useMaterial3: true,
       brightness: Brightness.light,
-      primary: Color.fromRGBO(55, 97, 235, 1),
-      onPrimary: Colors.white,
-      secondary: Color.fromRGBO(39, 46, 63, 1),
-      onSecondary: Colors.white,
-      error: Color.fromRGBO(215, 13, 13, 1),
-      onError: Colors.white,
-      background: Color.fromRGBO(250, 250, 250, 1),
-      onBackground: Colors.black,
-      surface: Colors.white,
-      onSurface: Color.fromRGBO(112, 116, 121, 1),
-      primaryContainer: Color.fromRGBO(255, 255, 255, 1.0),
-      secondaryContainer: Color.fromRGBO(220, 220, 220, 1.0),
-    ),
-    iconTheme: const IconThemeData(color: Color.fromRGBO(55, 97, 235, 1)),
-
-      tooltipTheme: TooltipThemeData(
-          textStyle: TextStyle(
-              color: Color.fromRGBO(245, 245, 245, 1.0),
-              fontFamily: 'iran-sans',
-              fontSize: 12)),
-    inputDecorationTheme: const InputDecorationTheme(
+      colorScheme: const ColorScheme(
+        brightness: Brightness.light,
+        primary: Color(0xff003abc),
+        surfaceTint: Color(0xff2150db),
+        onPrimary: Color(0xffffffff),
+        primaryContainer: Color(0xff3761eb),
+        onPrimaryContainer: Color(0xffffffff),
+        secondary: Color(0xff333241),
+        onSecondary: Color(0xffffffff),
+        secondaryContainer: Color(0xff555465),
+        onSecondaryContainer: Color(0xfffdf9ff),
+        tertiary: Color(0xff005b4f),
+        onTertiary: Color(0xffffffff),
+        tertiaryContainer: Color(0xff008373),
+        onTertiaryContainer: Color(0xffffffff),
+        error: Color(0xffba1a1a),
+        onError: Color(0xffffffff),
+        errorContainer: Color(0xffffdad6),
+        onErrorContainer: Color(0xff410002),
+        surface: Color(0xfffcf8fd),
+        onSurface: Color(0xff1c1b1e),
+        onSurfaceVariant: Color(0xff46464b),
+        outline: Color(0xff77767c),
+        outlineVariant: Color(0xffc8c5cb),
+        shadow: Color(0xff000000),
+        scrim: Color(0xff000000),
+        inverseSurface: Color(0xff313033),
+        inversePrimary: Color(0xffb7c4ff),
+        primaryFixed: Color(0xffdde1ff),
+        onPrimaryFixed: Color(0xff001552),
+        primaryFixedDim: Color(0xffb7c4ff),
+        onPrimaryFixedVariant: Color(0xff0038b6),
+        secondaryFixed: Color(0xffe3e0f4),
+        onSecondaryFixed: Color(0xff1b1a28),
+        secondaryFixedDim: Color(0xffc7c4d8),
+        onSecondaryFixedVariant: Color(0xff464555),
+        tertiaryFixed: Color(0xff8ff5e0),
+        onTertiaryFixed: Color(0xff00201b),
+        tertiaryFixedDim: Color(0xff72d8c4),
+        onTertiaryFixedVariant: Color(0xff005046),
+        surfaceDim: Color(0xffdcd9dd),
+        surfaceBright: Color(0xfffcf8fd),
+        surfaceContainerLowest: Color(0xffffffff),
+        surfaceContainerLow: Color(0xfff6f2f7),
+        surfaceContainer: Color(0xfff0edf1),
+        surfaceContainerHigh: Color(0xffebe7eb),
+        surfaceContainerHighest: Color(0xffe5e1e6),
+      ),
+      drawerTheme: DrawerThemeData(
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      inputDecorationTheme: const InputDecorationTheme(
         filled: true,
-        hintStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1), fontSize: 12),
-        fillColor: Color.fromRGBO(243, 243, 245, 1),
-        labelStyle: TextStyle(color: Color.fromRGBO(141, 139, 139, 1), fontSize: 12),
-        floatingLabelStyle: TextStyle(color: Color.fromRGBO(55, 97, 235, 1), fontSize: 12),
+        hintStyle: TextStyle(
+            color: Color(0xff46464b),
+            fontFamily: "iran-sans",
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            letterSpacing: 0.38),
         enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 1, color: Color.fromRGBO(205, 205, 205, 1))),
+            borderSide: BorderSide(width: 1, color: Color(0xff77767c))),
         focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 2, color: Color.fromRGBO(55, 97, 235, 1)))),
-    chipTheme: ChipThemeData(
-      backgroundColor: const Color.fromRGBO(55, 97, 235, 1),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      side: BorderSide.none,
-      elevation: 8,
-    ),
-    dividerColor: Color.fromRGBO(220, 220, 220, 1),
-    primaryColorLight: const Color.fromRGBO(233, 237, 250, 1),
-    shadowColor: const Color.fromRGBO(222, 222, 222, 1),
-    scaffoldBackgroundColor: const Color.fromRGBO(250, 250, 250, 1),
-    drawerTheme: DrawerThemeData(
-        backgroundColor: const Color.fromRGBO(15, 23, 42, 1),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-    listTileTheme: ListTileThemeData(
-        tileColor: const Color.fromRGBO(15, 23, 42, 1),
-        selectedTileColor: const Color.fromRGBO(55, 97, 235, 1),
-        minLeadingWidth: 10,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-    textTheme: const TextTheme(
-      headlineMedium: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 24,
-          fontWeight: FontWeight.bold),
-      headlineSmall: TextStyle(
-          color: Color.fromRGBO(0, 0, 0, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 18,
-          fontWeight: FontWeight.bold),
-      titleLarge: TextStyle(
-          color: Color.fromRGBO(15, 23, 42, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 18,
-          fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(
-          color: Colors.white,
-          fontFamily: 'iran-sans',
-          fontSize: 16,
-          fontWeight: FontWeight.normal),
-      titleSmall: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 14,
-          fontWeight: FontWeight.bold),
-      labelLarge: TextStyle(
-          color: Color.fromRGBO(175, 179, 188, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 15),
-      labelMedium: TextStyle(
-          color: Color.fromRGBO(112, 116, 121, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 14),
-      labelSmall: TextStyle(
-          color: Color.fromRGBO(112, 116, 121, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 12),
-      bodyLarge: TextStyle(
-          color: Color.fromRGBO(75, 75, 75, 1),
-          fontFamily: 'iran-sans',
-          fontSize: 12),
-      bodyMedium: TextStyle(
-          color: Color.fromRGBO(75, 75, 75, 1),
-          fontFamily: 'iran-sans',
-          fontSize: 10),
-    ),
-  );
+            borderSide: BorderSide(width: 2, color: Color(0xff003abc))),
+      ),
+      textTheme: const TextTheme(
+          displayLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 43,
+              letterSpacing: -0.19),
+          displayMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 35,
+              letterSpacing: 0),
+          displaySmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 28,
+              letterSpacing: 0),
+          headlineLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 25,
+              letterSpacing: 0),
+          headlineMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 22,
+              letterSpacing: 0),
+          headlineSmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+              letterSpacing: 0),
+          titleLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              letterSpacing: 0),
+          titleMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              letterSpacing: 0.11),
+          titleSmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              letterSpacing: 0.08),
+          bodyLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              letterSpacing: 0.38),
+          bodyMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              letterSpacing: 0.38),
+          bodySmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 11,
+              letterSpacing: 0.3),
+          labelLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              letterSpacing: 0.08),
+          labelMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+              letterSpacing: 0.38),
+          labelSmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 11,
+              letterSpacing: 0.38)));
 
   static final dark = ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.dark,
-    colorScheme: const ColorScheme(
+      useMaterial3: true,
       brightness: Brightness.dark,
-      primary: Color.fromRGBO(35, 59, 141, 1.0),
-      onPrimary: Colors.white,
-      secondary: Color.fromRGBO(10, 19, 39, 1),
-      onSecondary: Colors.white,
-      error: Color.fromRGBO(215, 13, 13, 1),
-      onError: Colors.white,
-      background: Color.fromRGBO(13, 28, 60, 1),
-      onBackground: Colors.white,
-      surface: Color.fromRGBO(17, 35, 79, 1),
-      onSurface: Color.fromRGBO(238, 238, 238, 1),
-      primaryContainer: Color.fromRGBO(30, 47, 87, 1),
-      secondaryContainer: Color.fromRGBO(20, 30, 50, 1.0),
-    ),
-    iconTheme: const IconThemeData(color: Color.fromRGBO(255, 255, 255, 1.0)),
-    tooltipTheme: TooltipThemeData(
-        textStyle: TextStyle(
-            color: Color.fromRGBO(50, 50, 50, 1.0),
-            fontFamily: 'iran-sans',
-            fontSize: 12)),
-    dividerColor: Color.fromRGBO(80, 93, 123, 1),
-    primaryColorLight: const Color.fromRGBO(49, 73, 147, 1),
-    shadowColor: const Color.fromRGBO(15, 30, 69, 1),
-    scaffoldBackgroundColor: const Color.fromRGBO(13, 28, 60, 1),
-    drawerTheme: DrawerThemeData(
-        backgroundColor: const Color.fromRGBO(15, 23, 42, 1),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-    listTileTheme: const ListTileThemeData(
-      selectedTileColor: Color.fromRGBO(55, 97, 235, 1),
-      contentPadding: EdgeInsets.zero,
-      tileColor: Color.fromRGBO(15, 23, 42, 1),
-      minLeadingWidth: 10,
-    ),
-    chipTheme: ChipThemeData(
-      backgroundColor: Color.fromRGBO(35, 59, 141, 1.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      side: BorderSide.none,
-      elevation: 8,
-    ),
-    inputDecorationTheme: const InputDecorationTheme(
-        filled: true,
-        hintStyle: TextStyle(color: Color.fromRGBO(190, 196, 220, 1), fontSize: 12),
-        labelStyle: TextStyle(color: Color.fromRGBO(190, 196, 220, 1), fontSize: 12),
-        floatingLabelStyle: TextStyle(color: Color.fromRGBO(57, 113 ,255, 1), fontSize: 12),
-        fillColor: Color.fromRGBO(22, 44, 99, 1),
-        enabledBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 1, color: Color.fromRGBO(30, 60, 135, 1.0))),
-        focusedBorder: OutlineInputBorder(
-            borderSide:
-                BorderSide(width: 2, color: Color.fromRGBO(57, 113 ,255, 1)))),
-    textTheme: const TextTheme(
-      headlineMedium: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 24,
-          fontWeight: FontWeight.bold),
-      headlineSmall: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 18,
-          fontWeight: FontWeight.bold),
-      titleLarge: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 18,
-          fontWeight: FontWeight.bold),
-      titleMedium: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 16,
-          fontWeight: FontWeight.normal),
-      titleSmall: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 14,
-          fontWeight: FontWeight.bold),
-      labelLarge: TextStyle(
-          color: Color.fromRGBO(174, 178, 187, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 15),
-      labelMedium: TextStyle(
-          color: Color.fromRGBO(238, 238, 238, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 14),
-      labelSmall: TextStyle(
-          color: Color.fromRGBO(238, 238, 238, 1.0),
-          fontFamily: 'iran-sans',
-          fontSize: 12),
-      bodyLarge: TextStyle(
-          color: Color.fromRGBO(218, 226, 255, 1),
-          fontFamily: 'iran-sans',
-          fontSize: 12),
-      bodyMedium: TextStyle(
-          color: Color.fromRGBO(218, 226, 255, 1),
-          fontFamily: 'iran-sans',
-          fontSize: 10),
-    ),
-  );
+      colorScheme: const ColorScheme(
+        brightness: Brightness.dark,
+        primary: Color(0xffb7c4ff),
+        surfaceTint: Color(0xffb7c4ff),
+        onPrimary: Color(0xff002682),
+        primaryContainer: Color(0xff2b57e1),
+        onPrimaryContainer: Color(0xffffffff),
+        secondary: Color(0xffc7c4d8),
+        onSecondary: Color(0xff302f3e),
+        secondaryContainer: Color(0xff3d3c4b),
+        onSecondaryContainer: Color(0xffd2cfe3),
+        tertiary: Color(0xff72d8c4),
+        onTertiary: Color(0xff003730),
+        tertiaryContainer: Color(0xff007b6b),
+        onTertiaryContainer: Color(0xffffffff),
+        error: Color(0xffffb4ab),
+        onError: Color(0xff690005),
+        errorContainer: Color(0xff93000a),
+        onErrorContainer: Color(0xffffdad6),
+        surface: Color(0xff131316),
+        onSurface: Color(0xffe5e1e6),
+        onSurfaceVariant: Color(0xffc8c5cb),
+        outline: Color(0xff919096),
+        outlineVariant: Color(0xff46464b),
+        shadow: Color(0xff000000),
+        scrim: Color(0xff000000),
+        inverseSurface: Color(0xffe5e1e6),
+        inversePrimary: Color(0xff2150db),
+        primaryFixed: Color(0xffdde1ff),
+        onPrimaryFixed: Color(0xff001552),
+        primaryFixedDim: Color(0xffb7c4ff),
+        onPrimaryFixedVariant: Color(0xff0038b6),
+        secondaryFixed: Color(0xffe3e0f4),
+        onSecondaryFixed: Color(0xff1b1a28),
+        secondaryFixedDim: Color(0xffc7c4d8),
+        onSecondaryFixedVariant: Color(0xff464555),
+        tertiaryFixed: Color(0xff8ff5e0),
+        onTertiaryFixed: Color(0xff00201b),
+        tertiaryFixedDim: Color(0xff72d8c4),
+        onTertiaryFixedVariant: Color(0xff005046),
+        surfaceDim: Color(0xff131316),
+        surfaceBright: Color(0xff3a393c),
+        surfaceContainerLowest: Color(0xff0e0e11),
+        surfaceContainerLow: Color(0xff1c1b1e),
+        surfaceContainer: Color(0xff201f22),
+        surfaceContainerHigh: Color(0xff2a292d),
+        surfaceContainerHighest: Color(0xff353438),
+      ),
+      drawerTheme: DrawerThemeData(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+      inputDecorationTheme: const InputDecorationTheme(
+          filled: true,
+          hintStyle: TextStyle(
+              color: Color(0xffc8c5cb),
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              letterSpacing: 0.38),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1, color: Color(0xff919096))),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2, color: Color(0xffb7c4ff)))),
+      textTheme: const TextTheme(
+          displayLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 43,
+              letterSpacing: -0.19),
+          displayMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 35,
+              letterSpacing: 0),
+          displaySmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 28,
+              letterSpacing: 0),
+          headlineLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 25,
+              letterSpacing: 0),
+          headlineMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 22,
+              letterSpacing: 0),
+          headlineSmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+              letterSpacing: 0),
+          titleLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              letterSpacing: 0),
+          titleMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+              letterSpacing: 0.11),
+          titleSmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              letterSpacing: 0.08),
+          bodyLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 14,
+              letterSpacing: 0.38),
+          bodyMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 12,
+              letterSpacing: 0.38),
+          bodySmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w400,
+              fontSize: 11,
+              letterSpacing: 0.3),
+          labelLarge: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 14,
+              letterSpacing: 0.08),
+          labelMedium: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 12,
+              letterSpacing: 0.38),
+          labelSmall: TextStyle(
+              fontFamily: "iran-sans",
+              fontWeight: FontWeight.w500,
+              fontSize: 11,
+              letterSpacing: 0.38)));
 }

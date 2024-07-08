@@ -31,7 +31,7 @@ class _NotFoundPageState extends State<NotFoundPage> {
             SizedBox(height: 4),
             Text(
               "برای مدیریت سایت و کاربران سایت، به صفحه اصلی بروید.",
-              style: Theme.of(context).textTheme.labelMedium,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
             SizedBox(height: 16),
             OutlinedButton(
