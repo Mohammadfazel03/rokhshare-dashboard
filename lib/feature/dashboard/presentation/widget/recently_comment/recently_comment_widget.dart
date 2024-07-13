@@ -89,9 +89,10 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
               if (_commentDataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
-                        child: SpinKitThreeBounce(
+                        child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
-                )));
+                ))));
               } else {
                 return Expanded(child: commentTable());
               }

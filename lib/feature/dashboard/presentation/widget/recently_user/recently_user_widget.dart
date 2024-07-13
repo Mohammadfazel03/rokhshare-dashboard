@@ -87,9 +87,10 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
               if (_userDataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
-                        child: SpinKitThreeBounce(
+                        child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
-                )));
+                ))));
               } else {
                 return Expanded(child: userTable());
               }

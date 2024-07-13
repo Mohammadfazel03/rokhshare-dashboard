@@ -12,12 +12,9 @@ import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/recently_comment_widget.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/recently_user_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -30,91 +27,159 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
-      int width = constraints.constrainWidth().round();
-      int height = constraints.constrainHeight().round();
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: SizedBox(
-                width: width.toDouble(),
-                child: Wrap(
+      double width = constraints.constrainWidth();
+      double height = constraints.constrainHeight();
+      return CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: Wrap(
                   spacing: 8,
                   runSpacing: 4,
                   alignment: WrapAlignment.start,
                   runAlignment: WrapAlignment.center,
                   crossAxisAlignment: WrapCrossAlignment.center,
                   children: [
-                    Text("داشبورد / ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: CustomColor.navRailTextColorDisable.getColor(context)
-                    ))
-                  ],
-                ),
-              ),
+                    Text("داشبورد / ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(
+                                color: CustomColor
+                                    .navRailTextColorDisable
+                                    .getColor(context)))
+                  ]),
             ),
-            BlocProvider(
-              create: (context) =>
-                  HeaderInformationCubit(repository: getIt.get()),
-              child: HeaderInformationWidget(width: width),
+          ),
+          BlocProvider(
+            create: (context) =>
+                HeaderInformationCubit(repository: getIt.get()),
+            child: HeaderInformationWidget(width: width.round()),
+          ),
+          if (width >= 750) ...[
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              sliver: SliverCrossAxisGroup(slivers: [
+                SliverCrossAxisExpanded(
+                    flex: 4,
+                    sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                            height: 410,
+                            child: Card(
+                                child: BlocProvider(
+                              create: (context) =>
+                                  PopularPlanCubit(repository: getIt.get()),
+                              child: const PopularPlanWidget(),
+                            ))))),
+                SliverCrossAxisExpanded(
+                    flex: 6,
+                    sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                            height: 410,
+                            child: Card(
+                                child: BlocProvider(
+                              create: (context) =>
+                                  RecentlyUserCubit(repository: getIt.get()),
+                              child: const RecentlyUserWidget(),
+                            )))))
+              ]),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: StaggeredGrid.count(
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                crossAxisCount: 10,
-                children: [
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 10 >= 75 ? 6 : 10,
-                      mainAxisExtent: 410,
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
                       child: Card(
-                        child: BlocProvider(
-                          create: (context) => RecentlyUserCubit(repository: getIt.get()),
-                          child: const RecentlyUserWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 10 >= 75 ? 4 : 10,
-                      mainAxisExtent: 410,
+                          child: BlocProvider(
+                              create: (context) =>
+                                  RecentlyCommentCubit(repository: getIt.get()),
+                              child: const RecentlyCommentWidget())))),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverCrossAxisGroup(slivers: [
+                SliverCrossAxisExpanded(
+                    flex: 5,
+                    sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                            height: 410,
+                            child: Card(
+                                child: BlocProvider(
+                                    create: (context) =>
+                                        FirstScreenSliderCubit(repository: getIt.get()),
+                                    child: const FirstScreenSliderWidget()))))),
+                SliverCrossAxisExpanded(
+                    flex: 5,
+                    sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                            height: 410,
+                            child: Card(
+                                child: BlocProvider(
+                                    create: (context) =>
+                                        RecentlyAdvertiseCubit(repository: getIt.get()),
+                                    child: const RecentlyAdvertiseWidget())))))
+              ]),
+            ),
+          ]
+          else ...[
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
                       child: Card(
-                        child: BlocProvider(
-                          create: (context) => PopularPlanCubit(repository: getIt.get()),
-                          child: const PopularPlanWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: 10,
-                      mainAxisExtent: 410,
+                          child: BlocProvider(
+                              create: (context) =>
+                                  RecentlyUserCubit(repository: getIt.get()),
+                              child: const RecentlyUserWidget())))),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
                       child: Card(
-                        child: BlocProvider(
-                          create: (context) => RecentlyCommentCubit(repository: getIt.get()),
-                          child: const RecentlyCommentWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 10 > 80 ? 5 : 10,
-                      mainAxisExtent: 410,
+                          child: BlocProvider(
+                              create: (context) =>
+                                  PopularPlanCubit(repository: getIt.get()),
+                              child: const PopularPlanWidget())))),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
                       child: Card(
-                        child: BlocProvider(
-                          create: (context) => FirstScreenSliderCubit(repository: getIt.get()),
-                          child: const FirstScreenSliderWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 10 > 80 ? 5 : 10,
-                      mainAxisExtent: 410,
+                          child: BlocProvider(
+                              create: (context) =>
+                                  RecentlyCommentCubit(repository: getIt.get()),
+                              child: const RecentlyCommentWidget())))),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
                       child: Card(
-                        child: BlocProvider(
-                          create: (context) => RecentlyAdvertiseCubit(repository: getIt.get()),
-                          child: const RecentlyAdvertiseWidget(),
-                        ),
-                      )),
-                ],
-              ),
-            )
-          ],
-        ),
+                          child: BlocProvider(
+                              create: (context) =>
+                                  RecentlyAdvertiseCubit(repository: getIt.get()),
+                              child: const RecentlyAdvertiseWidget())))),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
+                      child: Card(
+                          child: BlocProvider(
+                              create: (context) =>
+                                  FirstScreenSliderCubit(repository: getIt.get()),
+                              child: const FirstScreenSliderWidget())))),
+            ),
+          ]
+        ],
       );
     });
   }

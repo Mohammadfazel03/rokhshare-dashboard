@@ -79,9 +79,10 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
             child: Container(
               color: Colors.black26,
               child: Center(
-                  child: SpinKitThreeBounce(
+                  child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                 color: CustomColor.loginBackgroundColor.getColor(context),
-              )),
+              ))),
             ),
           ));
         }

@@ -141,9 +141,10 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
               if (_dataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
-                        child: SpinKitThreeBounce(
+                        child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
-                )));
+                ))));
               } else {
                 return Expanded(
                     child: Stack(
@@ -153,10 +154,11 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
                         child: Container(
                       color: Colors.black12,
                       child: Center(
-                          child: SpinKitThreeBounce(
+                          child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                         color:
                             CustomColor.loginBackgroundColor.getColor(context),
-                      )),
+                      ))),
                     ))
                   ],
                 ));

@@ -31,102 +31,171 @@ class _MediaPageState extends State<MediaPage> {
     return LayoutBuilder(builder: (context, constraints) {
       int width = constraints.constrainWidth().round();
       int height = constraints.constrainHeight().round();
-      return SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: SizedBox(
-                width: width.toDouble(),
-                child: Wrap(
-                  spacing: 8,
-                  runSpacing: 4,
-                  alignment: WrapAlignment.start,
-                  runAlignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    Text("فیلم و سریال / ", style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: CustomColor.navRailTextColorDisable.getColor(context)
-                    ))
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: StaggeredGrid.count(
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                crossAxisCount: 10,
+      return CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            sliver: SliverToBoxAdapter(
+              child: Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                alignment: WrapAlignment.start,
+                runAlignment: WrapAlignment.center,
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => MoviesTableCubit(repository: getIt.get()),
-                          child: const MoviesTableWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => SeriesTableCubit(repository: getIt.get()),
-                          child: const SeriesTableWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => CollectionsTableCubit(repository: getIt.get()),
-                          child: const CollectionsTableWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => GenresTableCubit(repository: getIt.get()),
-                          child: const GenresTableWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => CountriesTableCubit(repository: getIt.get()),
-                          child: const CountriesTableWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => SlidersTableCubit(repository: getIt.get()),
-                          child: const SlidersTableWidget(),
-                        ),
-                      )),
-                  StaggeredGridTile.extent(
-                      crossAxisCellCount: width / 2 >= 440 ? 5 : 10,
-                      mainAxisExtent: 410,
-                      child: Card(
-                        child: BlocProvider(
-                          create: (context) => ArtistsTableCubit(repository: getIt.get()),
-                          child: const ArtistsTableWidget(),
-                        ),
-                      )),
+                  Text("فیلم و سریال / ",
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: CustomColor.navRailTextColorDisable
+                              .getColor(context)))
                 ],
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          SliverPadding(
+              padding: EdgeInsets.all(16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
+                      child: Card(
+                          child: BlocProvider(
+                              create: (context) =>
+                                  MoviesTableCubit(repository: getIt.get()),
+                              child: const MoviesTableWidget()))))),
+          SliverPadding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
+                      child: Card(
+                        child: BlocProvider(
+                          create: (context) =>
+                              SeriesTableCubit(repository: getIt.get()),
+                          child: const SeriesTableWidget(),
+                        ),
+                      )))),
+          SliverPadding(
+              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+              sliver: SliverToBoxAdapter(
+                  child: SizedBox(
+                      height: 410,
+                      child: Card(
+                        child: BlocProvider(
+                          create: (context) =>
+                              CollectionsTableCubit(repository: getIt.get()),
+                          child: const CollectionsTableWidget(),
+                        ),
+                      )))),
+          if (width > 880) ...[
+            SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: SliverCrossAxisGroup(slivers: [
+                  SliverCrossAxisExpanded(
+                      flex: 1,
+                      sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                              height: 410,
+                              child: Card(
+                                child: BlocProvider(
+                                  create: (context) =>
+                                      GenresTableCubit(repository: getIt.get()),
+                                  child: const GenresTableWidget(),
+                                ),
+                              )))),
+                  SliverCrossAxisExpanded(
+                    flex: 1,
+                    sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                            height: 410,
+                            child: Card(
+                              child: BlocProvider(
+                                create: (context) => CountriesTableCubit(
+                                    repository: getIt.get()),
+                                child: const CountriesTableWidget(),
+                              ),
+                            ))),
+                  )
+                ])),
+            SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: SliverCrossAxisGroup(slivers: [
+                  SliverCrossAxisExpanded(
+                      flex: 1,
+                      sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                              height: 410,
+                              child: Card(
+                                child: BlocProvider(
+                                  create: (context) => SlidersTableCubit(
+                                      repository: getIt.get()),
+                                  child: const SlidersTableWidget(),
+                                ),
+                              )))),
+                  SliverCrossAxisExpanded(
+                    flex: 1,
+                    sliver: SliverToBoxAdapter(
+                        child: SizedBox(
+                            height: 410,
+                            child: Card(
+                              child: BlocProvider(
+                                create: (context) =>
+                                    ArtistsTableCubit(repository: getIt.get()),
+                                child: const ArtistsTableWidget(),
+                              ),
+                            ))),
+                  )
+                ])),
+          ]
+          else ...[
+            SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: SliverToBoxAdapter(
+                    child: SizedBox(
+                        height: 410,
+                        child: Card(
+                          child: BlocProvider(
+                            create: (context) =>
+                                CountriesTableCubit(repository: getIt.get()),
+                            child: const CountriesTableWidget(),
+                          ),
+                        )))),
+            SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: SliverToBoxAdapter(
+                    child: SizedBox(
+                        height: 410,
+                        child: Card(
+                          child: BlocProvider(
+                            create: (context) =>
+                                GenresTableCubit(repository: getIt.get()),
+                            child: const GenresTableWidget(),
+                          ),
+                        )))),
+            SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: SliverToBoxAdapter(
+                    child: SizedBox(
+                        height: 410,
+                        child: Card(
+                          child: BlocProvider(
+                            create: (context) =>
+                                ArtistsTableCubit(repository: getIt.get()),
+                            child: const ArtistsTableWidget(),
+                          ),
+                        )))),
+            SliverPadding(
+                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                sliver: SliverToBoxAdapter(
+                    child: SizedBox(
+                        height: 410,
+                        child: Card(
+                          child: BlocProvider(
+                            create: (context) =>
+                                SlidersTableCubit(repository: getIt.get()),
+                            child: const SlidersTableWidget(),
+                          ),
+                        )))),
+          ]
+        ],
       );
     });
   }

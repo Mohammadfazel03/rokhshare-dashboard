@@ -88,9 +88,10 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
               if (_dataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
-                        child: SpinKitThreeBounce(
+                        child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
-                )));
+                ))));
               } else {
                 return Expanded(
                     child: Stack(
@@ -100,10 +101,11 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                         child: Container(
                       color: Colors.black12,
                       child: Center(
-                          child: SpinKitThreeBounce(
+                          child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                         color:
                             CustomColor.loginBackgroundColor.getColor(context),
-                      )),
+                      ))),
                     ))
                   ],
                 ));

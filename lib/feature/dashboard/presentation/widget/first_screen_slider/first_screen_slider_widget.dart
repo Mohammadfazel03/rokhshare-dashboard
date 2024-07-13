@@ -87,9 +87,10 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
               if (_sliderDataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
-                        child: SpinKitThreeBounce(
+                        child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
-                )));
+                ))));
               } else {
                 return Expanded(child: sliderTable());
               }
