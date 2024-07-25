@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Themes {
@@ -55,7 +54,7 @@ class Themes {
       ),
       drawerTheme: DrawerThemeData(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       inputDecorationTheme: const InputDecorationTheme(
         filled: true,
         hintStyle: TextStyle(
@@ -68,6 +67,12 @@ class Themes {
             borderSide: BorderSide(width: 1, color: Color(0xff77767c))),
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 2, color: Color(0xff003abc))),
+        disabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1, color: Color(0x1f1c1b1e))),
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 1, color: Color(0xffba1a1a))),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(width: 2, color: Color(0xffba1a1a))),
       ),
       textTheme: const TextTheme(
           displayLarge: TextStyle(
@@ -211,7 +216,13 @@ class Themes {
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Color(0xff919096))),
           focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(width: 2, color: Color(0xffb7c4ff)))),
+              borderSide: BorderSide(width: 2, color: Color(0xffb7c4ff))),
+          disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1, color: Color(0x1fe5e1e6))),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 1, color: Color(0xffffb4ab))),
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: BorderSide(width: 2, color: Color(0xffffb4ab)))),
       textTheme: const TextTheme(
           displayLarge: TextStyle(
               fontFamily: "iran-sans",

@@ -9,6 +9,9 @@ import 'package:dashboard/feature/login/data/repositories/login_repository_impl.
 import 'package:dashboard/feature/media/data/remote/media_api_service.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository_impl.dart';
+import 'package:dashboard/feature/movie/data/remote/movie_api_service.dart';
+import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
+import 'package:dashboard/feature/movie/data/repositories/movie_repository_impl.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +46,12 @@ Future<void> setup() async {
       accessToken: getIt.get<LocalStorageService>().getAccessToken() ?? ""));
   getIt.registerLazySingleton<MediaRepository>(
       () => MediaRepositoryImpl(apiService: getIt.get()));
+
+  getIt.registerLazySingleton(() => MovieApiService(
+      dio: getIt.get(),
+      accessToken: getIt.get<LocalStorageService>().getAccessToken() ?? ""));
+  getIt.registerLazySingleton<MovieRepository>(
+      () => MovieRepositoryImpl(getIt.get()));
 
   // register state managements
   getIt.registerLazySingleton(() => ThemeCubit());
