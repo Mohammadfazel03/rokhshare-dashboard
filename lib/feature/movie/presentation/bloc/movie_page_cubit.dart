@@ -47,7 +47,7 @@ class MoviePageCubit extends Cubit<MoviePageState> {
     if (res is DataSuccess) {
       emit(MoviePageSuccess());
     } else {
-      emit(MoviePageFail(message: res.error ?? ""));
+      emit(MoviePageFail(message: res.error ?? "", code: res.code));
     }
   }
 }

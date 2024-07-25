@@ -41,8 +41,11 @@ class _CountryMultiSelectorWidgetState
       listener: (context, state) {
         if (state.status == CountryMultiSelectorStatus.fail) {
           if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout();
-            context.go(RoutePath.login.fullPath);
+            getIt.get<LocalStorageService>().logout().then((value){
+              if (value) {
+                context.go(RoutePath.login.fullPath);
+              }
+            });
           }
           toastification.showCustom(
               animationDuration: const Duration(milliseconds: 300),

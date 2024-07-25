@@ -36,8 +36,11 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
       listener: (context, state) {
         if (state is HeaderInformationError) {
           if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout();
-            context.go(RoutePath.login.fullPath);
+            getIt.get<LocalStorageService>().logout().then((value){
+              if (value) {
+                context.go(RoutePath.login.fullPath);
+              }
+            });
           }
         }
       },

@@ -103,8 +103,11 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
           listener: (context, state) {
             if (state is CountriesTableError) {
               if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.fullPath);
+                getIt.get<LocalStorageService>().logout().then((value){
+                  if (value) {
+                    context.go(RoutePath.login.fullPath);
+                  }
+                });
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

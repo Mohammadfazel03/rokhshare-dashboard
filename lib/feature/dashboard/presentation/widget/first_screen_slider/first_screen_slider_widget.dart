@@ -48,8 +48,11 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
           listener: (context, state) {
             if (state is FirstScreenSliderError) {
               if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.fullPath);
+                getIt.get<LocalStorageService>().logout().then((value){
+                  if (value) {
+                    context.go(RoutePath.login.fullPath);
+                  }
+                });
               }
               if (_sliderDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

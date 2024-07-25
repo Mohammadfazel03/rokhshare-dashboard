@@ -155,12 +155,13 @@ class _LoginPageState extends State<LoginPage> {
               }
               return const SizedBox();
             },
-            listener: (BuildContext context, LoginState state) {
+            listener: (BuildContext context, LoginState state) async {
               if (state is LoginSuccessfully) {
-                getIt
+                if (await getIt
                     .get<LocalStorageService>()
-                    .login(state.accessToken, state.refreshToken);
-                context.go(RoutePath.dashboard.fullPath);
+                    .login(state.accessToken, state.refreshToken)) {
+                  context.go(RoutePath.dashboard.fullPath);
+                }
               } else if (state is LoginFailed) {
                 toastification.showCustom(
                     animationDuration: const Duration(milliseconds: 300),

@@ -1,9 +1,13 @@
+import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/config/local_storage_service.dart';
+import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/movie_upload_section_widget/bloc/movie_upload_section_cubit.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class MovieUploadSectionWidget extends StatelessWidget {
@@ -16,6 +20,13 @@ class MovieUploadSectionWidget extends StatelessWidget {
     return BlocConsumer<MovieUploadSectionCubit, MovieUploadSectionState>(
       listener: (context, state) {
         if (state.error != null) {
+          if (state.error?.code == 403) {
+            getIt.get<LocalStorageService>().logout().then((value){
+              if (value) {
+                context.go(RoutePath.login.fullPath);
+              }
+            });
+          }
           toastification.showCustom(
               animationDuration: const Duration(milliseconds: 300),
               context: context,

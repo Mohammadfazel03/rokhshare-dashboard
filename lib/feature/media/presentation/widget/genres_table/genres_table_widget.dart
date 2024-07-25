@@ -102,8 +102,11 @@ class _GenresTableWidgetState extends State<GenresTableWidget> {
           listener: (context, state) {
             if (state is GenresTableError) {
               if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout();
-                context.go(RoutePath.login.fullPath);
+                getIt.get<LocalStorageService>().logout().then((value){
+                  if (value) {
+                    context.go(RoutePath.login.fullPath);
+                  }
+                });
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(

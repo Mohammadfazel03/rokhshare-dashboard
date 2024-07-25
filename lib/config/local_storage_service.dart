@@ -15,14 +15,20 @@ class LocalStorageService {
   LocalStorageService({required SharedPreferences preferences})
       : _preferences = preferences;
 
-  void login(String accessToken, String refreshToken) {
-    _preferences.setString(LocalStorageKey.accessToken.key, accessToken);
-    _preferences.setString(LocalStorageKey.refreshToken.key, refreshToken);
+  Future<bool> login(String accessToken, String refreshToken) async {
+    var res = await Future.wait([
+      _preferences.setString(LocalStorageKey.refreshToken.key, refreshToken),
+      _preferences.setString(LocalStorageKey.accessToken.key, accessToken)
+    ]);
+    return res.every((e) => e == true);
   }
 
-  void logout() {
-    _preferences.remove(LocalStorageKey.accessToken.key);
-    _preferences.remove(LocalStorageKey.refreshToken.key);
+  Future<bool> logout() async {
+    var res = await Future.wait([
+      _preferences.remove(LocalStorageKey.accessToken.key),
+      _preferences.remove(LocalStorageKey.refreshToken.key)
+    ]);
+    return res.every((e) => e == true);
   }
 
   String? getAccessToken() {

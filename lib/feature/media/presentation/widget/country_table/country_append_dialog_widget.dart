@@ -1,3 +1,6 @@
+import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/config/local_storage_service.dart';
+import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
@@ -8,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class CountryAppendDialogWidget extends StatefulWidget {
@@ -48,6 +52,13 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                   .pageIndex);
           Navigator.of(context).pop();
         } else if (state is CountryAppendFailed) {
+          if (state.code == 403) {
+            getIt.get<LocalStorageService>().logout().then((value){
+              if (value) {
+                context.go(RoutePath.login.fullPath);
+              }
+            });
+          }
           toastification.showCustom(
               animationDuration: const Duration(milliseconds: 300),
               context: context,

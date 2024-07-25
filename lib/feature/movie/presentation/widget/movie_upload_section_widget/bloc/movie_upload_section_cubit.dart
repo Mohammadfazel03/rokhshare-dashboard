@@ -101,7 +101,7 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
                   emit(state.copyWith(retry: state.retry - 1));
                   _startUpload();
                 }
-              } else {
+              } else if (error.code != 403) {
                 if (state.retry == 0) {
                   if (state.isUploading == true &&
                       (state.isPaused ?? false) == false &&
@@ -120,6 +120,10 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
                   emit(state.copyWith(retry: state.retry - 1));
                   _startUpload();
                 }
+              } else {
+                emit(state.copyWith(
+                  error: ErrorBloc(message: res.error ?? "", code: res.code)
+                ));
               }
             }
           });

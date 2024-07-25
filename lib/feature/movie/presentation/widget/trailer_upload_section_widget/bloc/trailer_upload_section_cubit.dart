@@ -265,7 +265,7 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
                   emit(state.copyWith(retry: state.retry - 1));
                   _startUpload();
                 }
-              } else {
+              } else if (res.code != 403) {
                 if (state.retry == 0) {
                   if (state.isUploading == true &&
                       (state.isPaused ?? false) == false &&
@@ -284,6 +284,10 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
                   emit(state.copyWith(retry: state.retry - 1));
                   _startUpload();
                 }
+              } else {
+                emit(state.copyWith(
+                    error: ErrorBloc(message: res.error ?? "", code: res.code)
+                ));
               }
             }
           });
