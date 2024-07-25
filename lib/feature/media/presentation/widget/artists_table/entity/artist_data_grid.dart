@@ -63,7 +63,7 @@ class ArtistDataGrid extends DataGridSource {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(width: 8),
                     Text(dataGridCell.value.name ?? "",
                         textAlign: TextAlign.justify,
                         style: Theme.of(_context).textTheme.labelMedium),
@@ -116,7 +116,7 @@ class ArtistDataGrid extends DataGridSource {
                               );
                             });
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit,
                         size: 16,
                       ),
@@ -150,21 +150,21 @@ class ArtistDataGrid extends DataGridSource {
                                         onPressed: () {
                                           Navigator.of(dialogContext).pop();
                                         },
-                                        child: Text(
-                                          "انصراف",
-                                        ),
                                         style: ButtonStyle(
                                           textStyle: WidgetStateProperty.all(
                                               Theme.of(dialogContext)
                                                   .textTheme
                                                   .labelSmall),
                                           padding: WidgetStateProperty.all(
-                                              EdgeInsets.all(16)),
+                                              const EdgeInsets.all(16)),
                                           shape: WidgetStateProperty.all(
                                               RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           4))),
+                                        ),
+                                        child: const Text(
+                                          "انصراف",
                                         ),
                                       ),
                                       FilledButton(
@@ -174,7 +174,7 @@ class ArtistDataGrid extends DataGridSource {
                                                       .textTheme
                                                       .labelSmall),
                                               padding: WidgetStateProperty.all(
-                                                  EdgeInsets.all(16)),
+                                                  const EdgeInsets.all(16)),
                                               alignment: Alignment.center,
                                               shape: WidgetStateProperty.all(
                                                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
@@ -183,12 +183,12 @@ class ArtistDataGrid extends DataGridSource {
                                                 id: dataGridCell.value);
                                             Navigator.of(dialogContext).pop();
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             "بله",
                                           )),
                                     ]));
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         size: 16,
                       ),

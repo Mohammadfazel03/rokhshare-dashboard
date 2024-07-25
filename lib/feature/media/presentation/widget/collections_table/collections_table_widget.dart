@@ -54,7 +54,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
-                    animationDuration: Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 300),
                     context: context,
                     alignment: Alignment.bottomRight,
                     autoCloseDuration: const Duration(seconds: 4),
@@ -233,7 +233,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
               error ?? "خطا در دریافت اطلاعات!",
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
                   BlocProvider.of<CollectionsTableCubit>(context).getData();

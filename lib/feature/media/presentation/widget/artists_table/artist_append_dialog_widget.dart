@@ -186,31 +186,11 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
                     onTap: () async {
                       FilePickerResult? result = await FilePicker.platform
                           .pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: ['png', 'jpg']);
+                              type: FileType.image);
 
                       if (result != null) {
-                        if (['jpg', 'png']
-                            .any((e) => e == result.files.first.extension)) {
-                          file = result.files.single.bytes;
+                          file = await result.files.single.xFile.readAsBytes();
                           setState(() {});
-                        } else {
-                          toastification.showCustom(
-                              animationDuration:
-                                  const Duration(milliseconds: 300),
-                              context: context,
-                              alignment: Alignment.bottomRight,
-                              autoCloseDuration: const Duration(seconds: 4),
-                              direction: TextDirection.rtl,
-                              builder: (BuildContext context,
-                                  ToastificationItem holder) {
-                                return ErrorSnackBarWidget(
-                                  item: holder,
-                                  title: "خطا",
-                                  message: "فایل انتخابی معتبر نمیباشد.",
-                                );
-                              });
-                        }
                       }
                     },
                     child: MouseRegion(
@@ -315,30 +295,11 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
                 onTap: () async {
                   FilePickerResult? result = await FilePicker.platform
                       .pickFiles(
-                          type: FileType.custom,
-                          allowedExtensions: ['png', 'jpg']);
+                          type: FileType.image);
 
                   if (result != null) {
-                    if (['jpg', 'png']
-                        .any((e) => e == result.files.first.extension)) {
-                      file = result.files.single.bytes;
+                    file = result.files.single.bytes;
                       setState(() {});
-                    } else {
-                      toastification.showCustom(
-                          animationDuration: const Duration(milliseconds: 300),
-                          context: context,
-                          alignment: Alignment.bottomRight,
-                          autoCloseDuration: const Duration(seconds: 4),
-                          direction: TextDirection.rtl,
-                          builder: (BuildContext context,
-                              ToastificationItem holder) {
-                            return ErrorSnackBarWidget(
-                              item: holder,
-                              title: "خطا",
-                              message: "فایل انتخابی معتبر نمیباشد.",
-                            );
-                          });
-                    }
                   }
                 },
                 child: MouseRegion(

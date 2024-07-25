@@ -28,39 +28,39 @@ class _PaginationWidgetState extends State<PaginationWidget> {
                       widget.onChangePage(widget.currentPage - 1);
                     }
                   : null,
-              child: Text(
-                "قبلی",
-              ),
               style: ButtonStyle(
-                minimumSize: WidgetStateProperty.all(Size(36, 36)),
+                minimumSize: WidgetStateProperty.all(const Size(36, 36)),
                 textStyle: WidgetStateProperty.resolveWith((state) {
                   return Theme.of(context).textTheme.labelSmall;
                 }),
-                padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+                padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
                 shape: WidgetStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4))),
               ),
+              child: const Text(
+                "قبلی",
+              ),
             ),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             ..._generateButtonList(context),
-            SizedBox(width: 2),
+            const SizedBox(width: 2),
             OutlinedButton(
               onPressed: widget.currentPage < widget.totalPages
                   ? () {
                       widget.onChangePage(widget.currentPage + 1);
                     }
                   : null,
-              child: Text(
-                "بعدی",
-              ),
               style: ButtonStyle(
-                minimumSize: WidgetStateProperty.all(Size(36, 36)),
+                minimumSize: WidgetStateProperty.all(const Size(36, 36)),
                 textStyle: WidgetStateProperty.resolveWith((state) {
                   return Theme.of(context).textTheme.labelSmall;
                 }),
-                padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+                padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
                 shape: WidgetStateProperty.all(RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(4))),
+              ),
+              child: const Text(
+                "بعدی",
               ),
             ),
           ],
@@ -107,11 +107,8 @@ class _PaginationWidgetState extends State<PaginationWidget> {
           onPressed: () {
             widget.onChangePage(index);
           },
-          child: Text(
-            "$index",
-          ),
           style: ButtonStyle(
-              minimumSize: WidgetStateProperty.all(Size(24, 36)),
+              minimumSize: WidgetStateProperty.all(const Size(24, 36)),
               backgroundColor: WidgetStateProperty.all(
                   widget.currentPage == index
                       ? Theme.of(context).colorScheme.primary
@@ -124,7 +121,7 @@ class _PaginationWidgetState extends State<PaginationWidget> {
                 return Theme.of(context).textTheme.labelSmall;
               }),
               padding: WidgetStateProperty.all(
-                  EdgeInsets.symmetric(horizontal: 12, vertical: 16)),
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 16)),
               shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4))),
               side: WidgetStateProperty.resolveWith((state) {
@@ -134,6 +131,9 @@ class _PaginationWidgetState extends State<PaginationWidget> {
                 }
                 return BorderSide(color: Theme.of(context).colorScheme.outline);
               })),
+          child: Text(
+            "$index",
+          ),
         ),
       );
 
@@ -143,19 +143,19 @@ class _PaginationWidgetState extends State<PaginationWidget> {
             onPressed: () {
               widget.onChangePage(index);
             },
-            child: Text(
-              "...",
-            ),
             style: ButtonStyle(
-              minimumSize: WidgetStateProperty.all(Size(24, 36)),
+              minimumSize: WidgetStateProperty.all(const Size(24, 36)),
               foregroundColor: WidgetStateProperty.all(
                   Theme.of(context).colorScheme.primary),
               textStyle: WidgetStateProperty.all(
                   Theme.of(context).textTheme.labelSmall),
               padding: WidgetStateProperty.all(
-                  EdgeInsets.symmetric(horizontal: 12, vertical: 16)),
+                  const EdgeInsets.symmetric(horizontal: 12, vertical: 16)),
               shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4))),
+            ),
+            child: const Text(
+              "...",
             )),
       );
 }

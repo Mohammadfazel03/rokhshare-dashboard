@@ -3,7 +3,7 @@ import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
 import 'package:dashboard/utils/data_response.dart';
 import 'package:dashboard/utils/page_response.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'sliders_table_state.dart';
 

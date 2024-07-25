@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/countries_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/country_table/bloc/country_append_cubit.dart';
@@ -58,7 +57,7 @@ class CountryDataGrid extends DataGridSource {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(32),
                       child: Image.network(
-                        "$baseUrl${dataGridCell.value.flag}",
+                        dataGridCell.value.flag,
                         height: 32,
                         width: 32,
                         fit: BoxFit.cover,

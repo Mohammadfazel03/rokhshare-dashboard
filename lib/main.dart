@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
-            supportedLocales: [Locale("fa", "IR")],
+            supportedLocales: const [Locale("fa", "IR")],
             routerConfig: routerConfig,
           );
         },

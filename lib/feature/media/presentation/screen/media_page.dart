@@ -16,7 +16,6 @@ import 'package:dashboard/feature/media/presentation/widget/sliders_table/bloc/s
 import 'package:dashboard/feature/media/presentation/widget/sliders_table/sliders_table_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class MediaPage extends StatefulWidget {
   const MediaPage({super.key});
@@ -52,7 +51,7 @@ class _MediaPageState extends State<MediaPage> {
             ),
           ),
           SliverPadding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               sliver: SliverToBoxAdapter(
                   child: SizedBox(
                       height: 410,
@@ -62,7 +61,7 @@ class _MediaPageState extends State<MediaPage> {
                                   MoviesTableCubit(repository: getIt.get()),
                               child: const MoviesTableWidget()))))),
           SliverPadding(
-              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               sliver: SliverToBoxAdapter(
                   child: SizedBox(
                       height: 410,
@@ -74,7 +73,7 @@ class _MediaPageState extends State<MediaPage> {
                         ),
                       )))),
           SliverPadding(
-              padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               sliver: SliverToBoxAdapter(
                   child: SizedBox(
                       height: 410,
@@ -87,7 +86,7 @@ class _MediaPageState extends State<MediaPage> {
                       )))),
           if (width > 880) ...[
             SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 sliver: SliverCrossAxisGroup(slivers: [
                   SliverCrossAxisExpanded(
                       flex: 1,
@@ -116,7 +115,7 @@ class _MediaPageState extends State<MediaPage> {
                   )
                 ])),
             SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 sliver: SliverCrossAxisGroup(slivers: [
                   SliverCrossAxisExpanded(
                       flex: 1,
@@ -147,7 +146,7 @@ class _MediaPageState extends State<MediaPage> {
           ]
           else ...[
             SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 sliver: SliverToBoxAdapter(
                     child: SizedBox(
                         height: 410,
@@ -159,7 +158,7 @@ class _MediaPageState extends State<MediaPage> {
                           ),
                         )))),
             SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 sliver: SliverToBoxAdapter(
                     child: SizedBox(
                         height: 410,
@@ -171,7 +170,7 @@ class _MediaPageState extends State<MediaPage> {
                           ),
                         )))),
             SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 sliver: SliverToBoxAdapter(
                     child: SizedBox(
                         height: 410,
@@ -183,7 +182,7 @@ class _MediaPageState extends State<MediaPage> {
                           ),
                         )))),
             SliverPadding(
-                padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                 sliver: SliverToBoxAdapter(
                     child: SizedBox(
                         height: 410,

@@ -49,7 +49,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
           Navigator.of(context).pop();
         } else if (state is CountryAppendFailed) {
           toastification.showCustom(
-              animationDuration: Duration(milliseconds: 300),
+              animationDuration: const Duration(milliseconds: 300),
               context: context,
               alignment: Alignment.bottomRight,
               autoCloseDuration: const Duration(seconds: 4),
@@ -80,7 +80,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
               color: Colors.black26,
               child: Center(
                   child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                      child: SpinKitThreeBounce(
                 color: CustomColor.loginBackgroundColor.getColor(context),
               ))),
             ),
@@ -103,23 +103,23 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(
-              "انصراف",
-            ),
             style: ButtonStyle(
               textStyle: WidgetStateProperty.all(
                   Theme.of(context).textTheme.labelSmall),
-              padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+              padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
               shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4))),
             ),
+            child: const Text(
+              "انصراف",
+            ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           FilledButton(
               style: ButtonStyle(
                   textStyle: WidgetStateProperty.all(
                       Theme.of(context).textTheme.labelSmall),
-                  padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
                   alignment: Alignment.center,
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)))),
@@ -132,7 +132,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                 } else {
                   if (countryInputController.text.isEmpty || file == null) {
                     toastification.showCustom(
-                        animationDuration: Duration(milliseconds: 300),
+                        animationDuration: const Duration(milliseconds: 300),
                         context: context,
                         alignment: Alignment.bottomRight,
                         autoCloseDuration: const Duration(seconds: 4),
@@ -151,7 +151,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                   }
                 }
               },
-              child: Text(
+              child: const Text(
                 "ثبت",
               )),
         ],
@@ -168,7 +168,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
               widget.id == null ? "کشور جدید" : "ویرایش کشور",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -178,31 +178,11 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                   child: GestureDetector(
                     onTap: () async {
                       FilePickerResult? result = await FilePicker.platform
-                          .pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: ['png', 'jpg']);
+                          .pickFiles(type: FileType.image);
 
                       if (result != null) {
-                        if (['jpg', 'png']
-                            .any((e) => e == result.files.first.extension)) {
-                          file = result.files.single.bytes;
-                          setState(() {});
-                        } else {
-                          toastification.showCustom(
-                              animationDuration: Duration(milliseconds: 300),
-                              context: context,
-                              alignment: Alignment.bottomRight,
-                              autoCloseDuration: const Duration(seconds: 4),
-                              direction: TextDirection.rtl,
-                              builder: (BuildContext context,
-                                  ToastificationItem holder) {
-                                return ErrorSnackBarWidget(
-                                  item: holder,
-                                  title: "خطا",
-                                  message: "فایل انتخابی معتبر نمیباشد.",
-                                );
-                              });
-                        }
+                        file = await result.files.single.xFile.readAsBytes();
+                        setState(() {});
                       }
                     },
                     child: MouseRegion(
@@ -213,8 +193,8 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                             ? Image.network(state.country.flag!)
                             : (file == null)
                                 ? DottedBorder(
-                                    dashPattern: [3, 2],
-                                    radius: Radius.circular(4),
+                                    dashPattern: const [3, 2],
+                                    radius: const Radius.circular(4),
                                     color: Theme.of(context).dividerColor,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -231,7 +211,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                                           height: widget.width / 4,
                                           width: widget.width / 4,
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
                                         Text(
                                           "پرچم کشور خود را بارگذاری کنید",
                                           style: Theme.of(context)
@@ -247,7 +227,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -256,17 +236,17 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                     children: [
                       Text("نام کشور",
                           style: Theme.of(context).textTheme.titleSmall),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       TextField(
                         controller: countryInputController,
-                        decoration: InputDecoration(hintText: "ایران"),
+                        decoration: const InputDecoration(hintText: "ایران"),
                       )
                     ],
                   ),
                 )
               ],
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             _actionBar()
           ],
         ),
@@ -283,33 +263,15 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
               widget.id == null ? "کشور جدید" : "ویرایش کشور",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () async {
-                FilePickerResult? result = await FilePicker.platform.pickFiles(
-                    type: FileType.custom, allowedExtensions: ['png', 'jpg']);
+                FilePickerResult? result =
+                    await FilePicker.platform.pickFiles(type: FileType.image);
 
                 if (result != null) {
-                  if (['jpg', 'png']
-                      .any((e) => e == result.files.first.extension)) {
-                    file = result.files.single.bytes;
-                    setState(() {});
-                  } else {
-                    toastification.showCustom(
-                        animationDuration: Duration(milliseconds: 300),
-                        context: context,
-                        alignment: Alignment.bottomRight,
-                        autoCloseDuration: const Duration(seconds: 4),
-                        direction: TextDirection.rtl,
-                        builder:
-                            (BuildContext context, ToastificationItem holder) {
-                          return ErrorSnackBarWidget(
-                            item: holder,
-                            title: "خطا",
-                            message: "فایل انتخابی معتبر نمیباشد.",
-                          );
-                        });
-                  }
+                  file = result.files.single.bytes;
+                  setState(() {});
                 }
               },
               child: MouseRegion(
@@ -321,8 +283,8 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                       ? Image.network(state.country.flag!)
                       : (file == null)
                           ? DottedBorder(
-                              dashPattern: [3, 2],
-                              radius: Radius.circular(4),
+                              dashPattern: const [3, 2],
+                              radius: const Radius.circular(4),
                               color: Theme.of(context).dividerColor,
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -337,7 +299,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                                     height: widget.width / 2,
                                     width: widget.width / 2,
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Text(
                                     "پرچم کشور خود را بارگذاری کنید",
                                     style:
@@ -351,13 +313,13 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             TextField(
               controller: countryInputController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: "ایران", label: Text("نام کشور")),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             _actionBar()
           ],
         ),

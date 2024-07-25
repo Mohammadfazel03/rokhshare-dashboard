@@ -35,7 +35,7 @@ class SliderDataGrid extends DataGridSource {
         cells: row.getCells().map((dataGridCell) {
       if (dataGridCell.columnName == "media") {
         return Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -51,7 +51,7 @@ class SliderDataGrid extends DataGridSource {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Flexible(
                 child: Text(
                   dataGridCell.value.name,

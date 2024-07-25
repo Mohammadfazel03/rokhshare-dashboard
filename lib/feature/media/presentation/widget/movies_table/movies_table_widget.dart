@@ -76,7 +76,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
-                    animationDuration: Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 300),
                     context: context,
                     alignment: Alignment.bottomRight,
                     autoCloseDuration: const Duration(seconds: 4),
@@ -110,9 +110,10 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
               if (_dataGrid.rows.isEmpty) {
                 return Expanded(
                     child: Center(
-                        child: SpinKitThreeBounce(
+                        child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
-                )));
+                ))));
               } else {
                 return Expanded(
                     child: Stack(
@@ -122,10 +123,11 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
                         child: Container(
                       color: Colors.black12,
                       child: Center(
-                          child: SpinKitThreeBounce(
+                          child: RepaintBoundary(
+              child: SpinKitThreeBounce(
                         color:
                             CustomColor.loginBackgroundColor.getColor(context),
-                      )),
+                      ))),
                     ))
                   ],
                 ));
@@ -265,7 +267,7 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
               error ?? "خطا در دریافت اطلاعات!",
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
                   BlocProvider.of<MoviesTableCubit>(context).getData();

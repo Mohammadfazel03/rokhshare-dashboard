@@ -84,12 +84,12 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
                         );
                       });
                 },
-                label: Text(
+                label: const Text(
                   "افزودن",
                 ),
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 style: ButtonStyle(
-                  padding: WidgetStateProperty.all(EdgeInsets.symmetric(horizontal: 16)),
+                  padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
                   textStyle: WidgetStateProperty.all(Theme.of(context).textTheme.labelMedium),
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4))),
@@ -108,7 +108,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
               }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
-                    animationDuration: Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 300),
                     context: context,
                     alignment: Alignment.bottomRight,
                     autoCloseDuration: const Duration(seconds: 4),
@@ -262,7 +262,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
               error ?? "خطا در دریافت اطلاعات!",
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
                   BlocProvider.of<CountriesTableCubit>(context).getData();

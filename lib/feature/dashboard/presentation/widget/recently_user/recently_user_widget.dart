@@ -5,7 +5,6 @@ import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/entity/user_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -53,7 +52,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
               }
               if (_userDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
-                    animationDuration: Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 300),
                     context: context,
                     alignment: Alignment.bottomRight,
                     autoCloseDuration: const Duration(seconds: 4),
@@ -122,7 +121,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
               error ?? "خطا در دریافت اطلاعات!",
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
                   BlocProvider.of<RecentlyUserCubit>(context).getData();

@@ -28,12 +28,12 @@ class _NotFoundPageState extends State<NotFoundPage> {
               "صفحه مورد نظر یافت نشد.",
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Text(
               "برای مدیریت سایت و کاربران سایت، به صفحه اصلی بروید.",
               style: Theme.of(context).textTheme.bodyMedium,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             OutlinedButton(
                 onPressed: () {
                   context.go(RoutePath.dashboard.fullPath);

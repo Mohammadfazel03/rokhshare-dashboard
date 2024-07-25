@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/genres_table/bloc/genre_append_cubit.dart';
@@ -48,7 +47,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
           Navigator.of(context).pop();
         } else if (state is GenreAppendFailed) {
           toastification.showCustom(
-              animationDuration: Duration(milliseconds: 300),
+              animationDuration: const Duration(milliseconds: 300),
               context: context,
               alignment: Alignment.bottomRight,
               autoCloseDuration: const Duration(seconds: 4),
@@ -102,23 +101,23 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text(
-              "انصراف",
-            ),
             style: ButtonStyle(
               textStyle: WidgetStateProperty.all(
                   Theme.of(context).textTheme.labelSmall),
-              padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+              padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
               shape: WidgetStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4))),
             ),
+            child: const Text(
+              "انصراف",
+            ),
           ),
-          SizedBox(width: 8),
+          const SizedBox(width: 8),
           FilledButton(
               style: ButtonStyle(
                   textStyle: WidgetStateProperty.all(
                       Theme.of(context).textTheme.labelSmall),
-                  padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+                  padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
                   alignment: Alignment.center,
                   shape: WidgetStateProperty.all(RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)))),
@@ -131,7 +130,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                 } else {
                   if (genreInputController.text.isEmpty || file == null) {
                     toastification.showCustom(
-                        animationDuration: Duration(milliseconds: 300),
+                        animationDuration: const Duration(milliseconds: 300),
                         context: context,
                         alignment: Alignment.bottomRight,
                         autoCloseDuration: const Duration(seconds: 4),
@@ -150,7 +149,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                   }
                 }
               },
-              child: Text(
+              child: const Text(
                 "ثبت",
               )),
         ],
@@ -167,7 +166,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
               widget.id == null ? "ژانر جدید" : "ویرایش ژانر",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -178,30 +177,11 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                     onTap: () async {
                       FilePickerResult? result = await FilePicker.platform
                           .pickFiles(
-                              type: FileType.custom,
-                              allowedExtensions: ['png', 'jpg']);
+                              type: FileType.image);
 
                       if (result != null) {
-                        if (['jpg', 'png']
-                            .any((e) => e == result.files.first.extension)) {
-                          file = result.files.single.bytes;
+                          file = await result.files.single.xFile.readAsBytes();
                           setState(() {});
-                        } else {
-                          toastification.showCustom(
-                              animationDuration: Duration(milliseconds: 300),
-                              context: context,
-                              alignment: Alignment.bottomRight,
-                              autoCloseDuration: const Duration(seconds: 4),
-                              direction: TextDirection.rtl,
-                              builder: (BuildContext context,
-                                  ToastificationItem holder) {
-                                return ErrorSnackBarWidget(
-                                  item: holder,
-                                  title: "خطا",
-                                  message: "فایل انتخابی معتبر نمیباشد.",
-                                );
-                              });
-                        }
                       }
                     },
                     child: MouseRegion(
@@ -212,8 +192,8 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                             ? Image.network(state.genre.poster!)
                             : (file == null)
                                 ? DottedBorder(
-                                    dashPattern: [3, 2],
-                                    radius: Radius.circular(4),
+                                    dashPattern: const [3, 2],
+                                    radius: const Radius.circular(4),
                                     color: Theme.of(context).dividerColor,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
@@ -230,7 +210,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                                           height: widget.width / 4,
                                           width: widget.width / 4,
                                         ),
-                                        SizedBox(height: 8),
+                                        const SizedBox(height: 8),
                                         Text(
                                           "ریز عکس ژانر خود را بارگذاری کنید",
                                           style: Theme.of(context)
@@ -246,7 +226,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                     ),
                   ),
                 ),
-                SizedBox(width: 16),
+                const SizedBox(width: 16),
                 Expanded(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -255,17 +235,17 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                     children: [
                       Text("عنوان ژانر",
                           style: Theme.of(context).textTheme.titleSmall),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       TextField(
                         controller: genreInputController,
-                        decoration: InputDecoration(hintText: "اکشن، درام ..."),
+                        decoration: const InputDecoration(hintText: "اکشن، درام ..."),
                       )
                     ],
                   ),
                 )
               ],
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             _actionBar()
           ],
         ),
@@ -282,33 +262,16 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
               widget.id == null ? "ژانر جدید" : "ویرایش ژانر",
               style: Theme.of(context).textTheme.headlineSmall,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             GestureDetector(
               onTap: () async {
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     type: FileType.custom, allowedExtensions: ['png', 'jpg']);
 
                 if (result != null) {
-                  if (['jpg', 'png']
-                      .any((e) => e == result.files.first.extension)) {
-                    file = result.files.single.bytes;
+                    file = await result.files.single.xFile.readAsBytes();
                     setState(() {});
-                  } else {
-                    toastification.showCustom(
-                        animationDuration: Duration(milliseconds: 300),
-                        context: context,
-                        alignment: Alignment.bottomRight,
-                        autoCloseDuration: const Duration(seconds: 4),
-                        direction: TextDirection.rtl,
-                        builder:
-                            (BuildContext context, ToastificationItem holder) {
-                          return ErrorSnackBarWidget(
-                            item: holder,
-                            title: "خطا",
-                            message: "فایل انتخابی معتبر نمیباشد.",
-                          );
-                        });
-                  }
+
                 }
               },
               child: MouseRegion(
@@ -320,8 +283,8 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                       ? Image.network(state.genre.poster!)
                       : (file == null)
                           ? DottedBorder(
-                              dashPattern: [3, 2],
-                              radius: Radius.circular(4),
+                              dashPattern: const [3, 2],
+                              radius: const Radius.circular(4),
                               color: Theme.of(context).dividerColor,
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -336,7 +299,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                                     height: widget.width / 2,
                                     width: widget.width / 2,
                                   ),
-                                  SizedBox(height: 8),
+                                  const SizedBox(height: 8),
                                   Text(
                                     "ریز عکس ژانر خود را بارگذاری کنید",
                                     style:
@@ -350,13 +313,13 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
                 ),
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             TextField(
               controller: genreInputController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: "اکشن، درام ...", label: Text("عنوان ژانر")),
             ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
             _actionBar()
           ],
         ),

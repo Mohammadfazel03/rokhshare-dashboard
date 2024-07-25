@@ -55,7 +55,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
               }
               if (_commentDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
-                    animationDuration: Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 300),
                     context: context,
                     alignment: Alignment.bottomRight,
                     autoCloseDuration: const Duration(seconds: 4),
@@ -185,7 +185,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
               error ?? "خطا در دریافت اطلاعات!",
               style: Theme.of(context).textTheme.labelMedium,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             OutlinedButton(
                 onPressed: () {
                   BlocProvider.of<RecentlyCommentCubit>(context).getData();

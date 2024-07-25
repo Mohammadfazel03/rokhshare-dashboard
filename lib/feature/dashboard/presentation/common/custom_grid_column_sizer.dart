@@ -6,7 +6,7 @@ class CustomGridColumnSizer extends ColumnSizer {
   double computeHeaderCellWidth(GridColumn column, TextStyle style) {
     return super.computeHeaderCellWidth(
         column,
-        TextStyle(
+        const TextStyle(
             fontFamily: 'iran-sans',
             fontSize: 14,
             fontWeight: FontWeight.bold));
@@ -19,7 +19,7 @@ class CustomGridColumnSizer extends ColumnSizer {
         column,
         row,
         cellValue,
-        TextStyle(
+        const TextStyle(
           fontFamily: 'iran-sans',
           fontSize: 14,
         ));
@@ -29,7 +29,7 @@ class CustomGridColumnSizer extends ColumnSizer {
   double computeHeaderCellHeight(GridColumn column, TextStyle textStyle) {
     return super.computeHeaderCellHeight(
         column,
-        TextStyle(
+        const TextStyle(
             fontFamily: 'iran-sans',
             fontSize: 14,
             fontWeight: FontWeight.bold));
@@ -42,7 +42,7 @@ class CustomGridColumnSizer extends ColumnSizer {
         column,
         row,
         cellValue,
-        TextStyle(
+        const TextStyle(
           fontFamily: 'iran-sans',
           fontSize: 14,
         ));

@@ -21,13 +21,13 @@ class MediaApiService {
   }
 
   Future<dynamic> getGenres({int page = 1}) async {
-    return await _dio.get("admin/media/genre/",
+    return await _dio.get("genre/",
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 
   Future<dynamic> getCountries({int page = 1}) async {
-    return await _dio.get("admin/media/country/",
+    return await _dio.get("country/",
         queryParameters: {"page": page},
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }

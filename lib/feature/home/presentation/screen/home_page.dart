@@ -106,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                             Icons.menu_rounded,
                             color: Theme.of(context).colorScheme.onSurface,
                           ))),
-                  SizedBox(width: 8)
+                  const SizedBox(width: 8)
                 ],
                 Text(
                   getTitleByPath(_routeName ?? "") ?? "",
@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                           : Iconic.moon_inv,
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     )),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 SizedBox(
                   width: 32,
                   height: 32,
@@ -141,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(24),
                           color: Colors.white,
                           border: Border.all(width: 0),
-                          image: DecorationImage(
+                          image: const DecorationImage(
                               // scale: 0.1,
                               fit: BoxFit.fill,
                               image: AssetImage(
@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
                       : Theme.of(context).colorScheme.onSurfaceVariant,
                   size: 24,
                 ),
-                SizedBox(width: 8),
+                const SizedBox(width: 8),
                 Text(
                   title,
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -211,7 +211,7 @@ class _HomePageState extends State<HomePage> {
       width: min(width / 3 * 2, 300),
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
       shape: Theme.of(context).drawerTheme.shape!,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
@@ -229,14 +229,14 @@ class _HomePageState extends State<HomePage> {
                             min(min(width / 3 * 2, 300) / 2, 150)),
                         color: Colors.white,
                         border: Border.all(width: 0),
-                        image: DecorationImage(
+                        image: const DecorationImage(
                             // scale: 0.1,
                             fit: BoxFit.fill,
                             image: AssetImage(
                               'assets/images/man.png',
                             )))),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text('محمد صادق فاضل',
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Theme.of(context).colorScheme.onSurfaceVariant)),
@@ -246,7 +246,7 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 13,
                     color: Theme.of(context).colorScheme.onSurfaceVariant),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               sidebarItem(
                   selected: widget.pageScreen.currentIndex == 0,
                   icon: Icons.dashboard_rounded,
@@ -254,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                   onClick: () {
                     widget.pageScreen.goBranch(0);
                   }),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               sidebarItem(
                   selected: widget.pageScreen.currentIndex == 1,
                   icon: FontAwesome5.user,
@@ -262,10 +262,10 @@ class _HomePageState extends State<HomePage> {
                   onClick: () {
                     widget.pageScreen.goBranch(1);
                   }),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               sidebarItem(
                   selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               sidebarItem(
                   selected: widget.pageScreen.currentIndex == 2,
                   icon: FontAwesome.video,
@@ -273,7 +273,7 @@ class _HomePageState extends State<HomePage> {
                   onClick: () {
                     widget.pageScreen.goBranch(2);
                   }),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
             ],
           ),
         ),

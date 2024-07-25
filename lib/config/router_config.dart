@@ -64,7 +64,7 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final routerConfig = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: RoutePath.dashboard.path,
-    errorBuilder: (BuildContext context, GoRouterState state) => NotFoundPage(),
+    errorBuilder: (BuildContext context, GoRouterState state) => const NotFoundPage(),
     routes: [
       GoRoute(
           path: RoutePath.login.fullPath,
@@ -167,7 +167,6 @@ final routerConfig = GoRouter(
 
         return null;
       } catch (e) {
-        // print(e);
         return '/none';
       }
     },

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dashboard/feature/login/data/remote/model/login_response.dart';
 import 'package:dashboard/feature/login/data/repositories/login_repository.dart';
 import 'package:dashboard/utils/data_response.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 part 'login_state.dart';
 

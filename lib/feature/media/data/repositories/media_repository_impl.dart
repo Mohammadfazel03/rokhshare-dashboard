@@ -239,7 +239,6 @@ class MediaRepositoryImpl extends MediaRepository {
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
         }
-        print(exception.response?.data?.toString());
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
@@ -267,7 +266,6 @@ class MediaRepositoryImpl extends MediaRepository {
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
         }
-        print(exception.response?.data?.toString());
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
@@ -282,8 +280,6 @@ class MediaRepositoryImpl extends MediaRepository {
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {
-      print("gfureiugferufbrebfiuer");
-      print(e);
       if (e is DioException) {
         DioException exception = e;
         if (exception.response?.statusCode == 403) {
@@ -354,7 +350,6 @@ class MediaRepositoryImpl extends MediaRepository {
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
         }
-        print(exception.response?.data?.toString());
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
@@ -382,7 +377,6 @@ class MediaRepositoryImpl extends MediaRepository {
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
         }
-        print(exception.response?.data?.toString());
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
@@ -397,8 +391,6 @@ class MediaRepositoryImpl extends MediaRepository {
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {
-      print("gfureiugferufbrebfiuer");
-      print(e);
       if (e is DioException) {
         DioException exception = e;
         if (exception.response?.statusCode == 403) {
@@ -471,7 +463,6 @@ class MediaRepositoryImpl extends MediaRepository {
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
         }
-        print(exception.response?.data?.toString());
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
@@ -499,7 +490,6 @@ class MediaRepositoryImpl extends MediaRepository {
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
         }
-        print(exception.response?.data?.toString());
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
@@ -514,8 +504,6 @@ class MediaRepositoryImpl extends MediaRepository {
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {
-      print("gfureiugferufbrebfiuer");
-      print(e);
       if (e is DioException) {
         DioException exception = e;
         if (exception.response?.statusCode == 403) {

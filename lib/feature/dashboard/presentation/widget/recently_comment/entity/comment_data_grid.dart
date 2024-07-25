@@ -1,12 +1,10 @@
 import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dashboard/feature/dashboard/data/remote/model/comment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-import '../../../../data/remote/model/comment.dart';
 
 class CommentDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
@@ -41,7 +39,7 @@ class CommentDataGrid extends DataGridSource {
         cells: row.getCells().map((dataGridCell) {
       if (dataGridCell.columnName == "media") {
         return Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           alignment: Alignment.center,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -57,7 +55,7 @@ class CommentDataGrid extends DataGridSource {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Flexible(
                 child: Text(
                   dataGridCell.value.name,

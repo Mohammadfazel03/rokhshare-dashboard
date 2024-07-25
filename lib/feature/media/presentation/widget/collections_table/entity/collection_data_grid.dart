@@ -45,7 +45,7 @@ class CollectionDataGrid extends DataGridSource {
         cells: row.getCells().map((dataGridCell) {
           if (dataGridCell.columnName == "media") {
             return Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               alignment: Alignment.center,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -61,7 +61,7 @@ class CollectionDataGrid extends DataGridSource {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Flexible(
                     child: Text(
                       dataGridCell.value.name,
@@ -91,7 +91,7 @@ class CollectionDataGrid extends DataGridSource {
                     child: IconButton.filled(
                       tooltip: "رفع انتشار",
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
                         size: 16,
                       ),
@@ -107,7 +107,7 @@ class CollectionDataGrid extends DataGridSource {
                       child: IconButton.filled(
                         tooltip: "انتشار",
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.check,
                           size: 16,
                         ),
@@ -123,7 +123,7 @@ class CollectionDataGrid extends DataGridSource {
                     child: IconButton.filled(
                       tooltip: "جزئیات",
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.remove_red_eye_rounded,
                         size: 16,
                       ),
@@ -139,7 +139,7 @@ class CollectionDataGrid extends DataGridSource {
                       child: IconButton.filled(
                         tooltip: "ویرایش",
                         onPressed: () {},
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.edit,
                           size: 16,
                         ),
@@ -156,7 +156,7 @@ class CollectionDataGrid extends DataGridSource {
                     child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         size: 16,
                       ),

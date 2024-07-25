@@ -88,7 +88,7 @@ class GenreDataGrid extends DataGridSource {
                               );
                             });
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit,
                         size: 16,
                       ),
@@ -122,21 +122,21 @@ class GenreDataGrid extends DataGridSource {
                                         onPressed: () {
                                           Navigator.of(dialogContext).pop();
                                         },
-                                        child: Text(
-                                          "انصراف",
-                                        ),
                                         style: ButtonStyle(
                                           textStyle: WidgetStateProperty.all(
                                               Theme.of(dialogContext)
                                                   .textTheme
                                                   .labelSmall),
                                           padding: WidgetStateProperty.all(
-                                              EdgeInsets.all(16)),
+                                              const EdgeInsets.all(16)),
                                           shape: WidgetStateProperty.all(
                                               RoundedRectangleBorder(
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           4))),
+                                        ),
+                                        child: const Text(
+                                          "انصراف",
                                         ),
                                       ),
                                       FilledButton(
@@ -146,7 +146,7 @@ class GenreDataGrid extends DataGridSource {
                                                       .textTheme
                                                       .labelSmall),
                                               padding: WidgetStateProperty.all(
-                                                  EdgeInsets.all(16)),
+                                                  const EdgeInsets.all(16)),
                                               alignment: Alignment.center,
                                               shape: WidgetStateProperty.all(
                                                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
@@ -155,12 +155,12 @@ class GenreDataGrid extends DataGridSource {
                                                 id: dataGridCell.value);
                                             Navigator.of(dialogContext).pop();
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             "بله",
                                           )),
                                     ]));
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         size: 16,
                       ),

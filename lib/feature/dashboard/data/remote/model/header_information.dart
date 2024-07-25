@@ -1,13 +1,13 @@
 class HeaderInformation {
   HeaderInformation({
       int? users, 
-      double? userRatio,
+      num? userRatio,
       int? movies, 
-      double? movieRatio,
+      num? movieRatio,
       int? ads, 
-      double? adsRatio,
+      num? adsRatio,
       int? vip, 
-      double? vipRatio,}){
+      num? vipRatio,}){
     _users = users;
     _userRatio = userRatio;
     _movies = movies;
@@ -29,22 +29,22 @@ class HeaderInformation {
     _vipRatio = json['vip_ratio'];
   }
   int? _users;
-  double? _userRatio;
+  num? _userRatio;
   int? _movies;
-  double? _movieRatio;
+  num? _movieRatio;
   int? _ads;
-  double? _adsRatio;
+  num? _adsRatio;
   int? _vip;
-  double? _vipRatio;
+  num? _vipRatio;
 
   int? get users => _users;
-  double? get userRatio => _userRatio;
+  num? get userRatio => _userRatio;
   int? get movies => _movies;
-  double? get movieRatio => _movieRatio;
+  num? get movieRatio => _movieRatio;
   int? get ads => _ads;
-  double? get adsRatio => _adsRatio;
+  num? get adsRatio => _adsRatio;
   int? get vip => _vip;
-  double? get vipRatio => _vipRatio;
+  num? get vipRatio => _vipRatio;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};

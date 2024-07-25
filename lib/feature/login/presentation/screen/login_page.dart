@@ -6,9 +6,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
@@ -96,12 +94,12 @@ class _LoginPageState extends State<LoginPage> {
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleLarge),
-                                          SizedBox(height: 24),
+                                          const SizedBox(height: 24),
                                           Text("نام\u200cکاربری یا ایمیل",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleSmall),
-                                          SizedBox(height: 8),
+                                          const SizedBox(height: 8),
                                           BlocBuilder<LoginCubit, LoginState>(
                                             builder: (context, state) {
                                               return TextField(
@@ -109,17 +107,17 @@ class _LoginPageState extends State<LoginPage> {
                                                   enabled: state is! LoggingIn,
                                                   controller:
                                                       usernameController,
-                                                  decoration: InputDecoration(
+                                                  decoration: const InputDecoration(
                                                       hintText:
                                                           "test@email.com"));
                                             },
                                           ),
-                                          SizedBox(height: 24),
+                                          const SizedBox(height: 24),
                                           Text("رمز عبور",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleSmall),
-                                          SizedBox(height: 8),
+                                          const SizedBox(height: 8),
                                           BlocBuilder<LoginCubit, LoginState>(
                                               builder: (context, state) {
                                             return PasswordInputWidget(
@@ -128,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                                               controller: passwordController,
                                             );
                                           }),
-                                          SizedBox(height: 32),
+                                          const SizedBox(height: 32),
                                           loginButton()
                                         ],
                                       ),
@@ -148,11 +146,11 @@ class _LoginPageState extends State<LoginPage> {
               if (state is LoggingIn) {
                 return Center(
                     child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
                   child: SpinKitCubeGrid(
                     color: CustomColor.loginBackgroundColor.getColor(context),
                     size: 50.0,
                   ),
-                  filter: ImageFilter.blur(sigmaY: 5, sigmaX: 5),
                 ));
               }
               return const SizedBox();
@@ -165,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                 context.go(RoutePath.dashboard.fullPath);
               } else if (state is LoginFailed) {
                 toastification.showCustom(
-                    animationDuration: Duration(milliseconds: 300),
+                    animationDuration: const Duration(milliseconds: 300),
                     context: context,
                     alignment: Alignment.bottomRight,
                     autoCloseDuration: const Duration(seconds: 4),
@@ -202,7 +200,7 @@ class _LoginPageState extends State<LoginPage> {
                     .labelLarge
                     ?.copyWith(color: Theme.of(context).colorScheme.onPrimary);
               }),
-              padding: WidgetStateProperty.all(EdgeInsets.all(16)),
+              padding: WidgetStateProperty.all(const EdgeInsets.all(16)),
               alignment: Alignment.center,
               backgroundColor: WidgetStateProperty.resolveWith((state) {
                 if (state.contains(WidgetState.disabled)) {
@@ -220,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                       .login(usernameController.text, passwordController.text);
                   // context.pushReplacement(RoutePath.dashboard.path);
                 },
-          child: Text("ورود"));
+          child: const Text("ورود"));
     });
   }
 }

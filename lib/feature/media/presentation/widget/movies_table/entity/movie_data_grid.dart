@@ -2,9 +2,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/movie.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -149,7 +147,7 @@ class MovieDataGrid extends DataGridSource {
                     child: IconButton.filled(
                       tooltip: "جزئیات",
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.remove_red_eye_rounded,
                         size: 16,
                       ),
@@ -167,7 +165,7 @@ class MovieDataGrid extends DataGridSource {
                         _context.go(
                             "${RoutePath.editMovie.fullPath}${dataGridCell.value}");
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.edit,
                         size: 16,
                       ),
@@ -182,7 +180,7 @@ class MovieDataGrid extends DataGridSource {
                     child: IconButton.filled(
                       tooltip: "حذف",
                       onPressed: () {},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.delete,
                         size: 16,
                       ),

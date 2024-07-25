@@ -6,7 +6,6 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/header_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -113,7 +112,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                     children: [
                       if (isProfit != null && percent != null) ...[
                         Text(
-                          "${percent}%",
+                          "$percent%",
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
@@ -197,7 +196,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                       children: [
                         if (isProfit != null && percent != null) ...[
                           Text(
-                            "${percent}%",
+                            "$percent%",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -227,11 +226,11 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     return Shimmer(
         gradient: LinearGradient(colors: [
           if (Theme.of(context).brightness == Brightness.dark) ...[
-            Color.fromRGBO(28, 27, 30, 1),
-            Color.fromRGBO(30, 29, 33, 1),
-            Color.fromRGBO(36, 34, 38, 1),
-            Color.fromRGBO(30, 29, 33, 1),
-            Color.fromRGBO(28, 27, 30, 1),
+            const Color.fromRGBO(28, 27, 30, 1),
+            const Color.fromRGBO(30, 29, 33, 1),
+            const Color.fromRGBO(36, 34, 38, 1),
+            const Color.fromRGBO(30, 29, 33, 1),
+            const Color.fromRGBO(28, 27, 30, 1),
           ] else ...[
             const Color.fromRGBO(246, 242, 247, 1.0),
             const Color.fromRGBO(241, 237, 242, 1.0),
@@ -257,7 +256,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
           childAspectRatio:
               1 / (100 / (widget.width / min(4, widget.width ~/ 250))),
           padding: const EdgeInsets.all(16),
-          children: [
+          children: const [
             Card(),
             Card(),
             Card(),
@@ -283,7 +282,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                     error ?? "خطا در دریافت اطلاعات!",
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   OutlinedButton(
                       onPressed: () {
                         BlocProvider.of<HeaderInformationCubit>(context)
@@ -345,7 +344,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
 
   Widget _successSliver(HeaderInformation data) {
     return SliverPadding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       sliver: SliverGrid.count(
         crossAxisCount: min(4, widget.width ~/ 250),
         mainAxisSpacing: 16,
@@ -400,7 +399,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                       error ?? "خطا در دریافت اطلاعات!",
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     OutlinedButton(
                         onPressed: () {
                           BlocProvider.of<HeaderInformationCubit>(context)
@@ -422,7 +421,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
 
   Widget _loadingSliver() {
     return SliverPadding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       sliver: SliverGrid.count(
         crossAxisCount: min(4, widget.width ~/ 250),
         mainAxisSpacing: 16,
@@ -433,11 +432,11 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
           Shimmer(
               gradient: LinearGradient(colors: [
                 if (Theme.of(context).brightness == Brightness.dark) ...[
-                  Color.fromRGBO(28, 27, 30, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(36, 34, 38, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(36, 34, 38, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
                 ] else ...[
                   const Color.fromRGBO(246, 242, 247, 1.0),
                   const Color.fromRGBO(241, 237, 242, 1.0),
@@ -453,15 +452,15 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                 1.0
               ]),
               period: const Duration(milliseconds: 1000),
-              child: Card()),
+              child: const Card()),
           Shimmer(
               gradient: LinearGradient(colors: [
                 if (Theme.of(context).brightness == Brightness.dark) ...[
-                  Color.fromRGBO(28, 27, 30, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(36, 34, 38, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(36, 34, 38, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
                 ] else ...[
                   const Color.fromRGBO(246, 242, 247, 1.0),
                   const Color.fromRGBO(241, 237, 242, 1.0),
@@ -477,15 +476,15 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                 1.0
               ]),
               period: const Duration(milliseconds: 1000),
-              child: Card()),
+              child: const Card()),
           Shimmer(
               gradient: LinearGradient(colors: [
                 if (Theme.of(context).brightness == Brightness.dark) ...[
-                  Color.fromRGBO(28, 27, 30, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(36, 34, 38, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(36, 34, 38, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
                 ] else ...[
                   const Color.fromRGBO(246, 242, 247, 1.0),
                   const Color.fromRGBO(241, 237, 242, 1.0),
@@ -501,15 +500,15 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                 1.0
               ]),
               period: const Duration(milliseconds: 1000),
-              child: Card()),
+              child: const Card()),
           Shimmer(
               gradient: LinearGradient(colors: [
                 if (Theme.of(context).brightness == Brightness.dark) ...[
-                  Color.fromRGBO(28, 27, 30, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(36, 34, 38, 1),
-                  Color.fromRGBO(30, 29, 33, 1),
-                  Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(36, 34, 38, 1),
+                  const Color.fromRGBO(30, 29, 33, 1),
+                  const Color.fromRGBO(28, 27, 30, 1),
                 ] else ...[
                   const Color.fromRGBO(246, 242, 247, 1.0),
                   const Color.fromRGBO(241, 237, 242, 1.0),
@@ -525,7 +524,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
                 1.0
               ]),
               period: const Duration(milliseconds: 1000),
-              child: Card()),
+              child: const Card()),
         ],
       ),
     );
