@@ -14,6 +14,14 @@ class MediaApiService {
         options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 
+  Future<dynamic> deleteMovie({required int id}) async {
+    return await _dio.delete("movie/$id/",
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
   Future<dynamic> getSeries({int page = 1}) async {
     return await _dio.get("admin/media/series/",
         queryParameters: {"page": page},

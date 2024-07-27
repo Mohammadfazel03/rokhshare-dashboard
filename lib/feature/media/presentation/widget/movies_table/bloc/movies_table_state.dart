@@ -15,10 +15,15 @@ final class MoviesTableLoading extends MoviesTableState {
 
 final class MoviesTableError extends MoviesTableState {
   final String error;
+  final String? title;
   final int? code;
 
   const MoviesTableError(
-      {required this.error, this.code, int numberPages = 0, int pageIndex = 0})
+      {required this.error,
+      this.title,
+      this.code,
+      int numberPages = 0,
+      int pageIndex = 0})
       : super(numberPages: numberPages, pageIndex: pageIndex);
 }
 

@@ -31,4 +31,20 @@ class MoviesTableCubit extends Cubit<MoviesTableState> {
           pageIndex: page));
     }
   }
+
+  Future<void> delete({required int id}) async {
+    emit(MoviesTableLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteMovie(id: id);
+    if (response is DataFailed) {
+      emit(MoviesTableError(
+          title: "خطا در حذف فیلم",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex);
+    }
+  }
 }

@@ -11,6 +11,8 @@ import 'package:dashboard/utils/page_response.dart';
 abstract class MediaRepository {
   Future<DataResponse<PageResponse<Movie>>> getMovies({int page = 1});
 
+  Future<DataResponse<void>> deleteMovie({required int id});
+
   Future<DataResponse<PageResponse<Series>>> getSeries({int page = 1});
 
   Future<DataResponse<PageResponse<Genre>>> getGenres({int page = 1});

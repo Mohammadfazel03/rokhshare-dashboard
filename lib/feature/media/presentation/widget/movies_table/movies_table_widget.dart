@@ -25,7 +25,8 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
 
   @override
   void initState() {
-    _dataGrid = MovieDataGrid(context: context);
+    _dataGrid = MovieDataGrid(
+        context: context, cubit: BlocProvider.of<MoviesTableCubit>(context));
     BlocProvider.of<MoviesTableCubit>(context).getData();
 
     super.initState();

@@ -2,6 +2,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/movie.dart';
+import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
@@ -10,9 +11,14 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 class MovieDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
+  final MoviesTableCubit _cubit;
 
-  MovieDataGrid({List<Movie>? movie, required BuildContext context})
-      : _context = context {
+  MovieDataGrid(
+      {List<Movie>? movie,
+      required BuildContext context,
+      required MoviesTableCubit cubit})
+      : _context = context,
+        _cubit = cubit {
     if (movie != null) {
       buildDataGridRows(movie: movie);
     }
@@ -69,7 +75,8 @@ class MovieDataGrid extends DataGridSource {
                     children: [
                       for (int i = 0; i < countries.length; i++) ...[
                         RawChip(
-                            selectedColor: Theme.of(_context).colorScheme.primary,
+                            selectedColor:
+                                Theme.of(_context).colorScheme.primary,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(16)),
                             side: BorderSide.none,
@@ -83,9 +90,10 @@ class MovieDataGrid extends DataGridSource {
                                 style: Theme.of(_context)
                                     .textTheme
                                     .labelMedium
-                                    ?.copyWith(color: Theme.of(_context)
-                                    .colorScheme
-                                    .onPrimary)))
+                                    ?.copyWith(
+                                        color: Theme.of(_context)
+                                            .colorScheme
+                                            .onPrimary)))
                       ]
                     ],
                   ),
@@ -179,7 +187,68 @@ class MovieDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filled(
                       tooltip: "حذف",
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: _context,
+                            builder: (dialogContext) => AlertDialog(
+                                    title: Text(
+                                      "حذف فیلم",
+                                      style: Theme.of(dialogContext)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ),
+                                    content: Text(
+                                        "آیا از حذف فیلم با شناسه ${dataGridCell.value} اظمینان دارید؟",
+                                        style: Theme.of(dialogContext)
+                                            .textTheme
+                                            .bodyMedium),
+                                    actions: [
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.of(dialogContext).pop();
+                                        },
+                                        style: ButtonStyle(
+                                          textStyle: WidgetStateProperty.all(
+                                              Theme.of(dialogContext)
+                                                  .textTheme
+                                                  .labelSmall),
+                                          padding: WidgetStateProperty.all(
+                                              const EdgeInsets.all(16)),
+                                          shape: WidgetStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4))),
+                                        ),
+                                        child: const Text(
+                                          "انصراف",
+                                        ),
+                                      ),
+                                      FilledButton(
+                                          style: ButtonStyle(
+                                              textStyle:
+                                                  WidgetStateProperty.all(
+                                                      Theme.of(dialogContext)
+                                                          .textTheme
+                                                          .labelSmall),
+                                              padding: WidgetStateProperty.all(
+                                                  const EdgeInsets.all(16)),
+                                              alignment: Alignment.center,
+                                              shape: WidgetStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)))),
+                                          onPressed: () {
+                                            _cubit.delete(
+                                                id: dataGridCell.value);
+                                            Navigator.of(dialogContext).pop();
+                                          },
+                                          child: const Text(
+                                            "بله",
+                                          )),
+                                    ]));
+                      },
                       icon: const Icon(
                         Icons.delete,
                         size: 16,
