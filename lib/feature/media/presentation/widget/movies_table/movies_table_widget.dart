@@ -32,6 +32,12 @@ class _MoviesTableWidgetState extends State<MoviesTableWidget> {
   }
 
   @override
+  void dispose() {
+    _dataGrid.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,

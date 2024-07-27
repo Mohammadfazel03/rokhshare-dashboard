@@ -33,6 +33,12 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
   }
 
   @override
+  void dispose() {
+    _commentDataGrid.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,

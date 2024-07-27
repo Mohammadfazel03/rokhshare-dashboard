@@ -21,7 +21,7 @@ class TitleSectionWidget extends StatelessWidget {
           ),
           onChanged: (value) {
             if (value.isNotEmpty) {
-              context.read<TitleSectionCubit>().clearError();
+              BlocProvider.of<TitleSectionCubit>(context).clearError();
             }
           },
         );

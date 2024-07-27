@@ -40,7 +40,7 @@ class ValueSectionWidget extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurface)))
               .toList(),
           onChanged: (item) {
-            context.read<ValueSectionCubit>().selectValue(item);
+            BlocProvider.of<ValueSectionCubit>(context).selectValue(item);
           },
           dropdownStyleData: DropdownStyleData(
             decoration: BoxDecoration(

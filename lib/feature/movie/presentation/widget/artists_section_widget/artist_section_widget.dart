@@ -256,7 +256,7 @@ class ArtistSectionWidget extends StatelessWidget {
                   ?.copyWith(color: Theme.of(context).colorScheme.onSurface)))
           .toList(),
       onChanged: (item) {
-        context.read<ArtistSectionCubit>().selectRole(item);
+        BlocProvider.of<ArtistSectionCubit>(context).selectRole(item);
       },
       value: selectedRole,
       dropdownStyleData: DropdownStyleData(

@@ -32,6 +32,12 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
   }
 
   @override
+  void dispose() {
+    _adsDataGrid.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,

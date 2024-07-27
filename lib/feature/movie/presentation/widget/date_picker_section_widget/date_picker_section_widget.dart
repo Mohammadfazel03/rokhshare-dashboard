@@ -133,8 +133,7 @@ class DatePickerSectionWidget extends StatelessWidget {
                   textStyle: WidgetStateProperty.all(
                       Theme.of(context).textTheme.labelLarge)),
               onPressed: () {
-                context
-                    .read<DatePickerSectionCubit>()
+                BlocProvider.of<DatePickerSectionCubit>(context)
                     .setDate(_datePickerController.selectedDate);
                 Navigator.of(context, rootNavigator: true).pop();
               },

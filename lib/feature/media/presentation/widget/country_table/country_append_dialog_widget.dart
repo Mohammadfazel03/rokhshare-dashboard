@@ -39,6 +39,13 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
   }
 
   @override
+  void dispose() {
+    countryInputController.dispose();
+    file = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<CountryAppendCubit, CountryAppendState>(
       listener: (context, state) {

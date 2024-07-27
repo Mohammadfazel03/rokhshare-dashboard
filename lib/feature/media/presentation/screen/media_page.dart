@@ -17,14 +17,9 @@ import 'package:dashboard/feature/media/presentation/widget/sliders_table/slider
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MediaPage extends StatefulWidget {
+class MediaPage extends StatelessWidget {
   const MediaPage({super.key});
 
-  @override
-  State<MediaPage> createState() => _MediaPageState();
-}
-
-class _MediaPageState extends State<MediaPage> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {

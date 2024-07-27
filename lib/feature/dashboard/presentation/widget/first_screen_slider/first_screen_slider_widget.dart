@@ -31,6 +31,12 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
   }
 
   @override
+  void dispose() {
+    _sliderDataGrid.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,

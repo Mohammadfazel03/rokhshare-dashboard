@@ -30,6 +30,12 @@ class _PopularPlanWidgetState extends State<PopularPlanWidget> {
   }
 
   @override
+  void dispose() {
+    _planDataGrid.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.max,

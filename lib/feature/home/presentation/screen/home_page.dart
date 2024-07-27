@@ -32,6 +32,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    sidebarController.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     int width = MediaQuery.of(context).size.width.round();
     int height = MediaQuery.of(context).size.height.round();

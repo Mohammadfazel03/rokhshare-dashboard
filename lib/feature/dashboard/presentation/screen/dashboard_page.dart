@@ -15,14 +15,9 @@ import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/re
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardPage extends StatefulWidget {
+class DashboardPage extends StatelessWidget {
   const DashboardPage({super.key});
 
-  @override
-  State<DashboardPage> createState() => _DashboardPageState();
-}
-
-class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -53,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
           BlocProvider(
             create: (context) =>
-                HeaderInformationCubit(repository: getIt.get()),
+                HeaderInformationCubit(repository: getIt.get())..getData(),
             child: HeaderInformationWidget(width: width.round()),
           ),
           if (width >= 750) ...[

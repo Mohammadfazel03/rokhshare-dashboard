@@ -21,7 +21,7 @@ class SynopsisSectionWidget extends StatelessWidget {
               errorText: state.error),
           onChanged: (value) {
             if (value.isNotEmpty) {
-              context.read<SynopsisSectionCubit>().clearError();
+              BlocProvider.of<SynopsisSectionCubit>(context).clearError();
             }
           },
         );

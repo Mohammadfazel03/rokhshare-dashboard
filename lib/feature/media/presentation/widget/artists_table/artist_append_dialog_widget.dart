@@ -41,6 +41,14 @@ class _ArtistAppendDialogWidgetState extends State<ArtistAppendDialogWidget> {
   }
 
   @override
+  void dispose() {
+    nameArtistInputController.dispose();
+    bioArtistInputController.dispose();
+    file = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<ArtistAppendCubit, ArtistAppendState>(
       listener: (context, state) {

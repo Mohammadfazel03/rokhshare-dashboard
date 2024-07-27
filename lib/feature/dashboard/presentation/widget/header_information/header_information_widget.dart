@@ -6,6 +6,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/header_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/elusive_icons.dart';
 import 'package:go_router/go_router.dart';
@@ -13,22 +14,10 @@ import 'package:shimmer/shimmer.dart';
 
 import 'bloc/header_information_cubit.dart';
 
-class HeaderInformationWidget extends StatefulWidget {
+class HeaderInformationWidget extends StatelessWidget {
   final int width;
 
   const HeaderInformationWidget({super.key, required this.width});
-
-  @override
-  State<HeaderInformationWidget> createState() =>
-      _HeaderInformationWidgetState();
-}
-
-class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
-  @override
-  void initState() {
-    BlocProvider.of<HeaderInformationCubit>(context).getData();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +35,13 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
       },
       builder: (context, state) {
         if (state is HeaderInformationLoading) {
-          return _loadingSliver();
+          return _loadingSliver(context);
         } else if (state is HeaderInformationSuccess) {
-          return _successSliver(state.data);
+          return _successSliver(state.data, context);
         } else if (state is HeaderInformationError) {
-          return _errorSliver(state.error);
+          return _errorSliver(state.error, context);
         }
-        return _errorSliver(null);
+        return _errorSliver(null, context);
       },
     );
   }
@@ -61,6 +50,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
       {required IconData icon,
       required String title,
       required String subtitle,
+      required BuildContext context,
       String? percent,
       bool? isProfit}) {
     return Card(
@@ -144,6 +134,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
       {required IconData icon,
       required String title,
       required String subtitle,
+      required BuildContext context,
       String? percent,
       bool? isProfit}) {
     return SliverToBoxAdapter(
@@ -225,7 +216,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     );
   }
 
-  Widget _loading() {
+  Widget _loading(context) {
     return Shimmer(
         gradient: LinearGradient(colors: [
           if (Theme.of(context).brightness == Brightness.dark) ...[
@@ -252,12 +243,11 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
         child: GridView.count(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          crossAxisCount: min(4, widget.width ~/ 250),
+          crossAxisCount: min(4, width ~/ 250),
           scrollDirection: Axis.vertical,
           mainAxisSpacing: 16,
           crossAxisSpacing: 16,
-          childAspectRatio:
-              1 / (100 / (widget.width / min(4, widget.width ~/ 250))),
+          childAspectRatio: 1 / (100 / (width / min(4, width ~/ 250))),
           padding: const EdgeInsets.all(16),
           children: const [
             Card(),
@@ -268,7 +258,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
         ));
   }
 
-  Widget _error(String? error) {
+  Widget _error(String? error, context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Card(
@@ -304,37 +294,40 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     );
   }
 
-  Widget _success(HeaderInformation data) {
+  Widget _success(HeaderInformation data, context) {
     return GridView.count(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      crossAxisCount: min(4, widget.width ~/ 250),
+      crossAxisCount: min(4, width ~/ 250),
       scrollDirection: Axis.vertical,
       mainAxisSpacing: 16,
       crossAxisSpacing: 16,
-      childAspectRatio:
-          1 / (100 / (widget.width / min(4, widget.width ~/ 250))),
+      childAspectRatio: 1 / (100 / (width / min(4, width ~/ 250))),
       padding: const EdgeInsets.all(16),
       children: [
         informationCard(
+            context: context,
             icon: CupertinoIcons.person_crop_circle_fill,
             title: (data.users ?? 0).toString(),
             subtitle: "کاربران",
             percent: (data.userRatio ?? 0.0).toString(),
             isProfit: (data.userRatio ?? 0) >= 0),
         informationCard(
+            context: context,
             icon: CupertinoIcons.videocam_circle_fill,
             title: (data.movies ?? 0).toString(),
             subtitle: "فیلم و سریال",
             percent: (data.movieRatio ?? 0.0).toString(),
             isProfit: (data.movieRatio ?? 0) >= 0),
         informationCard(
+            context: context,
             icon: Elusive.basket_circled,
             title: (data.vip ?? 0).toString(),
             subtitle: "مشترکین",
             percent: (data.vipRatio ?? 0.0).toString(),
             isProfit: (data.vipRatio ?? 0) >= 0),
         informationCard(
+            context: context,
             icon: CupertinoIcons.money_dollar_circle_fill,
             title: (data.ads ?? 0).toString(),
             subtitle: "تبلیغات",
@@ -344,37 +337,39 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     );
   }
 
-
-  Widget _successSliver(HeaderInformation data) {
+  Widget _successSliver(HeaderInformation data, context) {
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverGrid.count(
-        crossAxisCount: min(4, widget.width ~/ 250),
-        mainAxisSpacing: 16,
+          crossAxisCount: min(4, width ~/ 250),
+          mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        childAspectRatio:
-        1 / (100 / (widget.width / min(4, widget.width ~/ 250))),
-        children: [
+        childAspectRatio: 1 / (100 / (width / min(4, width ~/ 250))),
+          children: [
           informationCard(
-              icon: CupertinoIcons.person_crop_circle_fill,
+                context: context,
+                icon: CupertinoIcons.person_crop_circle_fill,
               title: (data.users ?? 0).toString(),
               subtitle: "کاربران",
               percent: (data.userRatio ?? 0.0).toString(),
               isProfit: (data.userRatio ?? 0) >= 0),
           informationCard(
-              icon: CupertinoIcons.videocam_circle_fill,
+                context: context,
+                icon: CupertinoIcons.videocam_circle_fill,
               title: (data.movies ?? 0).toString(),
               subtitle: "فیلم و سریال",
               percent: (data.movieRatio ?? 0.0).toString(),
               isProfit: (data.movieRatio ?? 0) >= 0),
           informationCard(
-              icon: Elusive.basket_circled,
+                context: context,
+                icon: Elusive.basket_circled,
               title: (data.vip ?? 0).toString(),
               subtitle: "مشترکین",
               percent: (data.vipRatio ?? 0.0).toString(),
               isProfit: (data.vipRatio ?? 0) >= 0),
           informationCard(
-              icon: CupertinoIcons.money_dollar_circle_fill,
+                context: context,
+                icon: CupertinoIcons.money_dollar_circle_fill,
               title: (data.ads ?? 0).toString(),
               subtitle: "تبلیغات",
               percent: (data.adsRatio ?? 0.0).toString(),
@@ -384,7 +379,7 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     );
   }
 
-  Widget _errorSliver(String? error) {
+  Widget _errorSliver(String? error, context) {
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverToBoxAdapter(
@@ -422,15 +417,14 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
     );
   }
 
-  Widget _loadingSliver() {
+  Widget _loadingSliver(context) {
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverGrid.count(
-        crossAxisCount: min(4, widget.width ~/ 250),
+        crossAxisCount: min(4, width ~/ 250),
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
-        childAspectRatio:
-        1 / (100 / (widget.width / min(4, widget.width ~/ 250))),
+        childAspectRatio: 1 / (100 / (width / min(4, width ~/ 250))),
         children: [
           Shimmer(
               gradient: LinearGradient(colors: [
@@ -532,5 +526,4 @@ class _HeaderInformationWidgetState extends State<HeaderInformationWidget> {
       ),
     );
   }
-
 }

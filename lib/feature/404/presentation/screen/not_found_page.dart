@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
-class NotFoundPage extends StatefulWidget {
+class NotFoundPage extends StatelessWidget {
   const NotFoundPage({super.key});
 
-  @override
-  State<NotFoundPage> createState() => _NotFoundPageState();
-}
-
-class _NotFoundPageState extends State<NotFoundPage> {
   @override
   Widget build(BuildContext context) {
     int width = MediaQuery.of(context).size.width.round();

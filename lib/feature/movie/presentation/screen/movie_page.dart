@@ -344,15 +344,15 @@ class _MoviePageState extends State<MoviePage> {
   void save() {
     var isValid = true;
 
-    var movieBloc = context.read<MovieUploadSectionCubit>();
-    var trailerBloc = context.read<TrailerUploadSectionCubit>();
-    var posterBloc = context.read<PosterSectionCubit>();
-    var thumbnailBloc = context.read<ThumbnailSectionCubit>();
-    var genresBloc = context.read<GenreSectionCubit>();
-    var countriesBloc = context.read<CountryMultiSelectorCubit>();
-    var valueBloc = context.read<ValueSectionCubit>();
-    var castBloc = context.read<ArtistSectionCubit>();
-    var dateBloc = context.read<DatePickerSectionCubit>();
+    var movieBloc = BlocProvider.of<MovieUploadSectionCubit>(context);
+    var trailerBloc = BlocProvider.of<TrailerUploadSectionCubit>(context);
+    var posterBloc = BlocProvider.of<PosterSectionCubit>(context);
+    var thumbnailBloc = BlocProvider.of<ThumbnailSectionCubit>(context);
+    var genresBloc = BlocProvider.of<GenreSectionCubit>(context);
+    var countriesBloc = BlocProvider.of<CountryMultiSelectorCubit>(context);
+    var valueBloc = BlocProvider.of<ValueSectionCubit>(context);
+    var castBloc = BlocProvider.of<ArtistSectionCubit>(context);
+    var dateBloc = BlocProvider.of<DatePickerSectionCubit>(context);
 
     if (movieBloc.state.isUploaded != true || movieBloc.state.fileId == null) {
       isValid = false;
@@ -406,16 +406,18 @@ class _MoviePageState extends State<MoviePage> {
 
     if (synopsisController.text.isEmpty) {
       isValid = false;
-      context.read<SynopsisSectionCubit>().setError("خلاصه داستان اجباری است.");
+      BlocProvider.of<SynopsisSectionCubit>(context)
+          .setError("خلاصه داستان اجباری است.");
     } else {
-      context.read<SynopsisSectionCubit>().clearError();
+      BlocProvider.of<SynopsisSectionCubit>(context).clearError();
     }
 
     if (titleController.text.isEmpty) {
       isValid = false;
-      context.read<TitleSectionCubit>().setError("عنوان فیلم اجباری است.");
+      BlocProvider.of<TitleSectionCubit>(context)
+          .setError("عنوان فیلم اجباری است.");
     } else {
-      context.read<TitleSectionCubit>().clearError();
+      BlocProvider.of<TitleSectionCubit>(context).clearError();
     }
 
     if (countriesBloc.state.selectedItem.isEmpty) {
@@ -447,7 +449,7 @@ class _MoviePageState extends State<MoviePage> {
     }
 
     if (isValid == true) {
-      context.read<MoviePageCubit>().saveMovie(
+      BlocProvider.of<MoviePageCubit>(context).saveMovie(
           synopsis: synopsisController.text,
           name: titleController.text,
           time: movieBloc.state.duration ?? 1,

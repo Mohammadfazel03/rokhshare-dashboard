@@ -39,6 +39,13 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
   }
 
   @override
+  void dispose() {
+    genreInputController.dispose();
+    file = null;
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocConsumer<GenreAppendCubit, GenreAppendState>(
       listener: (context, state) {
