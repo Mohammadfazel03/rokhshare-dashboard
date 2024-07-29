@@ -18,17 +18,14 @@ class GenreSectionCubit extends Cubit<GenreSectionState> {
         status: GenreSectionStatus.loading, selectedItem: []));
     DataResponse<List<Genre>> response = await _repository.getGenres();
     if (response is DataFailed) {
-      emit(GenreSectionState(
+      emit(state.copyWith(
           status: GenreSectionStatus.fail,
-          selectedItem: const [],
           error: response.error,
           code: response.code,
           titleError: "خطا در دریافت ژانر ها"));
     } else {
-      emit(GenreSectionState(
-          status: GenreSectionStatus.success,
-          selectedItem: const [],
-          data: response.data));
+      emit(state.copyWith(
+          status: GenreSectionStatus.success, data: response.data));
     }
   }
 
@@ -52,9 +49,13 @@ class GenreSectionCubit extends Cubit<GenreSectionState> {
   }
 
   void clearError() {
-    if (state.status == GenreSectionStatus.success &&
-        state.error != null) {
+    if (state.status == GenreSectionStatus.success && state.error != null) {
       emit(state.clearError());
     }
+  }
+
+  void initialSelectedItem(List<Genre> genres) {
+    var selectedItems = List.of(genres);
+    emit(state.copyWith(selectedItem: selectedItems));
   }
 }

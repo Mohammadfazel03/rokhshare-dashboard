@@ -18,16 +18,14 @@ class CountryMultiSelectorCubit extends Cubit<CountryMultiSelectorState> {
         status: CountryMultiSelectorStatus.loading, selectedItem: []));
     DataResponse<List<Country>> response = await _repository.getCountries();
     if (response is DataFailed) {
-      emit(CountryMultiSelectorState(
+      emit(state.copyWith(
           status: CountryMultiSelectorStatus.fail,
-          selectedItem: const [],
           error: response.error,
           code: response.code,
-          titleError: "خطا در دریافت ژانر ها"));
+          titleError: "خطا در دریافت کشور ها"));
     } else {
-      emit(CountryMultiSelectorState(
+      emit(state.copyWith(
           status: CountryMultiSelectorStatus.success,
-          selectedItem: const [],
           data: response.data));
     }
   }
@@ -56,5 +54,10 @@ class CountryMultiSelectorCubit extends Cubit<CountryMultiSelectorState> {
         state.error != null) {
       emit(state.clearError());
     }
+  }
+
+  void initialSelectedItem(List<Country> countries) {
+    var selectedItems = List.of(countries);
+    emit(state.copyWith(selectedItem: selectedItems));
   }
 }

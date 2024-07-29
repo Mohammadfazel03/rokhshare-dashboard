@@ -175,6 +175,7 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
 import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
 import 'package:dashboard/utils/background_file_reader.dart';
 import 'package:dashboard/utils/data_response.dart';
@@ -215,7 +216,7 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
   }
 
   void _getThumbnail(File file) async {
-    // TODO create thumbnail of video
+    // TODO: create thumbnail of video
   }
 
   void _startUpload() async {
@@ -328,5 +329,12 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
   void resumeUpload() {
     emit(state.copyWith(isPaused: false));
     _startUpload();
+  }
+
+  void initialTrailer(MediaFile? mediaFile) {
+    if (mediaFile != null) {
+      emit(TrailerUploadSectionState.completeUpload(
+          file: null, thumbnailDataUrl: null, fileId: mediaFile.id!));
+    }
   }
 }

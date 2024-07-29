@@ -4,6 +4,7 @@ import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/movie/data/remote/model/file_response.dart';
+import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/remote/movie_api_service.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
 import 'package:dashboard/utils/data_response.dart';
@@ -152,8 +153,8 @@ class MovieRepositoryImpl extends MovieRepository {
       required String posterName,
       required String name,
       required String value,
-      required List<Map<String, String>> casts,
-        required String synopsis}) async {
+      required List<Map<String, String?>> casts,
+      required String synopsis}) async {
     try {
       Response response = await _api.saveMovie(
           time: time,
@@ -184,6 +185,92 @@ class MovieRepositoryImpl extends MovieRepository {
               code: 403);
         } else if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<String>> editMovie(
+      {required int id,
+      int? time,
+      List<int>? genres,
+      List<int>? countries,
+      int? video,
+      String? releaseDate,
+      int? trailer,
+      Uint8List? thumbnail,
+      Uint8List? poster,
+      String? thumbnailName,
+      String? posterName,
+      List<Map<String, String?>>? casts,
+      String? synopsis,
+      String? name,
+      String? value}) async {
+    try {
+      Response response = await _api.editMovie(
+          id: id,
+          time: time,
+          genres: genres,
+          countries: countries,
+          video: video,
+          releaseDate: releaseDate,
+          trailer: trailer,
+          thumbnail: thumbnail,
+          poster: poster,
+          thumbnailName: thumbnailName,
+          posterName: posterName,
+          casts: casts,
+          synopsis: synopsis,
+          name: name,
+          value: value);
+      if (response.statusCode == 200) {
+        return const DataSuccess("OK");
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        print(e.response?.data);
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Movie>> getMovie(int id) async {
+    try {
+      Response response = await _api.getMovie(id);
+      if (response.statusCode == 200) {
+        var data = Movie.fromJson(response.data);
+        return DataSuccess(data);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {

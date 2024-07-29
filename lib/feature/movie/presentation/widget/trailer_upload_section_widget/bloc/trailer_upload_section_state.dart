@@ -210,7 +210,7 @@ class TrailerUploadSectionState {
   );
 
   TrailerUploadSectionState.completeUpload({
-    required XFile file,
+    required XFile? file,
     required String? thumbnailDataUrl,
     required int fileId,
   }) : this(

@@ -16,7 +16,7 @@ class ArtistSectionCubit extends Cubit<ArtistSectionState> {
         error: null));
   }
 
-  void selectRole(Role? role) {
+  void selectRole(Position? role) {
     emit(state.copyWith(selectedRole: role));
   }
 
@@ -32,5 +32,10 @@ class ArtistSectionCubit extends Cubit<ArtistSectionState> {
     if (state.error != null) {
       emit(state.clearError());
     }
+  }
+
+  void initialSelectedItem(List<Cast> casts) {
+    var selectedItems = List.of(casts);
+    emit(state.copyWith(casts: selectedItems));
   }
 }

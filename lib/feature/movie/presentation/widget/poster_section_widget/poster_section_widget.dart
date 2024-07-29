@@ -49,14 +49,15 @@ class PosterSectionWidget extends StatelessWidget {
                     filled: false,
                   ),
                   isFocused: state.isFocused,
-                  isEmpty: state.file == null,
+                  isEmpty: state.file == null && state.networkUrl == null,
                   isHovering: state.isHovering,
-                  child:
-                      state.file != null ? fileSelected(state, context) : selectFile(context)),
+                  child: state.file != null || state.networkUrl != null
+                      ? fileSelected(state, context)
+                      : selectFile(context)),
             ),
             if (state.error != null) ...[
               Padding(
-                  padding: const EdgeInsets.fromLTRB(8,8,8,0),
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                   child: Text(
                     state.error!,
                     style: Theme.of(context)
@@ -79,15 +80,13 @@ class PosterSectionWidget extends StatelessWidget {
         OutlinedButton.icon(
             onPressed: () async {
               BlocProvider.of<PosterSectionCubit>(context).focus(true);
-              FilePickerResult? result = await FilePicker.platform.pickFiles(
-                  type: FileType.image);
+              FilePickerResult? result =
+                  await FilePicker.platform.pickFiles(type: FileType.image);
               BlocProvider.of<PosterSectionCubit>(context).focus(false);
               if (result != null) {
-
-                  BlocProvider.of<PosterSectionCubit>(context).selectFile(
-                      file: await result.files.single.xFile.readAsBytes(),
-                      filename: result.files.single.name);
-
+                BlocProvider.of<PosterSectionCubit>(context).selectFile(
+                    file: await result.files.single.xFile.readAsBytes(),
+                    filename: result.files.single.name);
               }
             },
             label: Text("بارگذاری",
@@ -106,16 +105,26 @@ class PosterSectionWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.memory(
-          state.file!,
-          height: 56,
-          width: 56,
-          fit: BoxFit.fill,
-        ),
+        if (state.file != null)
+          Image.memory(
+            state.file!,
+            height: 56,
+            width: 56,
+            fit: BoxFit.fill,
+          ),
+        if (state.networkUrl != null)
+          Image.network(
+            state.networkUrl!,
+            height: 56,
+            width: 56,
+            fit: BoxFit.fill,
+          ),
         const SizedBox(width: 8),
         Expanded(
           child: Text(state.filename ?? "",
-              style: Theme.of(context).textTheme.labelLarge),
+              style: Theme.of(context).textTheme.labelLarge,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis),
         ),
         const SizedBox(width: 8),
         IconButton(

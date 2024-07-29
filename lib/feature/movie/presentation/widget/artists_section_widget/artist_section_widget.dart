@@ -102,7 +102,8 @@ class ArtistSectionWidget extends StatelessWidget {
                                                   context)
                                               .addCast(Cast(
                                                   artist: _controller.value!,
-                                                  role: state.selectedRole!));
+                                                  position:
+                                                      state.selectedRole!));
                                           _controller.clear();
                                         }
                                       },
@@ -115,10 +116,10 @@ class ArtistSectionWidget extends StatelessWidget {
                   )
                 ] else ...[
                   BlocProvider(
-                      create: (context) => ArtistsAutocompleteCubit(
-                          repository: getIt.get()),
-                      child: ArtistsAutocompleteWidget(
-                          controller: _controller)),
+                      create: (context) =>
+                          ArtistsAutocompleteCubit(repository: getIt.get()),
+                      child:
+                          ArtistsAutocompleteWidget(controller: _controller)),
                   const SizedBox(height: 8),
                   BlocBuilder<ArtistSectionCubit, ArtistSectionState>(
                     buildWhen: (p, c) {
@@ -131,18 +132,17 @@ class ArtistSectionWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
-                              child: selectRole(
-                                  mainContext, state.selectedRole)),
+                              child:
+                                  selectRole(mainContext, state.selectedRole)),
                           const SizedBox(width: 8),
                           IconButton(
                               onPressed: () {
                                 if (state.selectedRole != null &&
                                     _controller.value != null) {
-                                  BlocProvider.of<ArtistSectionCubit>(
-                                          context)
+                                  BlocProvider.of<ArtistSectionCubit>(context)
                                       .addCast(Cast(
                                           artist: _controller.value!,
-                                          role: state.selectedRole!));
+                                          position: state.selectedRole!));
                                   _controller.clear();
                                 }
                               },
@@ -167,45 +167,48 @@ class ArtistSectionWidget extends StatelessWidget {
                           itemCount: state.casts.length,
                           itemBuilder: (context, index) {
                             return Card(
-                              clipBehavior: Clip.hardEdge,
-                              child: ListTile(
-                                style: ListTileStyle.list,
-                                title: Text(state.casts[index].artist.name ?? ""),
-                                subtitle:
-                                Text(state.casts[index].role.persianTitle),
-                                leading: ClipRRect(
-                                  borderRadius: BorderRadius.circular(40),
-                                  child: Image.network(
-                                      "${state.casts[index].artist.image}",
-                                      fit: BoxFit.cover,
-                                      height: 40,
-                                      width: 40),
-                                ),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      BlocProvider.of<ArtistSectionCubit>(context)
-                                          .removeCast(index);
-                                    },
-                                    icon: const Icon(Icons.close,
-                                        color: Colors.red)),
-                                tileColor: Theme.of(context).colorScheme.surface,
-                                minTileHeight: 72,
-                                titleTextStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge
-                                    ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurface),
-                                subtitleTextStyle: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium
-                                    ?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant),
-                              )
-                            );
+                                clipBehavior: Clip.hardEdge,
+                                child: ListTile(
+                                  style: ListTileStyle.list,
+                                  title: Text(
+                                      state.casts[index].artist?.name ?? ""),
+                                  subtitle: Text(state.casts[index].position
+                                          ?.persianTitle ??
+                                      ""),
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(40),
+                                    child: Image.network(
+                                        "${state.casts[index].artist?.image}",
+                                        fit: BoxFit.cover,
+                                        height: 40,
+                                        width: 40),
+                                  ),
+                                  trailing: IconButton(
+                                      onPressed: () {
+                                        BlocProvider.of<ArtistSectionCubit>(
+                                                context)
+                                            .removeCast(index);
+                                      },
+                                      icon: const Icon(Icons.close,
+                                          color: Colors.red)),
+                                  tileColor:
+                                      Theme.of(context).colorScheme.surface,
+                                  minTileHeight: 72,
+                                  titleTextStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurface),
+                                  subtitleTextStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onSurfaceVariant),
+                                ));
                           }),
                     );
                   },
@@ -229,12 +232,12 @@ class ArtistSectionWidget extends StatelessWidget {
   }
 
   Widget selectRole(BuildContext context, selectedRole) {
-    return DropdownButtonFormField2<Role>(
+    return DropdownButtonFormField2<Position>(
       isExpanded: true,
       decoration: const InputDecoration(
         label: Text("نقش"),
       ),
-      items: Role.values
+      items: Position.values
           .map((item) => DropdownMenuItem(
                 value: item,
                 child: Align(
@@ -248,7 +251,7 @@ class ArtistSectionWidget extends StatelessWidget {
                                     Theme.of(context).colorScheme.onSurface))),
               ))
           .toList(),
-      selectedItemBuilder: (c) => Role.values
+      selectedItemBuilder: (c) => Position.values
           .map((e) => Text(e.persianTitle,
               style: Theme.of(context)
                   .textTheme

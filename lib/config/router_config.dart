@@ -64,7 +64,8 @@ final _rootNavigatorKey = GlobalKey<NavigatorState>();
 final routerConfig = GoRouter(
     navigatorKey: _rootNavigatorKey,
     initialLocation: RoutePath.dashboard.path,
-    errorBuilder: (BuildContext context, GoRouterState state) => const NotFoundPage(),
+    errorBuilder: (BuildContext context, GoRouterState state) =>
+        const NotFoundPage(),
     routes: [
       GoRoute(
           path: RoutePath.login.fullPath,
@@ -108,7 +109,39 @@ final routerConfig = GoRouter(
                             (BuildContext context, GoRouterState state) {
                           int id = int.parse(state.pathParameters['id']!);
                           return NoTransitionPage(
-                              child: MoviePage(movieId: id));
+                              child: MultiBlocProvider(providers: [
+                            BlocProvider(
+                                create: (context) => MovieUploadSectionCubit(
+                                    repository: getIt.get())),
+                            BlocProvider.value(
+                                value: state.extra as MoviesTableCubit),
+                            BlocProvider(
+                                create: (context) => TrailerUploadSectionCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) => PosterSectionCubit()),
+                            BlocProvider(
+                                create: (context) => ThumbnailSectionCubit()),
+                            BlocProvider(
+                                create: (context) => DatePickerSectionCubit()),
+                            BlocProvider(
+                                create: (context) => SynopsisSectionCubit()),
+                            BlocProvider(
+                                create: (context) => TitleSectionCubit()),
+                            BlocProvider(
+                                create: (context) => ValueSectionCubit()),
+                            BlocProvider(
+                                create: (context) => CountryMultiSelectorCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
+                                    GenreSectionCubit(repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) => ArtistSectionCubit()),
+                            BlocProvider(
+                                create: (context) =>
+                                    MoviePageCubit(repository: getIt.get())),
+                          ], child: MoviePage(movieId: id)));
                         }),
                     GoRoute(
                         path: RoutePath.addMovie.path,

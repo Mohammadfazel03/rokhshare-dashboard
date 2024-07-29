@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
 import 'package:dashboard/utils/background_file_reader.dart';
 import 'package:dashboard/utils/data_response.dart';
@@ -43,7 +44,7 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
   }
 
   void _getThumbnail(File file) async {
-    // TODO create thumbnail of video
+    // TODO: create thumbnail of video
   }
 
   void _getDuration(File file) async {
@@ -122,8 +123,8 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
                 }
               } else {
                 emit(state.copyWith(
-                  error: ErrorBloc(message: res.error ?? "", code: res.code)
-                ));
+                    error:
+                        ErrorBloc(message: res.error ?? "", code: res.code)));
               }
             }
           });
@@ -164,5 +165,15 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
   void resumeUpload() {
     emit(state.copyWith(isPaused: false));
     _startUpload();
+  }
+
+  void initialMovie(MediaFile? mediaFile, int? time) {
+    if (mediaFile != null && time != null) {
+      emit(MovieUploadSectionState.completeUpload(
+          file: null,
+          thumbnailDataUrl: null,
+          fileId: mediaFile.id!,
+          duration: time));
+    }
   }
 }

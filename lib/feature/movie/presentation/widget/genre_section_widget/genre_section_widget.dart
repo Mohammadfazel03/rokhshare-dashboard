@@ -21,7 +21,6 @@ class _GenreSectionWidgetState extends State<GenreSectionWidget> {
   late final TextEditingController searchController;
   @override
   void initState() {
-    BlocProvider.of<GenreSectionCubit>(context).getData();
     searchController = TextEditingController();
     super.initState();
   }
@@ -140,7 +139,9 @@ class _GenreSectionWidgetState extends State<GenreSectionWidget> {
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary)));
           },
-          selectedValues: state.selectedItem,
+          selectedValues: state.status == GenreSectionStatus.success
+              ? state.selectedItem
+              : [],
           searchMatchFn: (DropdownMenuItem<Genre> item, String searchValue) {
             return item.value?.title?.contains(searchValue) ?? false;
           },

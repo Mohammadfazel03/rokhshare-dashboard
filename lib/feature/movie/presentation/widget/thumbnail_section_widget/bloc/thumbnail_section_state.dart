@@ -2,6 +2,7 @@ part of 'thumbnail_section_cubit.dart';
 class ThumbnailSectionState {
   final String? filename;
   final Uint8List? file;
+  final String? networkUrl;
   bool isHovering;
   bool isFocused;
   final String? error;
@@ -10,21 +11,24 @@ class ThumbnailSectionState {
       {required this.filename,
         required this.file,
         required this.error,
-        this.isHovering = false,
-        this.isFocused = false});
+      required this.networkUrl,
+      this.isHovering = false,
+      this.isFocused = false});
 
   ThumbnailSectionState copyWith(
       {String? filename,
         Uint8List? file,
-        bool? isHovering,
-        bool? isFocused,
-        String? error}) {
+      String? networkUrl,
+      bool? isHovering,
+      bool? isFocused,
+      String? error}) {
     return ThumbnailSectionState(
         filename: filename ?? this.filename,
         file: file ?? this.file,
         isFocused: isFocused ?? this.isFocused,
         isHovering: isHovering ?? this.isHovering,
-        error: error ?? this.error);
+        error: error ?? this.error,
+        networkUrl: networkUrl ?? this.networkUrl);
   }
 
   ThumbnailSectionState clearError() {
@@ -33,7 +37,8 @@ class ThumbnailSectionState {
         file: file,
         isFocused: isFocused,
         isHovering: isHovering,
-        error: null);
+        error: null,
+        networkUrl: networkUrl);
   }
 }
 

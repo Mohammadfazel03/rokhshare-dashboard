@@ -18,6 +18,8 @@ class DatePickerSectionCubit extends Cubit<DatePickerSectionState> {
   }
 
   void setDate(DateTime? datetime) {
-    emit(state.copyWith(selectedDate: datetime));
+    if (datetime != null) {
+      emit(state.copyWith(selectedDate: datetime));
+    }
   }
 }

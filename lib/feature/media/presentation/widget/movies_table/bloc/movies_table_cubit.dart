@@ -32,6 +32,10 @@ class MoviesTableCubit extends Cubit<MoviesTableState> {
     }
   }
 
+  void refreshPage() {
+    getData(page: state.pageIndex);
+  }
+
   Future<void> delete({required int id}) async {
     emit(MoviesTableLoading(
         numberPages: state.numberPages, pageIndex: state.pageIndex));

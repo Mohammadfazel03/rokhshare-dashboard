@@ -9,9 +9,6 @@ class ValueSectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ValueSectionCubit, ValueSectionState>(
-      buildWhen: (p, c) {
-        return p.error != c.error;
-      },
       builder: (context, state) {
         return DropdownButtonFormField2<MediaValue>(
           isExpanded: true,
@@ -53,6 +50,7 @@ class ValueSectionWidget extends StatelessWidget {
               // color:
             ),
           ),
+          value: state.selectedValue,
         );
       },
     );

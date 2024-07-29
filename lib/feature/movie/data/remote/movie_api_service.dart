@@ -55,22 +55,22 @@ class MovieApiService {
         }));
   }
 
-  Future<dynamic> saveMovie(
-      {required int time,
-      required List<int> genres,
-      required List<int> countries,
-      required int video,
-      required String releaseDate,
-      required int trailer,
-      required Uint8List thumbnail,
-      required Uint8List poster,
-      required String thumbnailName,
-      required String posterName,
-      required List<Map<String, String>> casts,
-      required String synopsis,
-      required String name,
-      required String value,
-      }) async {
+  Future<dynamic> saveMovie({
+    required int time,
+    required List<int> genres,
+    required List<int> countries,
+    required int video,
+    required String releaseDate,
+    required int trailer,
+    required Uint8List thumbnail,
+    required Uint8List poster,
+    required String thumbnailName,
+    required String posterName,
+    required List<Map<String, String?>> casts,
+    required String synopsis,
+    required String name,
+    required String value,
+  }) async {
     var form = {
       'poster': MultipartFile.fromBytes(poster, filename: posterName),
       'thumbnail': MultipartFile.fromBytes(thumbnail, filename: thumbnailName),
@@ -87,6 +87,76 @@ class MovieApiService {
     };
 
     return await _dio.post('movie/',
+        data: FormData.fromMap(form),
+        options: Options(headers: {
+          "Authorization": "Bearer $_accessToken",
+          "contentType": "multipart/form-data",
+        }));
+  }
+
+  Future<dynamic> getMovie(int id) async {
+    return await _dio.get("movie/$id/",
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+  }
+
+  Future<dynamic> editMovie({
+    required int id,
+    int? time,
+    List<int>? genres,
+    List<int>? countries,
+    int? video,
+    String? releaseDate,
+    int? trailer,
+    Uint8List? thumbnail,
+    Uint8List? poster,
+    String? thumbnailName,
+    String? posterName,
+    List<Map<String, String?>>? casts,
+    String? synopsis,
+    String? name,
+    String? value,
+  }) async {
+    Map<String, dynamic> form = {};
+    if (time != null) {
+      form['time'] = time;
+    }
+    if (poster != null) {
+      form['poster'] = MultipartFile.fromBytes(poster, filename: posterName);
+    }
+    if (thumbnail != null) {
+      form['thumbnail'] =
+          MultipartFile.fromBytes(thumbnail, filename: thumbnailName);
+    }
+    if (genres != null) {
+      form['genres'] = genres;
+    }
+    if (countries != null) {
+      form['countries'] = countries;
+    }
+    if (video != null) {
+      form['video'] = video;
+    }
+    if (releaseDate != null) {
+      form['release_date'] = releaseDate;
+    }
+    if (trailer != null) {
+      form['trailer'] = trailer;
+    }
+    if (casts != null) {
+      form['casts'] = jsonEncode(casts);
+    }
+    if (name != null) {
+      form['name'] = name;
+    }
+    if (value != null) {
+      form['value'] = value;
+    }
+    if (synopsis != null) {
+      form['synopsis'] = synopsis;
+    }
+    print(form);
+
+    return await _dio.patch('movie/$id/',
         data: FormData.fromMap(form),
         options: Options(headers: {
           "Authorization": "Bearer $_accessToken",

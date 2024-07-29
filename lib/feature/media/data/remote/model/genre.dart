@@ -29,4 +29,11 @@ class Genre {
     return map;
   }
 
+  @override
+  bool operator ==(Object other) {
+    if (other is Genre) {
+      return other.id == id;
+    }
+    return false;
+  }
 }

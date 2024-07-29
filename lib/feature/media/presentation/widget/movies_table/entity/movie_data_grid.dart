@@ -171,7 +171,8 @@ class MovieDataGrid extends DataGridSource {
                       tooltip: "ویرایش",
                       onPressed: () {
                         _context.go(
-                            "${RoutePath.editMovie.fullPath}${dataGridCell.value}");
+                            "${RoutePath.editMovie.fullPath}${dataGridCell.value}",
+                            extra: _cubit);
                       },
                       icon: const Icon(
                         Icons.edit,

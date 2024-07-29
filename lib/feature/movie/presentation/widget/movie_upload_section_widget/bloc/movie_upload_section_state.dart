@@ -73,8 +73,7 @@ class MovieUploadSectionState {
             isCanceled: false,
             duration: null);
 
-  MovieUploadSectionState.completeUpload(
-      {required XFile file,
+  MovieUploadSectionState.completeUpload({required XFile? file,
       required Uint8List? thumbnailDataUrl,
       required int fileId,
       required int? duration})

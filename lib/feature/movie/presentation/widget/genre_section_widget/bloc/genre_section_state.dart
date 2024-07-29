@@ -42,4 +42,20 @@ final class GenreSectionState {
         data: data,
         titleError: null);
   }
+
+  GenreSectionState copyWith(
+      {GenreSectionStatus? status,
+      List<Genre>? data,
+      String? error,
+      int? code,
+      String? titleError,
+      List<Genre>? selectedItem}) {
+    return GenreSectionState(
+        status: status ?? this.status,
+        selectedItem: selectedItem ?? this.selectedItem,
+        data: data ?? this.data,
+        error: error ?? this.error,
+        code: code ?? this.code,
+        titleError: titleError ?? this.titleError);
+  }
 }

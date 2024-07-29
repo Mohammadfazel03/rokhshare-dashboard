@@ -29,4 +29,16 @@ class Country {
     return map;
   }
 
+  @override
+  String toString() {
+    return "Country $id $name";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (other is Country) {
+      return other.id == id;
+    }
+    return false;
+  }
 }

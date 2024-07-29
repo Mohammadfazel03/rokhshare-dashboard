@@ -25,7 +25,6 @@ class _CountryMultiSelectorWidgetState
   @override
   void initState() {
     searchController = TextEditingController();
-    BlocProvider.of<CountryMultiSelectorCubit>(context).getData();
     super.initState();
   }
 
@@ -63,17 +62,17 @@ class _CountryMultiSelectorWidgetState
         }
       },
       builder: (context, state) {
-        List<Country>? genres;
+        List<Country>? countries;
         bool isLoading = true;
         bool disable = true;
         Widget? error;
         if (state.status == CountryMultiSelectorStatus.loading) {
-          genres = null;
+          countries = null;
           isLoading = true;
           disable = true;
           error = null;
         } else if (state.status == CountryMultiSelectorStatus.fail) {
-          genres = null;
+          countries = null;
           isLoading = false;
           disable = true;
           error = MouseRegion(
@@ -92,7 +91,7 @@ class _CountryMultiSelectorWidgetState
             ),
           );
         } else if (state.status == CountryMultiSelectorStatus.success) {
-          genres = state.data;
+          countries = state.data;
           isLoading = false;
           disable = false;
           error = null;
@@ -107,7 +106,7 @@ class _CountryMultiSelectorWidgetState
         return MultiSelectorWidget<Country>(
           controller: searchController,
           errorWidget: error,
-          items: genres,
+          items: countries,
           isLoading: isLoading,
           disabled: disable,
           selectedItemWidget: (Country item) {
@@ -145,7 +144,9 @@ class _CountryMultiSelectorWidgetState
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary)));
           },
-          selectedValues: state.selectedItem,
+          selectedValues: state.status == CountryMultiSelectorStatus.success
+              ? state.selectedItem
+              : [],
           searchMatchFn: (DropdownMenuItem<Country> item, String searchValue) {
             return item.value?.name?.contains(searchValue) ?? false;
           },
