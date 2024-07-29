@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
@@ -8,7 +7,6 @@ import 'package:dashboard/utils/data_response.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:cross_file/cross_file.dart';
-import 'package:video_player_win/video_player_win.dart';
 
 part 'movie_upload_section_state.dart';
 
@@ -38,20 +36,8 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
         file: file.xFile,
         totalChunks: (file.size / chunkSize).ceil(),
       ));
-      _getDuration(File(file.path!));
       _startUpload();
     }
-  }
-
-  void _getThumbnail(File file) async {
-    // TODO: create thumbnail of video
-  }
-
-  void _getDuration(File file) async {
-    WinVideoPlayerController controller = WinVideoPlayerController.file(file);
-    await controller.initialize();
-    emit(state.copyWith(duration: controller.value.duration.inMinutes));
-    controller.dispose();
   }
 
   void _startUpload() async {
@@ -69,8 +55,8 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
             if (res is DataSuccess) {
               if (res.data?.id != null && state.isCanceled != true) {
                 emit(MovieUploadSectionState.completeUpload(
+                    networkVideoIsReady: state.networkVideoIsReady,
                     file: state.file!,
-                    thumbnailDataUrl: state.thumbnailDataUrl,
                     fileId: res.data!.id!,
                     duration: state.duration));
                 worker?.close();
@@ -169,11 +155,12 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
 
   void initialMovie(MediaFile? mediaFile, int? time) {
     if (mediaFile != null && time != null) {
-      emit(MovieUploadSectionState.completeUpload(
-          file: null,
-          thumbnailDataUrl: null,
-          fileId: mediaFile.id!,
-          duration: time));
+      emit(MovieUploadSectionState.initNetwork(
+          fileId: mediaFile.id!, duration: time, networkUrl: mediaFile.file!));
     }
+  }
+
+  void videoIsReady(int? duration) {
+    emit(state.copyWith(networkVideoIsReady: true, duration: duration));
   }
 }

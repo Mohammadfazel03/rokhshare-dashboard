@@ -10,7 +10,6 @@ class ErrorBloc {
 
 class MovieUploadSectionState {
   final XFile? file;
-  final Uint8List? thumbnailDataUrl;
   final int? currentChunk;
   final int? totalChunks;
   final double? progress;
@@ -23,10 +22,11 @@ class MovieUploadSectionState {
   final int? fileId;
   final int retry;
   final int? duration;
+  final bool networkVideoIsReady;
+  final String? networkUrl;
 
   const MovieUploadSectionState(
       {required this.file,
-      required this.thumbnailDataUrl,
       required this.currentChunk,
       required this.totalChunks,
       required this.progress,
@@ -38,11 +38,12 @@ class MovieUploadSectionState {
       required this.isUploading,
       required this.isCanceled,
       required this.duration,
+      required this.networkUrl,
+      this.networkVideoIsReady = false,
       this.retry = 3});
 
   const MovieUploadSectionState.init(
       {this.file,
-      this.thumbnailDataUrl,
       this.currentChunk,
       this.totalChunks,
       this.progress,
@@ -54,13 +55,15 @@ class MovieUploadSectionState {
       this.error,
       this.isCanceled,
       this.duration,
+      this.networkUrl,
+      this.networkVideoIsReady = false,
       this.retry = 3});
 
   MovieUploadSectionState.startUpload(
       {required XFile file, required int totalChunks})
       : this(
+            networkUrl: null,
             file: file,
-            thumbnailDataUrl: null,
             currentChunk: 0,
             totalChunks: totalChunks,
             progress: 0,
@@ -73,13 +76,31 @@ class MovieUploadSectionState {
             isCanceled: false,
             duration: null);
 
-  MovieUploadSectionState.completeUpload({required XFile? file,
-      required Uint8List? thumbnailDataUrl,
+  MovieUploadSectionState.initNetwork(
+      {required String networkUrl, required int fileId, required int? duration})
+      : this(
+            file: null,
+            currentChunk: null,
+            totalChunks: null,
+            progress: 100,
+            uploadId: null,
+            isPaused: false,
+            isUploaded: true,
+            isUploading: false,
+            fileId: fileId,
+            error: null,
+            networkUrl: networkUrl,
+            isCanceled: false,
+            duration: duration);
+
+  MovieUploadSectionState.completeUpload(
+      {required XFile file,
+      required bool networkVideoIsReady,
       required int fileId,
       required int? duration})
       : this(
+            networkUrl: null,
             file: file,
-            thumbnailDataUrl: thumbnailDataUrl,
             currentChunk: null,
             totalChunks: null,
             progress: 100,
@@ -90,11 +111,11 @@ class MovieUploadSectionState {
             fileId: fileId,
             error: null,
             isCanceled: false,
+            networkVideoIsReady: networkVideoIsReady,
             duration: duration);
 
   MovieUploadSectionState copyWith(
       {XFile? file,
-        Uint8List? thumbnailDataUrl,
       int? currentChunk,
       int? totalChunks,
       double? progress,
@@ -105,11 +126,12 @@ class MovieUploadSectionState {
       ErrorBloc? error,
       int? fileId,
       bool? isCanceled,
+      bool? networkVideoIsReady,
+      String? networkUrl,
       int? retry,
       int? duration}) {
     return MovieUploadSectionState(
         file: file ?? this.file,
-        thumbnailDataUrl: thumbnailDataUrl ?? this.thumbnailDataUrl,
         currentChunk: currentChunk ?? this.currentChunk,
         totalChunks: totalChunks ?? this.totalChunks,
         progress: progress ?? this.progress,
@@ -121,6 +143,8 @@ class MovieUploadSectionState {
         isUploaded: isUploaded ?? this.isUploaded,
         isCanceled: isCanceled ?? this.isCanceled,
         retry: retry ?? this.retry,
+        networkUrl: networkUrl ?? this.networkUrl,
+        networkVideoIsReady: networkVideoIsReady ?? this.networkVideoIsReady,
         duration: duration ?? this.duration);
   }
 }

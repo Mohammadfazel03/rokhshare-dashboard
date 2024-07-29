@@ -215,10 +215,6 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
     }
   }
 
-  void _getThumbnail(File file) async {
-    // TODO: create thumbnail of video
-  }
-
   void _startUpload() async {
     if (state.isCanceled != true) {
       _chunkFile().then((chunk) {
@@ -235,7 +231,7 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
               if (res.data?.id != null && state.isCanceled != true) {
                 emit(TrailerUploadSectionState.completeUpload(
                     file: state.file!,
-                    thumbnailDataUrl: state.thumbnailDataUrl,
+                    networkVideoIsReady: state.networkVideoIsReady,
                     fileId: res.data!.id!));
                 worker?.close();
                 worker = null;
@@ -287,8 +283,8 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
                 }
               } else {
                 emit(state.copyWith(
-                    error: ErrorBloc(message: res.error ?? "", code: res.code)
-                ));
+                    error:
+                        ErrorBloc(message: res.error ?? "", code: res.code)));
               }
             }
           });
@@ -332,9 +328,13 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
   }
 
   void initialTrailer(MediaFile? mediaFile) {
-    if (mediaFile != null) {
-      emit(TrailerUploadSectionState.completeUpload(
-          file: null, thumbnailDataUrl: null, fileId: mediaFile.id!));
+    if (mediaFile != null && mediaFile.file != null) {
+      emit(TrailerUploadSectionState.initNetwork(
+          networkUrl: mediaFile.file!, fileId: mediaFile.id!));
     }
+  }
+
+  void videoIsReady() {
+    emit(state.copyWith(networkVideoIsReady: true));
   }
 }
