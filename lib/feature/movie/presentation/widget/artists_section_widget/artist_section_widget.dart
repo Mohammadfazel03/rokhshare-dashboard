@@ -11,11 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class ArtistSectionWidget extends StatelessWidget {
   final ArtistsAutocompleteController _controller;
   final double width;
+  final bool readOnly;
 
   ArtistSectionWidget(
       {super.key,
       required this.width,
-      ArtistsAutocompleteController? controller})
+      ArtistsAutocompleteController? controller,
+      this.readOnly = false})
       : _controller = controller ?? ArtistsAutocompleteController();
 
   @override
@@ -62,97 +64,99 @@ class ArtistSectionWidget extends StatelessWidget {
               childrenPadding: const EdgeInsets.all(8),
               clipBehavior: Clip.hardEdge,
               children: [
-                if (width >= 700) ...[
-                  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        flex: 6,
-                        child: BlocProvider(
-                            create: (context) => ArtistsAutocompleteCubit(
-                                repository: getIt.get()),
-                            child: ArtistsAutocompleteWidget(
-                                controller: _controller)),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                          flex: 4,
-                          child: BlocBuilder<ArtistSectionCubit,
-                              ArtistSectionState>(
-                            buildWhen: (p, c) {
-                              return p.selectedRole != c.selectedRole;
-                            },
-                            builder: (context, state) {
-                              return Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                      child: selectRole(
-                                          mainContext, state.selectedRole)),
-                                  const SizedBox(width: 8),
-                                  IconButton(
-                                      onPressed: () {
-                                        if (state.selectedRole != null &&
-                                            _controller.value != null) {
-                                          BlocProvider.of<ArtistSectionCubit>(
-                                                  context)
-                                              .addCast(Cast(
-                                                  artist: _controller.value!,
-                                                  position:
-                                                      state.selectedRole!));
-                                          _controller.clear();
-                                        }
-                                      },
-                                      icon: const Icon(Icons.add))
-                                ],
-                              );
-                            },
-                          )),
-                    ],
-                  )
-                ] else ...[
-                  BlocProvider(
-                      create: (context) =>
-                          ArtistsAutocompleteCubit(repository: getIt.get()),
-                      child:
-                          ArtistsAutocompleteWidget(controller: _controller)),
-                  const SizedBox(height: 8),
-                  BlocBuilder<ArtistSectionCubit, ArtistSectionState>(
-                    buildWhen: (p, c) {
-                      return p.selectedRole != c.selectedRole;
-                    },
-                    builder: (context, state) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child:
-                                  selectRole(mainContext, state.selectedRole)),
-                          const SizedBox(width: 8),
-                          IconButton(
-                              onPressed: () {
-                                if (state.selectedRole != null &&
-                                    _controller.value != null) {
-                                  BlocProvider.of<ArtistSectionCubit>(context)
-                                      .addCast(Cast(
-                                          artist: _controller.value!,
-                                          position: state.selectedRole!));
-                                  _controller.clear();
-                                }
+                if (!readOnly) ...[
+                  if (width >= 700) ...[
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 6,
+                          child: BlocProvider(
+                              create: (context) => ArtistsAutocompleteCubit(
+                                  repository: getIt.get()),
+                              child: ArtistsAutocompleteWidget(
+                                  controller: _controller)),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                            flex: 4,
+                            child: BlocBuilder<ArtistSectionCubit,
+                                ArtistSectionState>(
+                              buildWhen: (p, c) {
+                                return p.selectedRole != c.selectedRole;
                               },
-                              icon: const Icon(Icons.add))
-                        ],
-                      );
-                    },
-                  )
+                              builder: (context, state) {
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                        child: selectRole(
+                                            mainContext, state.selectedRole)),
+                                    const SizedBox(width: 8),
+                                    IconButton(
+                                        onPressed: () {
+                                          if (state.selectedRole != null &&
+                                              _controller.value != null) {
+                                            BlocProvider.of<ArtistSectionCubit>(
+                                                    context)
+                                                .addCast(Cast(
+                                                    artist: _controller.value!,
+                                                    position:
+                                                        state.selectedRole!));
+                                            _controller.clear();
+                                          }
+                                        },
+                                        icon: const Icon(Icons.add))
+                                  ],
+                                );
+                              },
+                            )),
+                      ],
+                    )
+                  ] else ...[
+                    BlocProvider(
+                        create: (context) =>
+                            ArtistsAutocompleteCubit(repository: getIt.get()),
+                        child:
+                            ArtistsAutocompleteWidget(controller: _controller)),
+                    const SizedBox(height: 8),
+                    BlocBuilder<ArtistSectionCubit, ArtistSectionState>(
+                      buildWhen: (p, c) {
+                        return p.selectedRole != c.selectedRole;
+                      },
+                      builder: (context, state) {
+                        return Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                                child: selectRole(
+                                    mainContext, state.selectedRole)),
+                            const SizedBox(width: 8),
+                            IconButton(
+                                onPressed: () {
+                                  if (state.selectedRole != null &&
+                                      _controller.value != null) {
+                                    BlocProvider.of<ArtistSectionCubit>(context)
+                                        .addCast(Cast(
+                                            artist: _controller.value!,
+                                            position: state.selectedRole!));
+                                    _controller.clear();
+                                  }
+                                },
+                                icon: const Icon(Icons.add))
+                          ],
+                        );
+                      },
+                    )
+                  ],
+                  const SizedBox(height: 8)
                 ],
-                const SizedBox(height: 8),
                 BlocBuilder<ArtistSectionCubit, ArtistSectionState>(
                   buildWhen: (p, c) {
                     return !listEquals(p.casts, c.casts);
@@ -183,14 +187,16 @@ class ArtistSectionWidget extends StatelessWidget {
                                         height: 40,
                                         width: 40),
                                   ),
-                                  trailing: IconButton(
-                                      onPressed: () {
-                                        BlocProvider.of<ArtistSectionCubit>(
-                                                context)
-                                            .removeCast(index);
-                                      },
-                                      icon: const Icon(Icons.close,
-                                          color: Colors.red)),
+                                  trailing: readOnly
+                                      ? null
+                                      : IconButton(
+                                          onPressed: () {
+                                            BlocProvider.of<ArtistSectionCubit>(
+                                                    context)
+                                                .removeCast(index);
+                                          },
+                                          icon: const Icon(Icons.close,
+                                              color: Colors.red)),
                                   tileColor:
                                       Theme.of(context).colorScheme.surface,
                                   minTileHeight: 72,

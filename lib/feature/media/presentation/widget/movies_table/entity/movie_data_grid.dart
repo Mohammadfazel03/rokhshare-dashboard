@@ -154,9 +154,13 @@ class MovieDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filled(
                       tooltip: "جزئیات",
-                      onPressed: () {},
+                      onPressed: () {
+                        _context.go(
+                            "${RoutePath.detailMovie.fullPath}${dataGridCell.value}",
+                            extra: _cubit);
+                      },
                       icon: const Icon(
-                        Icons.remove_red_eye_rounded,
+                        Icons.message_rounded,
                         size: 16,
                       ),
                       style: ButtonStyle(

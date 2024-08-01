@@ -10,6 +10,7 @@ import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/mo
 import 'package:dashboard/feature/movie/presentation/bloc/movie_page_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/screen/movie_page.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/bloc/artist_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/comment_table_widget/bloc/comment_table_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget/bloc/genre_section_cubit.dart';
@@ -38,6 +39,11 @@ enum RoutePath {
       path: "movie/:id",
       fullPath: "/media/movie/",
       title: "ویرایش فیلم"),
+  detailMovie(
+      name: "detail_movie",
+      path: "movie/detail/:id",
+      fullPath: "/media/movie/detail/",
+      title: "فیلم"),
   addMovie(
       name: "add_movie",
       path: "movie",
@@ -103,6 +109,50 @@ final routerConfig = GoRouter(
                       const NoTransitionPage(child: MediaPage()),
                   routes: [
                     GoRoute(
+                        path: RoutePath.detailMovie.path,
+                        name: RoutePath.detailMovie.name,
+                        pageBuilder:
+                            (BuildContext context, GoRouterState state) {
+                          int id = int.parse(state.pathParameters['id']!);
+                          return NoTransitionPage(
+                              child: MultiBlocProvider(providers: [
+                            BlocProvider(
+                                create: (context) => MovieUploadSectionCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
+                                    CommentTableCubit(repository: getIt.get())),
+                            BlocProvider.value(
+                                value: state.extra as MoviesTableCubit),
+                            BlocProvider(
+                                create: (context) => TrailerUploadSectionCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) => PosterSectionCubit()),
+                            BlocProvider(
+                                create: (context) => ThumbnailSectionCubit()),
+                            BlocProvider(
+                                create: (context) => DatePickerSectionCubit()),
+                            BlocProvider(
+                                create: (context) => SynopsisSectionCubit()),
+                            BlocProvider(
+                                create: (context) => TitleSectionCubit()),
+                            BlocProvider(
+                                create: (context) => ValueSectionCubit()),
+                            BlocProvider(
+                                create: (context) => CountryMultiSelectorCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
+                                    GenreSectionCubit(repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) => ArtistSectionCubit()),
+                            BlocProvider(
+                                create: (context) =>
+                                    MoviePageCubit(repository: getIt.get())),
+                          ], child: MoviePage(movieId: id, isDetail: true)));
+                        }),
+                    GoRoute(
                         path: RoutePath.editMovie.path,
                         name: RoutePath.editMovie.name,
                         pageBuilder:
@@ -141,7 +191,7 @@ final routerConfig = GoRouter(
                             BlocProvider(
                                 create: (context) =>
                                     MoviePageCubit(repository: getIt.get())),
-                          ], child: MoviePage(movieId: id)));
+                          ], child: MoviePage(movieId: id, isDetail: false)));
                         }),
                     GoRoute(
                         path: RoutePath.addMovie.path,
@@ -184,7 +234,7 @@ final routerConfig = GoRouter(
                               BlocProvider(
                                   create: (context) =>
                                       MoviePageCubit(repository: getIt.get())),
-                            ], child: const MoviePage())))
+                            ], child: const MoviePage(isDetail: false))))
                   ])
             ]),
           ])
@@ -203,4 +253,4 @@ final routerConfig = GoRouter(
         return '/none';
       }
     },
-    debugLogDiagnostics: true);
+    debugLogDiagnostics: false);

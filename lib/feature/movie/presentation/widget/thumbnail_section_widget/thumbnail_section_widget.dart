@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThumbnailSectionWidget extends StatelessWidget {
-  const ThumbnailSectionWidget({super.key});
+  final bool readOnly;
+
+  const ThumbnailSectionWidget({super.key, this.readOnly = false});
 
   @override
   Widget build(BuildContext context) {
@@ -127,11 +129,13 @@ class ThumbnailSectionWidget extends StatelessWidget {
               overflow: TextOverflow.ellipsis),
         ),
         const SizedBox(width: 8),
-        IconButton(
-            onPressed: () {
-              BlocProvider.of<ThumbnailSectionCubit>(context).removeFile();
-            },
-            icon: const Icon(Icons.close, color: Colors.red))
+        if (!readOnly) ...[
+          IconButton(
+              onPressed: () {
+                BlocProvider.of<ThumbnailSectionCubit>(context).removeFile();
+              },
+              icon: const Icon(Icons.close, color: Colors.red))
+        ]
       ],
     );
   }

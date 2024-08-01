@@ -7,9 +7,12 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DatePickerSectionWidget extends StatelessWidget {
   final DateRangePickerController _datePickerController;
+  final bool readOnly;
 
   DatePickerSectionWidget(
-      {super.key, DateRangePickerController? datePickerController})
+      {super.key,
+      DateRangePickerController? datePickerController,
+      this.readOnly = false})
       : _datePickerController =
             datePickerController ?? DateRangePickerController();
 
@@ -17,28 +20,31 @@ class DatePickerSectionWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DatePickerSectionCubit, DatePickerSectionState>(
       builder: (context, state) {
-        return InputDecorator(
-          decoration: const InputDecoration(
-            labelText: 'تاریخ انتشار',
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            suffixIcon: Icon(Icons.calendar_today),
+        return GestureDetector(
+          onTap: readOnly
+              ? null
+              : () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return Dialog(
+                            clipBehavior: Clip.hardEdge,
+                            child: SizedBox(
+                                width: min(
+                                    MediaQuery.sizeOf(context).width * 0.9,
+                                    360),
+                                child: _dialog(context, state.selectedDate)));
+                      });
+                },
+          child: InputDecorator(
+            decoration: const InputDecoration(
+              labelText: 'تاریخ انتشار',
+              floatingLabelBehavior: FloatingLabelBehavior.always,
+              suffixIcon: Icon(Icons.calendar_today),
+            ),
+            isEmpty: false,
+            child: Text(DateFormat.yMMMMd('fa_IR').format(state.selectedDate)),
           ),
-          isEmpty: false,
-          child: GestureDetector(
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext dialogContext) {
-                      return Dialog(
-                          clipBehavior: Clip.hardEdge,
-                          child: SizedBox(
-                              width: min(
-                                  MediaQuery.sizeOf(context).width * 0.9, 360),
-                              child: _dialog(context, state.selectedDate)));
-                    });
-              },
-              child:
-                  Text(DateFormat.yMMMMd('fa_IR').format(state.selectedDate))),
         );
       },
     );

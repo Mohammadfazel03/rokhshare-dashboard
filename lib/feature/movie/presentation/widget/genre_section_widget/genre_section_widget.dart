@@ -11,7 +11,9 @@ import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class GenreSectionWidget extends StatefulWidget {
-  const GenreSectionWidget({super.key});
+  final bool readOnly;
+
+  const GenreSectionWidget({super.key, this.readOnly = false});
 
   @override
   State<GenreSectionWidget> createState() => _GenreSectionWidgetState();
@@ -105,6 +107,7 @@ class _GenreSectionWidgetState extends State<GenreSectionWidget> {
           items: genres,
           isLoading: isLoading,
           disabled: disable,
+          readOnly: widget.readOnly,
           selectedItemWidget: (Genre item) {
             return Text(item.title ?? "",
                 style: Theme.of(context)

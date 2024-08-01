@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TitleSectionWidget extends StatelessWidget {
   final TextEditingController _controller;
+  final bool readOnly;
 
-  TitleSectionWidget({super.key, TextEditingController? controller})
+  TitleSectionWidget(
+      {super.key, TextEditingController? controller, this.readOnly = false})
       : _controller = controller ?? TextEditingController();
 
   @override
@@ -13,6 +15,7 @@ class TitleSectionWidget extends StatelessWidget {
     return BlocBuilder<TitleSectionCubit, TitleSectionState>(
       builder: (context, state) {
         return TextField(
+          readOnly: readOnly,
           controller: _controller,
           decoration: InputDecoration(
               hintText: "جدایی نادر از سیمین",

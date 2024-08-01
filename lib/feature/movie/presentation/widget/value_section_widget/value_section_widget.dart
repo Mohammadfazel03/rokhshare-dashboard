@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ValueSectionWidget extends StatelessWidget {
-  const ValueSectionWidget({super.key});
+  final bool readOnly;
+
+  const ValueSectionWidget({super.key, this.readOnly = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,11 @@ class ValueSectionWidget extends StatelessWidget {
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurface)))
               .toList(),
-          onChanged: (item) {
-            BlocProvider.of<ValueSectionCubit>(context).selectValue(item);
-          },
+          onChanged: readOnly
+              ? null
+              : (item) {
+                  BlocProvider.of<ValueSectionCubit>(context).selectValue(item);
+                },
           dropdownStyleData: DropdownStyleData(
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainer,

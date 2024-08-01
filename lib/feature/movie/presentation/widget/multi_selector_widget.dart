@@ -14,6 +14,7 @@ class MultiSelectorWidget<T> extends StatelessWidget {
   final Function(T? item) selectItem;
   final bool disabled;
   final bool isLoading;
+  final bool readOnly;
   final List<T> selectedValues;
   final Widget Function(T item) selectedItemBuilder;
 
@@ -30,6 +31,7 @@ class MultiSelectorWidget<T> extends StatelessWidget {
       required this.errorWidget,
       required this.controller,
       this.disabled = false,
+      this.readOnly = false,
       this.isLoading = false});
 
   @override
@@ -70,21 +72,22 @@ class MultiSelectorWidget<T> extends StatelessWidget {
                     behavior: ScrollConfiguration.of(context)
                         .copyWith(scrollbars: false),
                     child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
                       padding: const EdgeInsets.all(0),
-                      child: Wrap(
-                        spacing: 8,
-                        runSpacing: 4,
-                        alignment: WrapAlignment.center,
-                        runAlignment: WrapAlignment.center,
+                      child: Row(
                         children: selectedValues
-                            .map((v) => selectedItemBuilder(v))
+                            .map((v) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 4),
+                                  child: selectedItemBuilder(v),
+                                ))
                             .toList(),
                       ),
                     ),
                   ))
               .toList() ??
           [],
-      onChanged: disabled ? null : selectItem,
+      onChanged: (disabled || readOnly) ? null : selectItem,
       value: selectedValues.lastOrNull,
       dropdownSearchData: DropdownSearchData(
         searchController: controller,

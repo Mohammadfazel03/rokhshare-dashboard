@@ -173,7 +173,6 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
  */
 
 import 'dart:async';
-import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';

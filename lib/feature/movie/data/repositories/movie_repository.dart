@@ -1,6 +1,7 @@
 import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
+import 'package:dashboard/feature/movie/data/remote/model/comment.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/remote/model/file_response.dart';
 import 'package:dashboard/utils/data_response.dart';
@@ -35,7 +36,7 @@ abstract class MovieRepository {
       required String posterName,
       required List<Map<String, String?>> casts,
       required String name,
-      required String  value,
+      required String value,
       required String synopsis});
 
   Future<DataResponse<String>> editMovie({
@@ -57,4 +58,10 @@ abstract class MovieRepository {
   });
 
   Future<DataResponse<Movie>> getMovie(int id);
+
+  Future<DataResponse<PageResponse<Comment>>> getComments(
+      {required int mediaId, int page = 1});
+
+  Future<DataResponse<void>> changeCommentState(
+      {required int commentId, required int state});
 }

@@ -11,7 +11,9 @@ import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class CountryMultiSelectorWidget extends StatefulWidget {
-  const CountryMultiSelectorWidget({super.key});
+  final bool readOnly;
+
+  const CountryMultiSelectorWidget({super.key, this.readOnly = false});
 
   @override
   State<CountryMultiSelectorWidget> createState() =>
@@ -109,6 +111,7 @@ class _CountryMultiSelectorWidgetState
           items: countries,
           isLoading: isLoading,
           disabled: disable,
+          readOnly: widget.readOnly,
           selectedItemWidget: (Country item) {
             return Text(item.name ?? "",
                 style: Theme.of(context)

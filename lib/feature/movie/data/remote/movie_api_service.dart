@@ -154,7 +154,6 @@ class MovieApiService {
     if (synopsis != null) {
       form['synopsis'] = synopsis;
     }
-    print(form);
 
     return await _dio.patch('movie/$id/',
         data: FormData.fromMap(form),
@@ -162,5 +161,19 @@ class MovieApiService {
           "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }));
+  }
+
+  Future<dynamic> getComments({required int mediaId, int page = 1}) async {
+    Map<String, dynamic> query = {"page": page};
+    return await _dio.get("comment/media/$mediaId/",
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}),
+        queryParameters: query);
+  }
+
+  Future<dynamic> changeCommentState(
+      {required int commentId, required int state}) async {
+    return await _dio.post("comment/$commentId/state/",
+        data: FormData.fromMap({"state": state}),
+        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
   }
 }

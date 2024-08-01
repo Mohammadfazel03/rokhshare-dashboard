@@ -11,6 +11,7 @@ import 'package:dashboard/feature/movie/presentation/bloc/movie_page_cubit.dart'
 import 'package:dashboard/feature/movie/presentation/widget/artists_autocomplete_widget/artists_autocomplete_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/artist_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/bloc/artist_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/comment_table_widget/comment_table_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/country_multi_selector_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
@@ -42,8 +43,9 @@ import 'package:toastification/toastification.dart';
 
 class MoviePage extends StatefulWidget {
   final int? movieId;
+  final bool isDetail;
 
-  const MoviePage({super.key, this.movieId});
+  const MoviePage({super.key, required this.isDetail, this.movieId});
 
   @override
   State<MoviePage> createState() => _MoviePageState();
@@ -57,6 +59,8 @@ class _MoviePageState extends State<MoviePage> {
   Movie? _movie;
 
   get movieId => widget.movieId;
+
+  get isDetail => widget.isDetail;
 
   @override
   void initState() {
@@ -183,8 +187,8 @@ class _MoviePageState extends State<MoviePage> {
                                           .getColor(context))),
                         ),
                       ),
-                      if (widget.movieId != null) ...[
-                        Text("ویرایش فیلم / ",
+                      if (movieId != null) ...[
+                        Text(isDetail ? "فیلم / " : "ویرایش فیلم / ",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyMedium
@@ -210,6 +214,19 @@ class _MoviePageState extends State<MoviePage> {
                             child: Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: body(width, state))))),
+                if (isDetail &&
+                    state is MoviePageSuccess &&
+                    state.data.media?.id != null) ...[
+                  SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                        height: 410,
+                        child: Card(
+                            child: CommentTableWidget(
+                                mediaId: state.data.media!.id!)),
+                      )))
+                ]
               ]),
             )
           ],
@@ -272,16 +289,18 @@ class _MoviePageState extends State<MoviePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     MovieUploadSectionWidget(
+                        readOnly: isDetail,
                         height: width / 3 > 250 ? width / 9 : width / 3),
                     const SizedBox(height: 8),
                     TrailerUploadSectionWidget(
+                        readOnly: isDetail,
                         height: width / 3 > 250 ? width / 9 : width / 3),
                     const SizedBox(height: 8),
-                    const PosterSectionWidget(),
+                    PosterSectionWidget(readOnly: isDetail),
                     const SizedBox(height: 8),
-                    const ThumbnailSectionWidget(),
-                    if (width / 3 > 250) ...[
-                      const SizedBox(height: 8),
+                    ThumbnailSectionWidget(readOnly: isDetail),
+                    const SizedBox(height: 8),
+                    if (!isDetail) ...[
                       OutlinedButton(
                         onPressed: () {
                           context.pop();
@@ -301,7 +320,7 @@ class _MoviePageState extends State<MoviePage> {
                           },
                           child: const Text(
                             "ثبت",
-                          )),
+                          ))
                     ]
                   ],
                 )),
@@ -313,17 +332,20 @@ class _MoviePageState extends State<MoviePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TitleSectionWidget(controller: titleController),
+                    TitleSectionWidget(
+                        controller: titleController, readOnly: isDetail),
                     const SizedBox(height: 16),
-                    SynopsisSectionWidget(controller: synopsisController),
+                    SynopsisSectionWidget(
+                        controller: synopsisController, readOnly: isDetail),
                     const SizedBox(height: 16),
-                    const CountryMultiSelectorWidget(),
+                    CountryMultiSelectorWidget(readOnly: isDetail),
                     const SizedBox(height: 16),
-                    const GenreSectionWidget(),
+                    GenreSectionWidget(readOnly: isDetail),
                     const SizedBox(height: 16),
                     ArtistSectionWidget(
                         width: width * 2 / 3,
-                        controller: artistsAutocompleteController),
+                        controller: artistsAutocompleteController,
+                        readOnly: isDetail),
                     const SizedBox(height: 16),
                     if (width / 3 > 200) ...[
                       Row(
@@ -333,17 +355,20 @@ class _MoviePageState extends State<MoviePage> {
                         children: [
                           Expanded(
                               child: DatePickerSectionWidget(
-                                  datePickerController: datePickerController)),
+                                  datePickerController: datePickerController,
+                                  readOnly: isDetail)),
                           const SizedBox(width: 8),
-                          const Expanded(child: ValueSectionWidget())
+                          Expanded(
+                              child: ValueSectionWidget(readOnly: isDetail))
                         ],
                       )
                     ] else ...[
                       Expanded(
                           child: DatePickerSectionWidget(
-                              datePickerController: datePickerController)),
+                              datePickerController: datePickerController,
+                              readOnly: isDetail)),
                       const SizedBox(height: 16),
-                      const ValueSectionWidget()
+                      ValueSectionWidget(readOnly: isDetail)
                     ],
                   ],
                 ))
@@ -356,25 +381,30 @@ class _MoviePageState extends State<MoviePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MovieUploadSectionWidget(
+              readOnly: isDetail,
               height: width / 3 > 250 ? width / 9 : width / 3),
           const SizedBox(height: 16),
           TrailerUploadSectionWidget(
+              readOnly: isDetail,
               height: width / 3 > 250 ? width / 9 : width / 3),
           const SizedBox(height: 16),
-          const PosterSectionWidget(),
+          PosterSectionWidget(readOnly: isDetail),
           const SizedBox(height: 16),
-          const ThumbnailSectionWidget(),
+          ThumbnailSectionWidget(readOnly: isDetail),
           const SizedBox(height: 16),
-          TitleSectionWidget(controller: titleController),
+          TitleSectionWidget(controller: titleController, readOnly: isDetail),
           const SizedBox(height: 16),
-          SynopsisSectionWidget(controller: synopsisController),
+          SynopsisSectionWidget(
+              controller: synopsisController, readOnly: isDetail),
           const SizedBox(height: 16),
-          const CountryMultiSelectorWidget(),
+          CountryMultiSelectorWidget(readOnly: isDetail),
           const SizedBox(height: 16),
-          const GenreSectionWidget(),
+          GenreSectionWidget(readOnly: isDetail),
           const SizedBox(height: 16),
           ArtistSectionWidget(
-              width: width, controller: artistsAutocompleteController),
+              width: width,
+              controller: artistsAutocompleteController,
+              readOnly: isDetail),
           const SizedBox(height: 16),
           if (width / 3 > 200) ...[
             Row(
@@ -384,39 +414,43 @@ class _MoviePageState extends State<MoviePage> {
               children: [
                 Expanded(
                     child: DatePickerSectionWidget(
-                        datePickerController: datePickerController)),
+                        datePickerController: datePickerController,
+                        readOnly: isDetail)),
                 const SizedBox(width: 8),
-                const Expanded(child: ValueSectionWidget())
+                Expanded(child: ValueSectionWidget(readOnly: isDetail))
               ],
             )
           ] else ...[
             Expanded(
                 child: DatePickerSectionWidget(
+                    readOnly: isDetail,
                     datePickerController: datePickerController)),
             const SizedBox(height: 16),
-            const ValueSectionWidget()
+            ValueSectionWidget(readOnly: isDetail)
           ],
-          const SizedBox(height: 16),
-          OutlinedButton(
-            onPressed: () {
-              context.pop();
-            },
-            child: const Text(
-              "انصراف",
-            ),
-          ),
-          const SizedBox(height: 8),
-          FilledButton(
+          if (!isDetail) ...[
+            const SizedBox(height: 16),
+            OutlinedButton(
               onPressed: () {
-                if (movieId != null) {
-                  edit();
-                } else {
-                  save();
-                }
+                context.pop();
               },
               child: const Text(
-                "ثبت",
-              ))
+                "انصراف",
+              ),
+            ),
+            const SizedBox(height: 8),
+            FilledButton(
+                onPressed: () {
+                  if (movieId != null) {
+                    edit();
+                  } else {
+                    save();
+                  }
+                },
+                child: const Text(
+                  "ثبت",
+                ))
+          ]
         ]);
   }
 
