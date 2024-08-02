@@ -6,30 +6,23 @@ import 'package:flutter/foundation.dart';
 
 class MovieApiService {
   final Dio _dio;
-  final String _accessToken;
 
-  MovieApiService({required Dio dio, required String accessToken})
-      : _dio = dio,
-        _accessToken = accessToken;
+  MovieApiService({required Dio dio}) : _dio = dio;
 
   Future<dynamic> getArtists({int page = 1, String? search = ""}) async {
     Map<String, dynamic> query = {"page": page};
     if (search?.isNotEmpty ?? false) {
       query['search'] = search;
     }
-    return await _dio.get("artist/",
-        queryParameters: query,
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio.get("artist/", queryParameters: query);
   }
 
   Future<dynamic> getCountries() async {
-    return await _dio.get("admin/media/country/",
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio.get("admin/media/country/");
   }
 
   Future<dynamic> getGenres() async {
-    return await _dio.get("admin/media/genre/",
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio.get("admin/media/genre/");
   }
 
   Future<dynamic> uploadFile(
@@ -50,7 +43,6 @@ class MovieApiService {
     return await _dio.post('upload/',
         data: FormData.fromMap(form),
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }));
   }
@@ -89,14 +81,12 @@ class MovieApiService {
     return await _dio.post('movie/',
         data: FormData.fromMap(form),
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }));
   }
 
   Future<dynamic> getMovie(int id) async {
-    return await _dio.get("movie/$id/",
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio.get("movie/$id/");
   }
 
   Future<dynamic> editMovie({
@@ -158,22 +148,18 @@ class MovieApiService {
     return await _dio.patch('movie/$id/',
         data: FormData.fromMap(form),
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }));
   }
 
   Future<dynamic> getComments({required int mediaId, int page = 1}) async {
     Map<String, dynamic> query = {"page": page};
-    return await _dio.get("comment/media/$mediaId/",
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}),
-        queryParameters: query);
+    return await _dio.get("comment/media/$mediaId/", queryParameters: query);
   }
 
   Future<dynamic> changeCommentState(
       {required int commentId, required int state}) async {
     return await _dio.post("comment/$commentId/state/",
-        data: FormData.fromMap({"state": state}),
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+        data: FormData.fromMap({"state": state}));
   }
 }

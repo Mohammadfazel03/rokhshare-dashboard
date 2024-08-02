@@ -35,21 +35,17 @@ Future<void> setup() async {
   getIt.registerLazySingleton<LoginRepository>(
       () => LoginRepositoryImpl(apiService: getIt.get()));
 
-  getIt.registerLazySingleton<DashboardApiService>(() => DashboardApiService(
-      dio: getIt.get(),
-      accessToken: getIt.get<LocalStorageService>().getAccessToken() ?? ""));
+  getIt.registerLazySingleton<DashboardApiService>(
+      () => DashboardApiService(dio: getIt.get()));
   getIt.registerLazySingleton<DashboardRepository>(
       () => DashboardRepositoryImpl(apiService: getIt.get()));
 
-  getIt.registerLazySingleton<MediaApiService>(() => MediaApiService(
-      dio: getIt.get(),
-      accessToken: getIt.get<LocalStorageService>().getAccessToken() ?? ""));
+  getIt.registerLazySingleton<MediaApiService>(
+      () => MediaApiService(dio: getIt.get()));
   getIt.registerLazySingleton<MediaRepository>(
       () => MediaRepositoryImpl(apiService: getIt.get()));
 
-  getIt.registerLazySingleton(() => MovieApiService(
-      dio: getIt.get(),
-      accessToken: getIt.get<LocalStorageService>().getAccessToken() ?? ""));
+  getIt.registerLazySingleton(() => MovieApiService(dio: getIt.get()));
   getIt.registerLazySingleton<MovieRepository>(
       () => MovieRepositoryImpl(getIt.get()));
 

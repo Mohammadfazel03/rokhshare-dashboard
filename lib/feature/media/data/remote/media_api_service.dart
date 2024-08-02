@@ -2,66 +2,49 @@ import 'package:dio/dio.dart';
 
 class MediaApiService {
   final Dio _dio;
-  final String _accessToken;
 
-  MediaApiService({required Dio dio, required String accessToken})
-      : _dio = dio,
-        _accessToken = accessToken;
+  MediaApiService({required Dio dio}) : _dio = dio;
 
   Future<dynamic> getMovies({int page = 1}) async {
-    return await _dio.get("admin/media/movie/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio
+        .get("admin/media/movie/", queryParameters: {"page": page});
   }
 
   Future<dynamic> deleteMovie({required int id}) async {
-    return await _dio.delete("movie/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.delete("movie/$id/");
   }
 
   Future<dynamic> getSeries({int page = 1}) async {
-    return await _dio.get("admin/media/series/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio
+        .get("admin/media/series/", queryParameters: {"page": page});
   }
 
   Future<dynamic> getGenres({int page = 1}) async {
-    return await _dio.get("genre/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio.get("genre/", queryParameters: {"page": page});
   }
 
   Future<dynamic> getCountries({int page = 1}) async {
-    return await _dio.get("country/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio.get("country/", queryParameters: {"page": page});
   }
 
   Future<dynamic> getSlider({int page = 1}) async {
-    return await _dio.get("admin/media/slider/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio
+        .get("admin/media/slider/", queryParameters: {"page": page});
   }
 
   Future<dynamic> getArtists({int page = 1}) async {
-    return await _dio.get("admin/media/artist/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio
+        .get("admin/media/artist/", queryParameters: {"page": page});
   }
 
   Future<dynamic> getCollection({int page = 1}) async {
-    return await _dio.get("admin/media/collection/",
-        queryParameters: {"page": page},
-        options: Options(headers: {"Authorization": "Bearer $_accessToken"}));
+    return await _dio
+        .get("admin/media/collection/", queryParameters: {"page": page});
   }
 
   Future<dynamic> postGenre({required title, required poster}) async {
     return await _dio.post("genre/",
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap({
@@ -71,19 +54,11 @@ class MediaApiService {
   }
 
   Future<dynamic> deleteGenre({required int id}) async {
-    return await _dio.delete("genre/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.delete("genre/$id/");
   }
 
   Future<dynamic> getGenre({required int id}) async {
-    return await _dio.get("genre/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.get("genre/$id/");
   }
 
   Future<dynamic> updateGenre({required int id, poster, title}) async {
@@ -96,7 +71,6 @@ class MediaApiService {
     }
     return await _dio.patch("genre/$id/",
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap(form));
@@ -105,7 +79,6 @@ class MediaApiService {
   Future<dynamic> postCountry({required name, required flag}) async {
     return await _dio.post("country/",
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap({
@@ -115,19 +88,11 @@ class MediaApiService {
   }
 
   Future<dynamic> deleteCountry({required int id}) async {
-    return await _dio.delete("country/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.delete("country/$id/");
   }
 
   Future<dynamic> getCountry({required int id}) async {
-    return await _dio.get("country/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.get("country/$id/");
   }
 
   Future<dynamic> updateCountry({required int id, flag, name}) async {
@@ -140,16 +105,15 @@ class MediaApiService {
     }
     return await _dio.patch("country/$id/",
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap(form));
   }
 
-  Future<dynamic> postArtist({required name, required image, required bio}) async {
+  Future<dynamic> postArtist(
+      {required name, required image, required bio}) async {
     return await _dio.post("artist/",
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap({
@@ -160,19 +124,11 @@ class MediaApiService {
   }
 
   Future<dynamic> deleteArtist({required int id}) async {
-    return await _dio.delete("artist/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.delete("artist/$id/");
   }
 
   Future<dynamic> getArtist({required int id}) async {
-    return await _dio.get("artist/$id/",
-        options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
-          "contentType": "multipart/form-data",
-        }));
+    return await _dio.get("artist/$id/");
   }
 
   Future<dynamic> updateArtist({required int id, image, name, bio}) async {
@@ -188,7 +144,6 @@ class MediaApiService {
     }
     return await _dio.patch("artist/$id/",
         options: Options(headers: {
-          "Authorization": "Bearer $_accessToken",
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap(form));
