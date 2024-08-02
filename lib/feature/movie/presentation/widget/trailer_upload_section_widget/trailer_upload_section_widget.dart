@@ -65,9 +65,7 @@ class _TrailerUploadSectionWidgetState
           if (state.error != null) {
             if (state.error?.code == 403) {
               getIt.get<LocalStorageService>().logout().then((value) {
-                if (value) {
                   context.go(RoutePath.login.fullPath);
-                }
               });
             }
             toastification.showCustom(

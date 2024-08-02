@@ -56,9 +56,7 @@ class _RecentlyAdvertiseWidgetState extends State<RecentlyAdvertiseWidget> {
             if (state is RecentlyAdvertiseError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout().then((value){
-                  if (value) {
                     context.go(RoutePath.login.fullPath);
-                  }
                 });
               }
               if (_adsDataGrid.rows.isNotEmpty) {

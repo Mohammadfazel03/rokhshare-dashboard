@@ -56,9 +56,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
             if (state is SlidersTableError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout().then((value){
-                  if (value) {
                     context.go(RoutePath.login.fullPath);
-                  }
                 });
               }
               if (_dataGrid.rows.isNotEmpty) {

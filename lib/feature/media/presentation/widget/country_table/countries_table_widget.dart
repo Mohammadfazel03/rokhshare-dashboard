@@ -110,9 +110,7 @@ class _CountriesTableWidgetState extends State<CountriesTableWidget> {
             if (state is CountriesTableError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout().then((value){
-                  if (value) {
                     context.go(RoutePath.login.fullPath);
-                  }
                 });
               }
               if (_dataGrid.rows.isNotEmpty) {

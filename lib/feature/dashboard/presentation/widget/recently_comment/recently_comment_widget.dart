@@ -57,9 +57,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
             if (state is RecentlyCommentError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout().then((value){
-                  if (value) {
                     context.go(RoutePath.login.fullPath);
-                  }
                 });
               }
               if (_commentDataGrid.rows.isNotEmpty) {

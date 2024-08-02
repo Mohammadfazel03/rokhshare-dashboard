@@ -25,9 +25,7 @@ class HeaderInformationWidget extends StatelessWidget {
         if (state is HeaderInformationError) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value){
-              if (value) {
                 context.go(RoutePath.login.fullPath);
-              }
             });
           }
         }

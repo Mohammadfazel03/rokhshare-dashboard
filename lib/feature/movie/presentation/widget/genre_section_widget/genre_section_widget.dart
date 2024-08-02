@@ -40,9 +40,7 @@ class _GenreSectionWidgetState extends State<GenreSectionWidget> {
         if (state.status == GenreSectionStatus.fail) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value){
-              if (value) {
                 context.go(RoutePath.login.fullPath);
-              }
             });
           }
           toastification.showCustom(

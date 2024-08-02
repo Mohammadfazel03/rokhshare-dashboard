@@ -6,8 +6,9 @@ const baseUrl = "http://127.0.0.1:8000/";
 
 class DioInterceptor extends Interceptor {
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    var accessToken = getIt.get<LocalStorageService>().getAccessToken();
+  void onRequest(
+      RequestOptions options, RequestInterceptorHandler handler) async {
+    var accessToken = await getIt.get<LocalStorageService>().getAccessToken();
     if (accessToken != null) {
       options.headers.addAll({"Authorization": "Bearer $accessToken"});
     }

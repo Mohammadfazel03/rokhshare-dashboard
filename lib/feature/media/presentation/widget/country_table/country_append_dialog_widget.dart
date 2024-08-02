@@ -61,9 +61,7 @@ class _CountryAppendDialogWidgetState extends State<CountryAppendDialogWidget> {
         } else if (state is CountryAppendFailed) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value){
-              if (value) {
                 context.go(RoutePath.login.fullPath);
-              }
             });
           }
           toastification.showCustom(

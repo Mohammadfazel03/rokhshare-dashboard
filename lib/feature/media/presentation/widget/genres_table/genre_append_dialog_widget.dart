@@ -59,9 +59,7 @@ class _GenreAppendDialogWidgetState extends State<GenreAppendDialogWidget> {
         } else if (state is GenreAppendFailed) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value){
-              if (value) {
                 context.go(RoutePath.login.fullPath);
-              }
             });
           }
           toastification.showCustom(

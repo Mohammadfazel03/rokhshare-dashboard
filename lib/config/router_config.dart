@@ -241,7 +241,7 @@ final routerConfig = GoRouter(
     ],
     redirect: (BuildContext context, GoRouterState state) async {
       try {
-        if (getIt.get<LocalStorageService>().getAccessToken() == null) {
+        if (await getIt.get<LocalStorageService>().getAccessToken() == null) {
           return RoutePath.login.fullPath;
         }
         if (state.uri.path == RoutePath.login.fullPath) {

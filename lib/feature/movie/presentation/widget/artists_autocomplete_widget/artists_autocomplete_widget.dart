@@ -88,9 +88,7 @@ class _ArtistsAutocompleteWidgetState extends State<ArtistsAutocompleteWidget> {
           } else if (state is ArtistsAutocompleteError) {
             if (state.code == 403) {
               getIt.get<LocalStorageService>().logout().then((value){
-                if (value) {
                   context.go(RoutePath.login.fullPath);
-                }
               });
             }
             _pagingController.error = state.error;

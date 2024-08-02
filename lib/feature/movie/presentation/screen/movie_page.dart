@@ -100,9 +100,7 @@ class _MoviePageState extends State<MoviePage> {
         } else if (state is MoviePageFailAppend) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value) {
-              if (value) {
                 context.go(RoutePath.login.fullPath);
-              }
             });
           }
           toastification.showCustom(
@@ -121,9 +119,7 @@ class _MoviePageState extends State<MoviePage> {
         } else if (state is MoviePageFail) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value) {
-              if (value) {
                 context.go(RoutePath.login.fullPath);
-              }
             });
           }
         } else if (state is MoviePageSuccess) {

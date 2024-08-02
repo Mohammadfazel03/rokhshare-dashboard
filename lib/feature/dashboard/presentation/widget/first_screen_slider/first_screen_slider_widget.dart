@@ -55,9 +55,7 @@ class _FirstScreenSliderWidgetState extends State<FirstScreenSliderWidget> {
             if (state is FirstScreenSliderError) {
               if (state.code == 403) {
                 getIt.get<LocalStorageService>().logout().then((value){
-                  if (value) {
-                    context.go(RoutePath.login.fullPath);
-                  }
+                  context.go(RoutePath.login.fullPath);
                 });
               }
               if (_sliderDataGrid.rows.isNotEmpty) {

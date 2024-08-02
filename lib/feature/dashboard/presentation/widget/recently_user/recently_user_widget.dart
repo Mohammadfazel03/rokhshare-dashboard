@@ -53,10 +53,8 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
           listener: (context, state) {
             if (state is RecentlyUserError) {
               if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout().then((value){
-                  if (value) {
-                    context.go(RoutePath.login.fullPath);
-                  }
+                getIt.get<LocalStorageService>().logout().then((value) {
+                  context.go(RoutePath.login.fullPath);
                 });
               }
               if (_userDataGrid.rows.isNotEmpty) {
@@ -96,7 +94,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                 return Expanded(
                     child: Center(
                         child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                            child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 ))));
               } else {
@@ -160,7 +158,10 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('نام کاربری',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'name',
@@ -168,7 +169,10 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('نام',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'status',
@@ -176,7 +180,10 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت اشتراک',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'movieViewed',
@@ -184,7 +191,10 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('تعداد تماشا',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 150,
               columnName: 'date',
@@ -192,7 +202,10 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   alignment: Alignment.center,
                   child: Text('تاریخ عضویت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
         ]);
   }
 }

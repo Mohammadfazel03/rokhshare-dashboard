@@ -10,32 +10,37 @@ enum LocalStorageKey {
 }
 
 class LocalStorageService {
-  final SharedPreferences _preferences;
+  final SharedPreferencesAsync _preferences;
+  final Map<String, Object?> _cache;
 
-  LocalStorageService({required SharedPreferences preferences})
-      : _preferences = preferences;
+  LocalStorageService({required SharedPreferencesAsync preferences})
+      : _preferences = preferences,
+        _cache = {};
 
-  Future<bool> login(String accessToken, String refreshToken) async {
-    var res = await Future.wait([
-      _preferences.setString(LocalStorageKey.refreshToken.key, refreshToken),
-      _preferences.setString(LocalStorageKey.accessToken.key, accessToken)
-    ]);
-    return res.every((e) => e == true);
+  Future<void> login(String accessToken, String refreshToken) async {
+    await _preferences.setString(
+        LocalStorageKey.refreshToken.key, refreshToken);
+    await _preferences.setString(LocalStorageKey.accessToken.key, accessToken);
   }
 
-  Future<bool> logout() async {
-    var res = await Future.wait([
-      _preferences.remove(LocalStorageKey.accessToken.key),
-      _preferences.remove(LocalStorageKey.refreshToken.key)
-    ]);
-    return res.every((e) => e == true);
+  Future<void> logout() async {
+    _cache.remove(LocalStorageKey.accessToken.key);
+    await _preferences.remove(LocalStorageKey.accessToken.key);
+    await _preferences.remove(LocalStorageKey.refreshToken.key);
   }
 
-  String? getAccessToken() {
-    return _preferences.getString(LocalStorageKey.accessToken.key);
+  Future<String?> getAccessToken() async {
+    if (_cache.containsKey(LocalStorageKey.accessToken.key)) {
+      return (_cache[LocalStorageKey.accessToken.key]) as String?;
+    }
+    var token = await _preferences.getString(LocalStorageKey.accessToken.key);
+    if (token != null) {
+      _cache[LocalStorageKey.accessToken.key] = token;
+    }
+    return token;
   }
 
-  String? getRefreshToken() {
+  Future<String?> getRefreshToken() {
     return _preferences.getString(LocalStorageKey.refreshToken.key);
   }
 }

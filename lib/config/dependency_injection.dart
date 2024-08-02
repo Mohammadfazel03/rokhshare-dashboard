@@ -22,10 +22,10 @@ final getIt = GetIt.instance;
 
 Future<void> setup() async {
   // register local storage services
-  getIt.registerSingletonAsync<SharedPreferences>(
-      () async => SharedPreferences.getInstance());
-  getIt.registerLazySingleton<LocalStorageService>(
-      () => LocalStorageService(preferences: getIt.get<SharedPreferences>()));
+  getIt.registerSingletonAsync<SharedPreferencesAsync>(
+      () async => SharedPreferencesAsync());
+  getIt.registerLazySingleton<LocalStorageService>(() =>
+      LocalStorageService(preferences: getIt.get<SharedPreferencesAsync>()));
 
   // register remote services
   getIt.registerSingleton<Dio>(getDioConfiguration());
