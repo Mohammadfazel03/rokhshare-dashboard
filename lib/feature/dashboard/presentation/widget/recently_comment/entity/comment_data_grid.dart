@@ -1,6 +1,7 @@
 import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/comment.dart';
+import 'package:dashboard/feature/movie/data/remote/model/comment.dart' as c2;
 import 'package:flutter/material.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -25,7 +26,8 @@ class CommentDataGrid extends DataGridSource {
         DataGridCell<Media>(columnName: 'media', value: dataGridRow.media),
         DataGridCell<String>(columnName: 'comment', value: dataGridRow.comment),
         DataGridCell<String>(columnName: 'date', value: dataGridRow.createdAt),
-        DataGridCell<bool>(columnName: 'status', value: dataGridRow.isConfirm),
+        DataGridCell<c2.CommentState>(
+            columnName: 'status', value: dataGridRow.state),
       ]);
     }).toList();
   }
@@ -72,21 +74,33 @@ class CommentDataGrid extends DataGridSource {
         return Center(
           child: DecoratedBox(
             decoration: BoxDecoration(
-                color: dataGridCell.value
+                color: dataGridCell.value == c2.CommentState.accept
                     ? CustomColor.successBadgeBackgroundColor.getColor(_context)
-                    : CustomColor.errorBadgeBackgroundColor.getColor(_context),
+                    : dataGridCell.value == c2.CommentState.pending
+                        ? CustomColor.warningBadgeBackgroundColor
+                            .getColor(_context)
+                        : CustomColor.errorBadgeBackgroundColor
+                            .getColor(_context),
                 borderRadius: BorderRadius.circular(4)),
             child: Padding(
               padding: const EdgeInsets.all(8),
               child: Text(
-                dataGridCell.value ? "منتشر شده" : "رد شده",
+                dataGridCell.value == c2.CommentState.accept
+                    ? "تایید شده"
+                    : dataGridCell.value == c2.CommentState.pending
+                        ? "در انتظار برسی"
+                        : "رد شده",
                 textAlign: TextAlign.center,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(_context).textTheme.labelMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                    color: dataGridCell.value
+                    color: dataGridCell.value == c2.CommentState.accept
                         ? CustomColor.successBadgeTextColor.getColor(_context)
-                        : CustomColor.errorBadgeTextColor.getColor(_context)),
+                        : dataGridCell.value == c2.CommentState.pending
+                            ? CustomColor.warningBadgeTextColor
+                                .getColor(_context)
+                            : CustomColor.errorBadgeTextColor
+                                .getColor(_context)),
               ),
             ),
           ),

@@ -2,6 +2,7 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
+import 'package:dashboard/feature/dashboard/presentation/common/custom_grid_column_sizer.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/entity/comment_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/bloc/recently_comment_cubit.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
@@ -22,11 +23,8 @@ class RecentlyCommentWidget extends StatefulWidget {
 class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
   late final CommentDataGrid _commentDataGrid;
 
-  // late final CustomGridColumnSizer _gridColumnSizer;
-
   @override
   void initState() {
-    // _gridColumnSizer = CustomGridColumnSizer();
     _commentDataGrid = CommentDataGrid(context: context);
     BlocProvider.of<RecentlyCommentCubit>(context).getData();
     super.initState();
@@ -56,8 +54,8 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
           listener: (context, state) {
             if (state is RecentlyCommentError) {
               if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout().then((value){
-                    context.go(RoutePath.login.fullPath);
+                getIt.get<LocalStorageService>().logout().then((value) {
+                  context.go(RoutePath.login.fullPath);
                 });
               }
               if (_commentDataGrid.rows.isNotEmpty) {
@@ -97,7 +95,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                 return Expanded(
                     child: Center(
                         child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                            child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 ))));
               } else {
@@ -121,7 +119,7 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
     return SfDataGrid(
         source: _commentDataGrid,
         isScrollbarAlwaysShown: true,
-        // columnSizer: _gridColumnSizer,
+        columnSizer: CustomGridColumnSizer(context: context),
         rowHeight: 150,
         onQueryRowHeight: (RowHeightDetails details) {
           var commentHeight = details.getIntrinsicRowHeight(details.rowIndex,
@@ -141,7 +139,10 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('کاربر',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -149,7 +150,10 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('فیلم',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               columnWidthMode: ColumnWidthMode.lastColumnFill,
               minimumWidth: 400,
@@ -158,7 +162,10 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('نظر',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'date',
@@ -166,7 +173,10 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('تاریخ',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'status',
@@ -174,7 +184,10 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
         ]);
   }
 

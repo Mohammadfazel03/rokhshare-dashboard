@@ -56,6 +56,8 @@ class _MoviePageState extends State<MoviePage> {
   late final TextEditingController synopsisController;
   late final DateRangePickerController datePickerController;
   late final ArtistsAutocompleteController artistsAutocompleteController;
+  final GlobalKey _trailerWidgetKey = GlobalKey();
+  final GlobalKey _movieWidgetKey = GlobalKey();
   Movie? _movie;
 
   get movieId => widget.movieId;
@@ -100,7 +102,7 @@ class _MoviePageState extends State<MoviePage> {
         } else if (state is MoviePageFailAppend) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value) {
-                context.go(RoutePath.login.fullPath);
+              context.go(RoutePath.login.fullPath);
             });
           }
           toastification.showCustom(
@@ -119,7 +121,7 @@ class _MoviePageState extends State<MoviePage> {
         } else if (state is MoviePageFail) {
           if (state.code == 403) {
             getIt.get<LocalStorageService>().logout().then((value) {
-                context.go(RoutePath.login.fullPath);
+              context.go(RoutePath.login.fullPath);
             });
           }
         } else if (state is MoviePageSuccess) {
@@ -285,10 +287,12 @@ class _MoviePageState extends State<MoviePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     MovieUploadSectionWidget(
+                        key: _movieWidgetKey,
                         readOnly: isDetail,
                         height: width / 3 > 250 ? width / 9 : width / 3),
                     const SizedBox(height: 8),
                     TrailerUploadSectionWidget(
+                        key: _trailerWidgetKey,
                         readOnly: isDetail,
                         height: width / 3 > 250 ? width / 9 : width / 3),
                     const SizedBox(height: 8),
@@ -377,10 +381,12 @@ class _MoviePageState extends State<MoviePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           MovieUploadSectionWidget(
+              key: _movieWidgetKey,
               readOnly: isDetail,
               height: width / 3 > 250 ? width / 9 : width / 3),
           const SizedBox(height: 16),
           TrailerUploadSectionWidget(
+              key: _trailerWidgetKey,
               readOnly: isDetail,
               height: width / 3 > 250 ? width / 9 : width / 3),
           const SizedBox(height: 16),
