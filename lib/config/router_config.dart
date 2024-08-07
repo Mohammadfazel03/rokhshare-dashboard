@@ -7,6 +7,7 @@ import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
 import 'package:dashboard/feature/media/presentation/screen/media_page.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/bloc/movie_page_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/screen/movie_page.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/bloc/artist_section_cubit.dart';
@@ -21,6 +22,8 @@ import 'package:dashboard/feature/movie/presentation/widget/thumbnail_section_wi
 import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/bloc/title_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_section_widget/bloc/trailer_upload_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/bloc/value_section_cubit.dart';
+import 'package:dashboard/feature/series/presentation/bloc/series_page_cubit.dart';
+import 'package:dashboard/feature/series/presentation/screen/series_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -49,6 +52,11 @@ enum RoutePath {
       path: "movie",
       fullPath: "/media/movie",
       title: "افزودن فیلم"),
+  addSeries(
+      name: "add_series",
+      path: "series",
+      fullPath: "/media/series",
+      title: "افزودن سریال"),
   media(
       name: "media", path: "/media", fullPath: "/media", title: "فیلم و سریال"),
   users(name: "users", path: "/users", fullPath: "/users", title: "کاربران");
@@ -234,7 +242,44 @@ final routerConfig = GoRouter(
                               BlocProvider(
                                   create: (context) =>
                                       MoviePageCubit(repository: getIt.get())),
-                            ], child: const MoviePage(isDetail: false))))
+                            ], child: const MoviePage(isDetail: false)))),
+                    GoRoute(
+                        path: RoutePath.addSeries.path,
+                        name: RoutePath.addSeries.name,
+                        pageBuilder: (BuildContext context,
+                                GoRouterState state) =>
+                            NoTransitionPage(
+                                child: MultiBlocProvider(providers: [
+                              BlocProvider(
+                                  create: (context) =>
+                                      TrailerUploadSectionCubit(
+                                          repository: getIt.get())),
+                              BlocProvider.value(
+                                  value: state.extra as SeriesTableCubit),
+                              BlocProvider(
+                                  create: (context) => PosterSectionCubit()),
+                              BlocProvider(
+                                  create: (context) => ThumbnailSectionCubit()),
+                              BlocProvider(
+                                  create: (context) =>
+                                      DatePickerSectionCubit()),
+                              BlocProvider(
+                                  create: (context) => SynopsisSectionCubit()),
+                              BlocProvider(
+                                  create: (context) => TitleSectionCubit()),
+                              BlocProvider(
+                                  create: (context) => ValueSectionCubit()),
+                              BlocProvider(
+                                  create: (context) =>
+                                      CountryMultiSelectorCubit(
+                                          repository: getIt.get())),
+                              BlocProvider(
+                                  create: (context) => GenreSectionCubit(
+                                      repository: getIt.get())),
+                              BlocProvider(
+                                  create: (context) =>
+                                      SeriesPageCubit(repository: getIt.get())),
+                            ], child: const SeriesPage(isDetail: false)))),
                   ])
             ]),
           ])

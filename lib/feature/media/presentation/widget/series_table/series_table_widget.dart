@@ -46,9 +46,34 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "سریال ها",
-            style: Theme.of(context).textTheme.titleMedium,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "سریال ها",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              FilledButton.icon(
+                onPressed: () {
+                  context.go(RoutePath.addSeries.fullPath,
+                      extra: BlocProvider.of<SeriesTableCubit>(context));
+                },
+                label: const Text(
+                  "افزودن",
+                ),
+                icon: const Icon(Icons.add),
+                style: ButtonStyle(
+                  padding: WidgetStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 16)),
+                  textStyle: WidgetStateProperty.all(
+                      Theme.of(context).textTheme.labelMedium),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+                ),
+              ),
+            ],
           ),
         ),
         BlocConsumer<SeriesTableCubit, SeriesTableState>(
