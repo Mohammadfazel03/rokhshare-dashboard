@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dashboard/feature/series/data/remote/model/series.dart';
 import 'package:dashboard/feature/series/data/repositories/series_repository.dart';
 import 'package:dashboard/utils/data_response.dart';
 import 'package:flutter/foundation.dart';
@@ -45,54 +46,48 @@ class SeriesPageCubit extends Cubit<SeriesPageState> {
     }
   }
 
-// void editSeries({
-//   required int id,
-//   int? time,
-//   List<int>? genres,
-//   List<int>? countries,
-//   int? video,
-//   String? releaseDate,
-//   int? trailer,
-//   Uint8List? thumbnail,
-//   Uint8List? poster,
-//   String? thumbnailName,
-//   String? posterName,
-//   List<Map<String, String?>>? casts,
-//   String? synopsis,
-//   String? name,
-//   String? value,
-// }) async {
-//   emit(SeriesPageLoading());
-//   var res = await _repository.editSeries(
-//       time: time,
-//       genres: genres,
-//       countries: countries,
-//       video: video,
-//       releaseDate: releaseDate,
-//       trailer: trailer,
-//       thumbnail: thumbnail,
-//       poster: poster,
-//       thumbnailName: thumbnailName,
-//       posterName: posterName,
-//       casts: casts,
-//       value: value,
-//       name: name,
-//       synopsis: synopsis,
-//       id: id);
-//   if (res is DataSuccess) {
-//     emit(SeriesPageSuccessUpdate());
-//   } else {
-//     emit(SeriesPageFailAppend(message: res.error ?? "", code: res.code));
-//   }
-// }
+  void editSeries({
+    required int id,
+    List<int>? genres,
+    List<int>? countries,
+    String? releaseDate,
+    int? trailer,
+    Uint8List? thumbnail,
+    Uint8List? poster,
+    String? thumbnailName,
+    String? posterName,
+    String? synopsis,
+    String? name,
+    String? value,
+  }) async {
+    emit(SeriesPageLoading());
+    var res = await _repository.editSeries(
+        genres: genres,
+        countries: countries,
+        releaseDate: releaseDate,
+        trailer: trailer,
+        thumbnail: thumbnail,
+        poster: poster,
+        thumbnailName: thumbnailName,
+        posterName: posterName,
+        value: value,
+        name: name,
+        synopsis: synopsis,
+        id: id);
+    if (res is DataSuccess) {
+      emit(SeriesPageSuccessUpdate());
+    } else {
+      emit(SeriesPageFailAppend(message: res.error ?? "", code: res.code));
+    }
+  }
 
-// void getSeries({required int id}) async {
-//   emit(SeriesPageLoading());
-//   var res = await _repository.getSeries(id);
-//   if (res is DataSuccess) {
-//     emit(SeriesPageSuccess(data: res.data!));
-//   } else {
-//     emit(SeriesPageFail(message: res.error ?? "", code: res.code));
-//   }
-// }
+  void getSeries({required int id}) async {
+    emit(SeriesPageLoading());
+    var res = await _repository.getSeries(id: id);
+    if (res is DataSuccess) {
+      emit(SeriesPageSuccess(data: res.data!));
+    } else {
+      emit(SeriesPageFail(message: res.error ?? "", code: res.code));
+    }
+  }
 }

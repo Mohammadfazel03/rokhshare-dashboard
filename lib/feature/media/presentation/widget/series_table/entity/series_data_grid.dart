@@ -1,16 +1,24 @@
+import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/series.dart';
+import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class SeriesDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
+  final SeriesTableCubit _cubit;
 
-  SeriesDataGrid({List<Series>? series, required BuildContext context})
-      : _context = context {
+  SeriesDataGrid(
+      {List<Series>? series,
+      required BuildContext context,
+      required SeriesTableCubit cubit})
+      : _context = context,
+        _cubit = cubit {
     if (series != null) {
       buildDataGridRows(series: series);
     }
@@ -165,7 +173,11 @@ class SeriesDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filled(
                       tooltip: "ویرایش",
-                      onPressed: () {},
+                      onPressed: () {
+                        _context.go(
+                            "${RoutePath.editSeries.fullPath}${dataGridCell.value}",
+                            extra: _cubit);
+                      },
                       icon: const Icon(
                         Icons.edit,
                         size: 16,

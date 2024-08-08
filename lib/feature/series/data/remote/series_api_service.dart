@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -79,73 +78,61 @@ class SeriesApiService {
           "contentType": "multipart/form-data",
         }));
   }
-//
-// Future<dynamic> getMovie(int id) async {
-//   return await _dio.get("movie/$id/");
-// }
-//
-// Future<dynamic> editMovie({
-//   required int id,
-//   int? time,
-//   List<int>? genres,
-//   List<int>? countries,
-//   int? video,
-//   String? releaseDate,
-//   int? trailer,
-//   Uint8List? thumbnail,
-//   Uint8List? poster,
-//   String? thumbnailName,
-//   String? posterName,
-//   List<Map<String, String?>>? casts,
-//   String? synopsis,
-//   String? name,
-//   String? value,
-// }) async {
-//   Map<String, dynamic> form = {};
-//   if (time != null) {
-//     form['time'] = time;
-//   }
-//   if (poster != null) {
-//     form['poster'] = MultipartFile.fromBytes(poster, filename: posterName);
-//   }
-//   if (thumbnail != null) {
-//     form['thumbnail'] =
-//         MultipartFile.fromBytes(thumbnail, filename: thumbnailName);
-//   }
-//   if (genres != null) {
-//     form['genres'] = genres;
-//   }
-//   if (countries != null) {
-//     form['countries'] = countries;
-//   }
-//   if (video != null) {
-//     form['video'] = video;
-//   }
-//   if (releaseDate != null) {
-//     form['release_date'] = releaseDate;
-//   }
-//   if (trailer != null) {
-//     form['trailer'] = trailer;
-//   }
-//   if (casts != null) {
-//     form['casts'] = jsonEncode(casts);
-//   }
-//   if (name != null) {
-//     form['name'] = name;
-//   }
-//   if (value != null) {
-//     form['value'] = value;
-//   }
-//   if (synopsis != null) {
-//     form['synopsis'] = synopsis;
-//   }
-//
-//   return await _dio.patch('movie/$id/',
-//       data: FormData.fromMap(form),
-//       options: Options(headers: {
-//         "contentType": "multipart/form-data",
-//       }));
-// }
+
+  Future<dynamic> getSeries(int id) async {
+    return await _dio.get("series/$id/");
+  }
+
+  Future<dynamic> editSeries({
+    required int id,
+    List<int>? genres,
+    List<int>? countries,
+    String? releaseDate,
+    int? trailer,
+    Uint8List? thumbnail,
+    Uint8List? poster,
+    String? thumbnailName,
+    String? posterName,
+    String? synopsis,
+    String? name,
+    String? value,
+  }) async {
+    Map<String, dynamic> form = {};
+    if (poster != null) {
+      form['poster'] = MultipartFile.fromBytes(poster, filename: posterName);
+    }
+    if (thumbnail != null) {
+      form['thumbnail'] =
+          MultipartFile.fromBytes(thumbnail, filename: thumbnailName);
+    }
+    if (genres != null) {
+      form['genres'] = genres;
+    }
+    if (countries != null) {
+      form['countries'] = countries;
+    }
+    if (releaseDate != null) {
+      form['release_date'] = releaseDate;
+    }
+    if (trailer != null) {
+      form['trailer'] = trailer;
+    }
+    if (name != null) {
+      form['name'] = name;
+    }
+    if (value != null) {
+      form['value'] = value;
+    }
+    if (synopsis != null) {
+      form['synopsis'] = synopsis;
+    }
+
+    return await _dio.patch('series/$id/',
+        data: FormData.fromMap(form),
+        options: Options(headers: {
+          "contentType": "multipart/form-data",
+        }));
+  }
 //
 // Future<dynamic> getComments({required int mediaId, int page = 1}) async {
 //   Map<String, dynamic> query = {"page": page};

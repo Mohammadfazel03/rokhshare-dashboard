@@ -6,7 +6,6 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
-import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/country_multi_selector_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
@@ -22,10 +21,12 @@ import 'package:dashboard/feature/movie/presentation/widget/title_section_widget
 import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_section_widget/bloc/trailer_upload_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_section_widget/trailer_upload_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/bloc/value_section_cubit.dart';
+import 'package:dashboard/feature/series/data/remote/model/series.dart';
 import 'package:dashboard/feature/series/presentation/bloc/series_page_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/synopsis_section_widget/synopsis_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/title_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/value_section_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -35,10 +36,10 @@ import 'package:intl/intl.dart' as intl;
 import 'package:toastification/toastification.dart';
 
 class SeriesPage extends StatefulWidget {
-  final int? movieId;
+  final int? seriesId;
   final bool isDetail;
 
-  const SeriesPage({super.key, required this.isDetail, this.movieId});
+  const SeriesPage({super.key, required this.isDetail, this.seriesId});
 
   @override
   State<SeriesPage> createState() => _SeriesPageState();
@@ -48,17 +49,17 @@ class _SeriesPageState extends State<SeriesPage> {
   late final TextEditingController titleController;
   late final TextEditingController synopsisController;
   late final DateRangePickerController datePickerController;
-  Movie? _movie;
+  Series? _series;
   final GlobalKey _trailerWidgetKey = GlobalKey();
 
-  int? get movieId => widget.movieId;
+  int? get seriesId => widget.seriesId;
 
   bool get isDetail => widget.isDetail;
 
   @override
   void initState() {
-    if (movieId != null) {
-      // BlocProvider.of<SeriesPageCubit>(context).getMovie(id: movieId!);
+    if (seriesId != null) {
+      BlocProvider.of<SeriesPageCubit>(context).getSeries(id: seriesId!);
     } else {
       BlocProvider.of<GenreSectionCubit>(context).getData();
       BlocProvider.of<CountryMultiSelectorCubit>(context).getData();
@@ -113,38 +114,32 @@ class _SeriesPageState extends State<SeriesPage> {
               context.go(RoutePath.login.fullPath);
             });
           }
+        } else if (state is SeriesPageSuccess) {
+          _series = state.data;
+          BlocProvider.of<GenreSectionCubit>(context).getData();
+          BlocProvider.of<CountryMultiSelectorCubit>(context).getData();
+
+          titleController.text = state.data.media?.name ?? "";
+          synopsisController.text = state.data.media?.synopsis ?? "";
+          BlocProvider.of<CountryMultiSelectorCubit>(context)
+              .initialSelectedItem(state.data.media?.countries ?? []);
+          BlocProvider.of<GenreSectionCubit>(context)
+              .initialSelectedItem(state.data.media?.genres ?? []);
+          BlocProvider.of<ValueSectionCubit>(context)
+              .selectValue(state.data.media?.value);
+          BlocProvider.of<DatePickerSectionCubit>(context).setDate(
+              intl.DateFormat('yyyy-MM-ddTHH:mm')
+                  .tryParse(state.data.media?.releaseDate ?? ""));
+          BlocProvider.of<ThumbnailSectionCubit>(context)
+              .initialFile(state.data.media?.thumbnail);
+          BlocProvider.of<PosterSectionCubit>(context)
+              .initialFile(state.data.media?.poster);
+          BlocProvider.of<TrailerUploadSectionCubit>(context)
+              .initialTrailer(state.data.media?.trailer);
+        } else if (state is SeriesPageSuccessUpdate) {
+          BlocProvider.of<SeriesTableCubit>(context).refreshPage();
+          context.pop();
         }
-        // else if (state is SeriesPageSuccess) {
-        //   _movie = state.data;
-        //   BlocProvider.of<GenreSectionCubit>(context).getData();
-        //   BlocProvider.of<CountryMultiSelectorCubit>(context).getData();
-        //
-        //   titleController.text = state.data.media?.name ?? "";
-        //   synopsisController.text = state.data.media?.synopsis ?? "";
-        //   BlocProvider.of<CountryMultiSelectorCubit>(context)
-        //       .initialSelectedItem(state.data.media?.countries ?? []);
-        //   BlocProvider.of<GenreSectionCubit>(context)
-        //       .initialSelectedItem(state.data.media?.genres ?? []);
-        //   BlocProvider.of<ArtistSectionCubit>(context)
-        //       .initialSelectedItem(state.data.casts ?? []);
-        //   BlocProvider.of<ValueSectionCubit>(context)
-        //       .selectValue(state.data.media?.value);
-        //   BlocProvider.of<DatePickerSectionCubit>(context).setDate(
-        //       intl.DateFormat('yyyy-MM-ddTHH:mm')
-        //           .tryParse(state.data.media?.releaseDate ?? ""));
-        //   BlocProvider.of<ThumbnailSectionCubit>(context)
-        //       .initialFile(state.data.media?.thumbnail);
-        //   BlocProvider.of<PosterSectionCubit>(context)
-        //       .initialFile(state.data.media?.poster);
-        //   BlocProvider.of<MovieUploadSectionCubit>(context)
-        //       .initialMovie(state.data.video, state.data.time);
-        //   BlocProvider.of<TrailerUploadSectionCubit>(context)
-        //       .initialTrailer(state.data.media?.trailer);
-        // }
-        // else if (state is SeriesPageSuccessUpdate) {
-        //   BlocProvider.of<MoviesTableCubit>(context).refreshPage();
-        //   context.pop();
-        // }
       }, builder: (context, state) {
         return Stack(children: [
           if (state is! SeriesPageFail) ...[
@@ -176,7 +171,7 @@ class _SeriesPageState extends State<SeriesPage> {
                                           .getColor(context))),
                         ),
                       ),
-                      if (movieId != null) ...[
+                      if (seriesId != null) ...[
                         Text(isDetail ? "سریال / " : "ویرایش سریال / ",
                             style: Theme.of(context)
                                 .textTheme
@@ -285,8 +280,8 @@ class _SeriesPageState extends State<SeriesPage> {
                       const SizedBox(height: 8),
                       FilledButton(
                           onPressed: () {
-                            if (movieId != null) {
-                              // edit();
+                            if (seriesId != null) {
+                              edit();
                             } else {
                               save();
                             }
@@ -401,8 +396,8 @@ class _SeriesPageState extends State<SeriesPage> {
             const SizedBox(height: 8),
             FilledButton(
                 onPressed: () {
-                  if (movieId != null) {
-                    // edit();
+                  if (seriesId != null) {
+                    edit();
                   } else {
                     save();
                   }
@@ -512,156 +507,124 @@ class _SeriesPageState extends State<SeriesPage> {
           value: valueBloc.state.selectedValue!.serverNameSpace);
     }
   }
-//
-// void edit() {
-//   var isValid = true;
-//
-//   var movieBloc = BlocProvider.of<MovieUploadSectionCubit>(context);
-//   var trailerBloc = BlocProvider.of<TrailerUploadSectionCubit>(context);
-//   var posterBloc = BlocProvider.of<PosterSectionCubit>(context);
-//   var thumbnailBloc = BlocProvider.of<ThumbnailSectionCubit>(context);
-//   var genresBloc = BlocProvider.of<GenreSectionCubit>(context);
-//   var countriesBloc = BlocProvider.of<CountryMultiSelectorCubit>(context);
-//   var valueBloc = BlocProvider.of<ValueSectionCubit>(context);
-//   var castBloc = BlocProvider.of<ArtistSectionCubit>(context);
-//   var dateBloc = BlocProvider.of<DatePickerSectionCubit>(context);
-//
-//   String? synopsis, name, releaseDate, thumbnailName, posterName, value;
-//   List<int>? genres, countries;
-//   int? time, video, trailer;
-//   Uint8List? thumbnail, poster;
-//   List<Map<String, String?>>? casts;
-//
-//   if (movieBloc.state.isUploaded != true || movieBloc.state.fileId == null) {
-//     isValid = false;
-//     toastification.showCustom(
-//         animationDuration: const Duration(milliseconds: 300),
-//         context: context,
-//         alignment: Alignment.bottomRight,
-//         autoCloseDuration: const Duration(seconds: 4),
-//         direction: TextDirection.rtl,
-//         builder: (BuildContext context, ToastificationItem holder) {
-//           return ErrorSnackBarWidget(
-//             item: holder,
-//             title: "خطا",
-//             message: "لطفا ابتدا فیلم را به صورت کامل بارگذاری کنید.",
-//           );
-//         });
-//   } else if (movieBloc.state.file != null) {
-//     video = movieBloc.state.fileId;
-//     time = movieBloc.state.duration;
-//   }
-//
-//   if (trailerBloc.state.isUploaded != true ||
-//       trailerBloc.state.fileId == null) {
-//     isValid = false;
-//     toastification.showCustom(
-//         animationDuration: const Duration(milliseconds: 300),
-//         context: context,
-//         alignment: Alignment.bottomRight,
-//         autoCloseDuration: const Duration(seconds: 4),
-//         direction: TextDirection.rtl,
-//         builder: (BuildContext context, ToastificationItem holder) {
-//           return ErrorSnackBarWidget(
-//             item: holder,
-//             title: "خطا",
-//             message: "لطفا ابتدا پیش نمایش را به صورت کامل بارگذاری کنید.",
-//           );
-//         });
-//   } else if (trailerBloc.state.file != null) {
-//     trailer = trailerBloc.state.fileId;
-//   }
-//
-//   if ((posterBloc.state.file == null &&
-//           posterBloc.state.networkUrl == null) ||
-//       posterBloc.state.filename == null) {
-//     isValid = false;
-//     posterBloc.setError("ریز عکس اجباری است.");
-//   } else if (posterBloc.state.file != null) {
-//     poster = Uint8List.fromList(posterBloc.state.file!);
-//     posterName = posterBloc.state.filename;
-//   }
-//
-//   if ((thumbnailBloc.state.file == null &&
-//           thumbnailBloc.state.networkUrl == null) ||
-//       thumbnailBloc.state.filename == null) {
-//     isValid = false;
-//     thumbnailBloc.setError("تصویر شاخص اجباری است.");
-//   } else if (thumbnailBloc.state.file != null) {
-//     thumbnail = Uint8List.fromList(thumbnailBloc.state.file!);
-//     thumbnailName = thumbnailBloc.state.filename;
-//   }
-//
-//   if (synopsisController.text.isEmpty) {
-//     isValid = false;
-//     BlocProvider.of<SynopsisSectionCubit>(context)
-//         .setError("خلاصه داستان اجباری است.");
-//   } else if (synopsisController.text != _movie?.media?.synopsis) {
-//     synopsis = synopsisController.text;
-//   }
-//
-//   if (titleController.text.isEmpty) {
-//     isValid = false;
-//     BlocProvider.of<TitleSectionCubit>(context)
-//         .setError("عنوان فیلم اجباری است.");
-//   } else if (titleController.text != _movie?.media?.name) {
-//     name = titleController.text;
-//   }
-//
-//   if (countriesBloc.state.selectedItem.isEmpty) {
-//     isValid = false;
-//     countriesBloc.setError("کشور", "حداقل یک کشور را انتخاب کنید.");
-//   } else if (!listEquals(
-//       countriesBloc.state.selectedItem, _movie?.media?.countries ?? [])) {
-//     countries = countriesBloc.state.selectedItem.map((e) => e.id!).toList();
-//   }
-//
-//   if (genresBloc.state.selectedItem.isEmpty) {
-//     isValid = false;
-//     genresBloc.setError("ژانر", "حداقل یک ژانر را انتخاب کنید.");
-//   } else if (!listEquals(
-//       genresBloc.state.selectedItem, _movie?.media?.genres ?? [])) {
-//     genres = genresBloc.state.selectedItem.map((e) => e.id!).toList();
-//   }
-//
-//   if (valueBloc.state.selectedValue == null) {
-//     isValid = false;
-//     valueBloc.setError('ارزش فیلم اجباری است');
-//   } else if (valueBloc.state.selectedValue != _movie?.media?.value) {
-//     value = valueBloc.state.selectedValue!.serverNameSpace;
-//   }
-//
-//   if (castBloc.state.casts.isEmpty) {
-//     isValid = false;
-//     castBloc.setError("هنرمندان کار را مشحص کنید.");
-//   } else if (!listEquals(castBloc.state.casts, _movie?.casts ?? [])) {
-//     casts = castBloc.state.casts.map((e) => e.toJson()).toList();
-//   }
-//
-//   if (dateBloc.state.selectedDate !=
-//       intl.DateFormat('yyyy-MM-ddTHH:mm')
-//           .tryParse(_movie?.media?.releaseDate ?? "")) {
-//     releaseDate = intl.DateFormat("yyyy-MM-ddTHH:mm")
-//         .format(dateBloc.state.selectedDate);
-//   }
-//
-//   if (isValid == true) {
-//     BlocProvider.of<SeriesPageCubit>(context).editMovie(
-//         id: movieId!,
-//         time: time,
-//         genres: genres,
-//         countries: countries,
-//         video: video,
-//         releaseDate: releaseDate,
-//         trailer: trailer,
-//         thumbnail: thumbnail,
-//         poster: poster,
-//         thumbnailName: thumbnailName,
-//         posterName: posterName,
-//         casts: casts,
-//         synopsis: synopsis,
-//         name: name,
-//         value: value);
-//   }
-// }
+
+  void edit() {
+    var isValid = true;
+
+    var trailerBloc = BlocProvider.of<TrailerUploadSectionCubit>(context);
+    var posterBloc = BlocProvider.of<PosterSectionCubit>(context);
+    var thumbnailBloc = BlocProvider.of<ThumbnailSectionCubit>(context);
+    var genresBloc = BlocProvider.of<GenreSectionCubit>(context);
+    var countriesBloc = BlocProvider.of<CountryMultiSelectorCubit>(context);
+    var valueBloc = BlocProvider.of<ValueSectionCubit>(context);
+    var dateBloc = BlocProvider.of<DatePickerSectionCubit>(context);
+
+    String? synopsis, name, releaseDate, thumbnailName, posterName, value;
+    List<int>? genres, countries;
+    int? trailer;
+    Uint8List? thumbnail, poster;
+    List<Map<String, String?>>? casts;
+
+    if (trailerBloc.state.isUploaded != true ||
+        trailerBloc.state.fileId == null) {
+      isValid = false;
+      toastification.showCustom(
+          animationDuration: const Duration(milliseconds: 300),
+          context: context,
+          alignment: Alignment.bottomRight,
+          autoCloseDuration: const Duration(seconds: 4),
+          direction: TextDirection.rtl,
+          builder: (BuildContext context, ToastificationItem holder) {
+            return ErrorSnackBarWidget(
+              item: holder,
+              title: "خطا",
+              message: "لطفا ابتدا پیش نمایش را به صورت کامل بارگذاری کنید.",
+            );
+          });
+    } else if (trailerBloc.state.file != null) {
+      trailer = trailerBloc.state.fileId;
+    }
+
+    if ((posterBloc.state.file == null &&
+            posterBloc.state.networkUrl == null) ||
+        posterBloc.state.filename == null) {
+      isValid = false;
+      posterBloc.setError("ریز عکس اجباری است.");
+    } else if (posterBloc.state.file != null) {
+      poster = Uint8List.fromList(posterBloc.state.file!);
+      posterName = posterBloc.state.filename;
+    }
+
+    if ((thumbnailBloc.state.file == null &&
+            thumbnailBloc.state.networkUrl == null) ||
+        thumbnailBloc.state.filename == null) {
+      isValid = false;
+      thumbnailBloc.setError("تصویر شاخص اجباری است.");
+    } else if (thumbnailBloc.state.file != null) {
+      thumbnail = Uint8List.fromList(thumbnailBloc.state.file!);
+      thumbnailName = thumbnailBloc.state.filename;
+    }
+
+    if (synopsisController.text.isEmpty) {
+      isValid = false;
+      BlocProvider.of<SynopsisSectionCubit>(context)
+          .setError("خلاصه داستان اجباری است.");
+    } else if (synopsisController.text != _series?.media?.synopsis) {
+      synopsis = synopsisController.text;
+    }
+
+    if (titleController.text.isEmpty) {
+      isValid = false;
+      BlocProvider.of<TitleSectionCubit>(context)
+          .setError("عنوان فیلم اجباری است.");
+    } else if (titleController.text != _series?.media?.name) {
+      name = titleController.text;
+    }
+
+    if (countriesBloc.state.selectedItem.isEmpty) {
+      isValid = false;
+      countriesBloc.setError("کشور", "حداقل یک کشور را انتخاب کنید.");
+    } else if (!listEquals(
+        countriesBloc.state.selectedItem, _series?.media?.countries ?? [])) {
+      countries = countriesBloc.state.selectedItem.map((e) => e.id!).toList();
+    }
+
+    if (genresBloc.state.selectedItem.isEmpty) {
+      isValid = false;
+      genresBloc.setError("ژانر", "حداقل یک ژانر را انتخاب کنید.");
+    } else if (!listEquals(
+        genresBloc.state.selectedItem, _series?.media?.genres ?? [])) {
+      genres = genresBloc.state.selectedItem.map((e) => e.id!).toList();
+    }
+
+    if (valueBloc.state.selectedValue == null) {
+      isValid = false;
+      valueBloc.setError('ارزش فیلم اجباری است');
+    } else if (valueBloc.state.selectedValue != _series?.media?.value) {
+      value = valueBloc.state.selectedValue!.serverNameSpace;
+    }
+
+    if (dateBloc.state.selectedDate !=
+        intl.DateFormat('yyyy-MM-ddTHH:mm')
+            .tryParse(_series?.media?.releaseDate ?? "")) {
+      releaseDate = intl.DateFormat("yyyy-MM-ddTHH:mm")
+          .format(dateBloc.state.selectedDate);
+    }
+
+    if (isValid == true) {
+      BlocProvider.of<SeriesPageCubit>(context).editSeries(
+          id: seriesId!,
+          genres: genres,
+          countries: countries,
+          releaseDate: releaseDate,
+          trailer: trailer,
+          thumbnail: thumbnail,
+          poster: poster,
+          thumbnailName: thumbnailName,
+          posterName: posterName,
+          synopsis: synopsis,
+          name: name,
+          value: value);
+    }
+  }
 }

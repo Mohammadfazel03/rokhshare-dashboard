@@ -57,6 +57,11 @@ enum RoutePath {
       path: "series",
       fullPath: "/media/series",
       title: "افزودن سریال"),
+  editSeries(
+      name: "edit_series",
+      path: "series/:id",
+      fullPath: "/media/series/",
+      title: "ویرایش سریال"),
   media(
       name: "media", path: "/media", fullPath: "/media", title: "فیلم و سریال"),
   users(name: "users", path: "/users", fullPath: "/users", title: "کاربران");
@@ -280,6 +285,42 @@ final routerConfig = GoRouter(
                                   create: (context) =>
                                       SeriesPageCubit(repository: getIt.get())),
                             ], child: const SeriesPage(isDetail: false)))),
+                    GoRoute(
+                        path: RoutePath.editSeries.path,
+                        name: RoutePath.editSeries.name,
+                        pageBuilder:
+                            (BuildContext context, GoRouterState state) {
+                          int id = int.parse(state.pathParameters['id']!);
+                          return NoTransitionPage(
+                              child: MultiBlocProvider(providers: [
+                            BlocProvider(
+                                create: (context) => TrailerUploadSectionCubit(
+                                    repository: getIt.get())),
+                            BlocProvider.value(
+                                value: state.extra as SeriesTableCubit),
+                            BlocProvider(
+                                create: (context) => PosterSectionCubit()),
+                            BlocProvider(
+                                create: (context) => ThumbnailSectionCubit()),
+                            BlocProvider(
+                                create: (context) => DatePickerSectionCubit()),
+                            BlocProvider(
+                                create: (context) => SynopsisSectionCubit()),
+                            BlocProvider(
+                                create: (context) => TitleSectionCubit()),
+                            BlocProvider(
+                                create: (context) => ValueSectionCubit()),
+                            BlocProvider(
+                                create: (context) => CountryMultiSelectorCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
+                                    GenreSectionCubit(repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
+                                    SeriesPageCubit(repository: getIt.get())),
+                          ], child: SeriesPage(isDetail: false, seriesId: id)));
+                        }),
                   ])
             ]),
           ])

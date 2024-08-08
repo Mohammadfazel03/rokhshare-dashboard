@@ -31,4 +31,8 @@ class SeriesTableCubit extends Cubit<SeriesTableState> {
           pageIndex: page));
     }
   }
+
+  void refreshPage() {
+    getData(page: state.pageIndex);
+  }
 }

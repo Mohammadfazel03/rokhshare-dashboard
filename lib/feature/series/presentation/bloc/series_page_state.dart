@@ -8,9 +8,9 @@ final class SeriesPageInitial extends SeriesPageState {}
 final class SeriesPageLoading extends SeriesPageState {}
 
 final class SeriesPageSuccess extends SeriesPageState {
-  // final Series data;
-  //
-  // SeriesPageSuccess({required this.data});
+  final Series data;
+
+  SeriesPageSuccess({required this.data});
 }
 
 final class SeriesPageSuccessAppend extends SeriesPageState {}
