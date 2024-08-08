@@ -15,10 +15,12 @@ final class SeriesTableLoading extends SeriesTableState {
 final class SeriesTableError extends SeriesTableState {
   final String error;
   final int? code;
+  final String? title;
 
   const SeriesTableError(
       {required this.error,
       this.code,
+      this.title,
       super.numberPages = 0,
       super.pageIndex = 0});
 }

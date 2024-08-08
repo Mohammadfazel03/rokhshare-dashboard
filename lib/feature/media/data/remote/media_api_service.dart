@@ -19,6 +19,10 @@ class MediaApiService {
         .get("admin/media/series/", queryParameters: {"page": page});
   }
 
+  Future<dynamic> deleteSeries({required int id}) async {
+    return await _dio.delete("series/$id/");
+  }
+
   Future<dynamic> getGenres({int page = 1}) async {
     return await _dio.get("genre/", queryParameters: {"page": page});
   }

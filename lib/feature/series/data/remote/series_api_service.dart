@@ -8,45 +8,6 @@ class SeriesApiService {
 
   SeriesApiService({required Dio dio}) : _dio = dio;
 
-  //
-  // Future<dynamic> getArtists({int page = 1, String? search = ""}) async {
-  //   Map<String, dynamic> query = {"page": page};
-  //   if (search?.isNotEmpty ?? false) {
-  //     query['search'] = search;
-  //   }
-  //   return await _dio.get("artist/", queryParameters: query);
-  // }
-  //
-  // Future<dynamic> getCountries() async {
-  //   return await _dio.get("admin/media/country/");
-  // }
-  //
-  // Future<dynamic> getGenres() async {
-  //   return await _dio.get("admin/media/genre/");
-  // }
-  //
-  // Future<dynamic> uploadFile(
-  //     {required List<int> fileBytes,
-  //     required String filename,
-  //     required int chunkIndex,
-  //     required int totalChunk,
-  //     String? uploadId}) async {
-  //   var form = {
-  //     'file': MultipartFile.fromBytes(fileBytes, filename: filename),
-  //     'chunk_index': chunkIndex,
-  //     'total_chunk': totalChunk
-  //   };
-  //
-  //   if (uploadId != null) {
-  //     form['id'] = uploadId;
-  //   }
-  //   return await _dio.post('upload/',
-  //       data: FormData.fromMap(form),
-  //       options: Options(headers: {
-  //         "contentType": "multipart/form-data",
-  //       }));
-  // }
-
   Future<dynamic> saveSeries({
     required List<int> genres,
     required List<int> countries,
@@ -133,15 +94,15 @@ class SeriesApiService {
           "contentType": "multipart/form-data",
         }));
   }
-//
-// Future<dynamic> getComments({required int mediaId, int page = 1}) async {
-//   Map<String, dynamic> query = {"page": page};
-//   return await _dio.get("comment/media/$mediaId/", queryParameters: query);
-// }
-//
-// Future<dynamic> changeCommentState(
-//     {required int commentId, required int state}) async {
-//   return await _dio.post("comment/$commentId/state/",
-//       data: FormData.fromMap({"state": state}));
-// }
+
+  Future<dynamic> getComments({required int mediaId, int page = 1}) async {
+    Map<String, dynamic> query = {"page": page};
+    return await _dio.get("comment/media/$mediaId/", queryParameters: query);
+  }
+
+  Future<dynamic> changeCommentState(
+      {required int commentId, required int state}) async {
+    return await _dio.post("comment/$commentId/state/",
+        data: FormData.fromMap({"state": state}));
+  }
 }

@@ -101,6 +101,33 @@ class MediaRepositoryImpl extends MediaRepository {
   }
 
   @override
+  Future<DataResponse<void>> deleteSeries({required int id}) async {
+    try {
+      Response response = await _api.deleteSeries(id: id);
+      if (response.statusCode == 204) {
+        return const DataSuccess(null);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 403) {
+          return const DataFailed(
+              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
+              code: 403);
+        } else if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
   Future<DataResponse<PageResponse<Genre>>> getGenres({int page = 1}) async {
     try {
       Response response = await _api.getGenres(page: page);
@@ -465,13 +492,12 @@ class MediaRepositoryImpl extends MediaRepository {
     }
   }
 
-
-
   @override
   Future<DataResponse<Artist>> postArtist(
       {required name, required image, required bio}) async {
     try {
-      Response response = await _api.postArtist(name: name, image: image, bio: bio);
+      Response response =
+          await _api.postArtist(name: name, image: image, bio: bio);
       if (response.statusCode == 201) {
         return DataSuccess(Artist.fromJson(response.data));
       }
@@ -554,7 +580,7 @@ class MediaRepositoryImpl extends MediaRepository {
       {required int id, image, name, bio}) async {
     try {
       Response response =
-      await _api.updateArtist(id: id, image: image, name: name, bio: bio);
+          await _api.updateArtist(id: id, image: image, name: name, bio: bio);
       if (response.statusCode == 200) {
         return DataSuccess(Artist.fromJson(response.data));
       }
@@ -577,6 +603,4 @@ class MediaRepositoryImpl extends MediaRepository {
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     }
   }
-
-
 }

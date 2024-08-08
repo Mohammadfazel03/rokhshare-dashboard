@@ -35,4 +35,20 @@ class SeriesTableCubit extends Cubit<SeriesTableState> {
   void refreshPage() {
     getData(page: state.pageIndex);
   }
+
+  Future<void> delete({required int id}) async {
+    emit(SeriesTableLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteSeries(id: id);
+    if (response is DataFailed) {
+      emit(SeriesTableError(
+          title: "خطا در حذف سریال",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex);
+    }
+  }
 }

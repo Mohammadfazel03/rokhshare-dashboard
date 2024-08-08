@@ -15,6 +15,8 @@ abstract class MediaRepository {
 
   Future<DataResponse<PageResponse<Series>>> getSeries({int page = 1});
 
+  Future<DataResponse<void>> deleteSeries({required int id});
+
   Future<DataResponse<PageResponse<Genre>>> getGenres({int page = 1});
 
   Future<DataResponse<PageResponse<Country>>> getCountries({int page = 1});

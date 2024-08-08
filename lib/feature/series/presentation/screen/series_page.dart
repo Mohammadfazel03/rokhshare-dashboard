@@ -6,6 +6,7 @@ import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/comment_table_widget/comment_table_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/country_multi_selector_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
@@ -15,24 +16,24 @@ import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget
 import 'package:dashboard/feature/movie/presentation/widget/poster_section_widget/bloc/poster_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/poster_section_widget/poster_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/synopsis_section_widget/bloc/synopsis_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/synopsis_section_widget/synopsis_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/thumbnail_section_widget/bloc/thumbnail_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/thumbnail_section_widget/thumbnail_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/bloc/title_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/title_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_section_widget/bloc/trailer_upload_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_section_widget/trailer_upload_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/bloc/value_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/value_section_widget.dart';
 import 'package:dashboard/feature/series/data/remote/model/series.dart';
 import 'package:dashboard/feature/series/presentation/bloc/series_page_cubit.dart';
-import 'package:dashboard/feature/movie/presentation/widget/synopsis_section_widget/synopsis_section_widget.dart';
-import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/title_section_widget.dart';
-import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/value_section_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:toastification/toastification.dart';
 
 class SeriesPage extends StatefulWidget {
@@ -198,6 +199,19 @@ class _SeriesPageState extends State<SeriesPage> {
                             child: Padding(
                                 padding: const EdgeInsets.all(16),
                                 child: body(width, state))))),
+                if (isDetail &&
+                    state is SeriesPageSuccess &&
+                    state.data.media?.id != null) ...[
+                  SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                        height: 410,
+                        child: Card(
+                            child: CommentTableWidget(
+                                mediaId: state.data.media!.id!)),
+                      )))
+                ]
               ]),
             )
           ],
@@ -523,7 +537,6 @@ class _SeriesPageState extends State<SeriesPage> {
     List<int>? genres, countries;
     int? trailer;
     Uint8List? thumbnail, poster;
-    List<Map<String, String?>>? casts;
 
     if (trailerBloc.state.isUploaded != true ||
         trailerBloc.state.fileId == null) {

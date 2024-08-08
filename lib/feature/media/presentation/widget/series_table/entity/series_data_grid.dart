@@ -158,9 +158,13 @@ class SeriesDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filled(
                       tooltip: "جزئیات",
-                      onPressed: () {},
+                      onPressed: () {
+                        _context.go(
+                            "${RoutePath.detailSeries.fullPath}${dataGridCell.value}",
+                            extra: _cubit);
+                      },
                       icon: const Icon(
-                        Icons.remove_red_eye_rounded,
+                        Icons.message_rounded,
                         size: 16,
                       ),
                       style: ButtonStyle(
@@ -192,7 +196,68 @@ class SeriesDataGrid extends DataGridSource {
                     height: 32,
                     child: IconButton.filled(
                       tooltip: "حذف",
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                            context: _context,
+                            builder: (dialogContext) => AlertDialog(
+                                    title: Text(
+                                      "حذف سریال",
+                                      style: Theme.of(dialogContext)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ),
+                                    content: Text(
+                                        "آیا از حذف سریال با شناسه ${dataGridCell.value} اظمینان دارید؟",
+                                        style: Theme.of(dialogContext)
+                                            .textTheme
+                                            .bodyMedium),
+                                    actions: [
+                                      OutlinedButton(
+                                        onPressed: () {
+                                          Navigator.of(dialogContext).pop();
+                                        },
+                                        style: ButtonStyle(
+                                          textStyle: WidgetStateProperty.all(
+                                              Theme.of(dialogContext)
+                                                  .textTheme
+                                                  .labelSmall),
+                                          padding: WidgetStateProperty.all(
+                                              const EdgeInsets.all(16)),
+                                          shape: WidgetStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4))),
+                                        ),
+                                        child: const Text(
+                                          "انصراف",
+                                        ),
+                                      ),
+                                      FilledButton(
+                                          style: ButtonStyle(
+                                              textStyle:
+                                                  WidgetStateProperty.all(
+                                                      Theme.of(dialogContext)
+                                                          .textTheme
+                                                          .labelSmall),
+                                              padding: WidgetStateProperty.all(
+                                                  const EdgeInsets.all(16)),
+                                              alignment: Alignment.center,
+                                              shape: WidgetStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)))),
+                                          onPressed: () {
+                                            _cubit.delete(
+                                                id: dataGridCell.value);
+                                            Navigator.of(dialogContext).pop();
+                                          },
+                                          child: const Text(
+                                            "بله",
+                                          )),
+                                    ]));
+                      },
                       icon: const Icon(
                         Icons.delete,
                         size: 16,
