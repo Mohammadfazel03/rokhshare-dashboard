@@ -296,7 +296,7 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
                               .colorScheme
                               .onSecondaryContainer)))),
           GridColumn(
-              minimumWidth: 140,
+              minimumWidth: 176,
               columnName: 'actions',
               label: Container(
                   alignment: Alignment.center,

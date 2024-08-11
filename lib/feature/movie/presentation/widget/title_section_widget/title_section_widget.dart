@@ -5,9 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class TitleSectionWidget extends StatelessWidget {
   final TextEditingController _controller;
   final bool readOnly;
+  final String? hintText;
+  final String label;
 
-  TitleSectionWidget(
-      {super.key, TextEditingController? controller, this.readOnly = false})
+  TitleSectionWidget({super.key,
+    TextEditingController? controller,
+    this.readOnly = false,
+    required this.hintText,
+    required this.label})
       : _controller = controller ?? TextEditingController();
 
   @override
@@ -18,9 +23,9 @@ class TitleSectionWidget extends StatelessWidget {
           readOnly: readOnly,
           controller: _controller,
           decoration: InputDecoration(
-              hintText: "جدایی نادر از سیمین",
-              label: const Text("عنوان فیلم"),
-              errorText: state.error,
+            hintText: hintText,
+            label: Text(label),
+            errorText: state.error,
           ),
           onChanged: (value) {
             if (value.isNotEmpty) {

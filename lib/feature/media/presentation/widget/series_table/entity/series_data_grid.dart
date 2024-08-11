@@ -4,9 +4,11 @@ import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/series.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:vector_graphics/vector_graphics.dart';
 
 class SeriesDataGrid extends DataGridSource {
   List<DataGridRow> _dataGridRows = [];
@@ -153,6 +155,28 @@ class SeriesDataGrid extends DataGridSource {
                 spacing: 8,
                 runSpacing: 4,
                 children: [
+                  SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: IconButton.filled(
+                      tooltip: "فصل ها",
+                      onPressed: () {
+                        _context.go(
+                            "${RoutePath.season.fullPath}${dataGridCell.value}");
+                      },
+                      icon: SvgPicture(
+                        const AssetBytesLoader('assets/svg/collection.svg.vec'),
+                        height: 16,
+                        width: 16,
+                        colorFilter: ColorFilter.mode(
+                            Theme.of(_context).colorScheme.onPrimary,
+                            BlendMode.srcIn),
+                      ),
+                      style: ButtonStyle(
+                          shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8)))),
+                    ),
+                  ),
                   SizedBox(
                     width: 32,
                     height: 32,

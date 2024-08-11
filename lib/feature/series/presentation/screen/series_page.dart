@@ -278,9 +278,15 @@ class _SeriesPageState extends State<SeriesPage> {
                         readOnly: isDetail,
                         height: width / 3 > 250 ? width / 9 : width / 3),
                     const SizedBox(height: 8),
-                    PosterSectionWidget(readOnly: isDetail),
+                    PosterSectionWidget(
+                        readOnly: isDetail,
+                        textBackgroundColor:
+                            Theme.of(context).colorScheme.surfaceContainerLow),
                     const SizedBox(height: 8),
-                    ThumbnailSectionWidget(readOnly: isDetail),
+                    ThumbnailSectionWidget(
+                        readOnly: isDetail,
+                        textBackgroundColor:
+                            Theme.of(context).colorScheme.surfaceContainerLow),
                     const SizedBox(height: 8),
                     if (!isDetail) ...[
                       OutlinedButton(
@@ -315,7 +321,10 @@ class _SeriesPageState extends State<SeriesPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TitleSectionWidget(
-                        controller: titleController, readOnly: isDetail),
+                        label: "عنوان سریال",
+                        hintText: "شهرزاد",
+                        controller: titleController,
+                        readOnly: isDetail),
                     const SizedBox(height: 16),
                     SynopsisSectionWidget(
                         controller: synopsisController, readOnly: isDetail),
@@ -362,11 +371,21 @@ class _SeriesPageState extends State<SeriesPage> {
               readOnly: isDetail,
               height: width / 3 > 250 ? width / 9 : width / 3),
           const SizedBox(height: 16),
-          PosterSectionWidget(readOnly: isDetail),
+          PosterSectionWidget(
+              readOnly: isDetail,
+              textBackgroundColor:
+                  Theme.of(context).colorScheme.surfaceContainerLow),
           const SizedBox(height: 16),
-          ThumbnailSectionWidget(readOnly: isDetail),
+          ThumbnailSectionWidget(
+              readOnly: isDetail,
+              textBackgroundColor:
+                  Theme.of(context).colorScheme.surfaceContainerLow),
           const SizedBox(height: 16),
-          TitleSectionWidget(controller: titleController, readOnly: isDetail),
+          TitleSectionWidget(
+              label: "عنوان سریال",
+              hintText: "شهرزاد",
+              controller: titleController,
+              readOnly: isDetail),
           const SizedBox(height: 16),
           SynopsisSectionWidget(
               controller: synopsisController, readOnly: isDetail),

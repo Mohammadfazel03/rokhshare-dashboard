@@ -12,6 +12,9 @@ import 'package:dashboard/feature/media/data/repositories/media_repository_impl.
 import 'package:dashboard/feature/movie/data/remote/movie_api_service.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository_impl.dart';
+import 'package:dashboard/feature/season/data/remote/season_api_service.dart';
+import 'package:dashboard/feature/season/data/repositories/season_repository.dart';
+import 'package:dashboard/feature/season/data/repositories/season_repository_impl.dart';
 import 'package:dashboard/feature/series/data/remote/series_api_service.dart';
 import 'package:dashboard/feature/series/data/repositories/series_repository.dart';
 import 'package:dashboard/feature/series/data/repositories/series_repository_impl.dart';
@@ -55,6 +58,10 @@ Future<void> setup() async {
   getIt.registerLazySingleton(() => SeriesApiService(dio: getIt.get()));
   getIt.registerLazySingleton<SeriesRepository>(
       () => SeriesRepositoryImpl(api: getIt.get()));
+
+  getIt.registerLazySingleton(() => SeasonApiService(dio: getIt.get()));
+  getIt.registerLazySingleton<SeasonRepository>(
+      () => SeasonRepositoryImpl(api: getIt.get()));
 
   // register state managements
   getIt.registerLazySingleton(() => ThemeCubit());

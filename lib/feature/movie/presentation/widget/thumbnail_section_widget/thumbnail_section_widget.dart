@@ -6,8 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ThumbnailSectionWidget extends StatelessWidget {
   final bool readOnly;
+  final Color textBackgroundColor;
 
-  const ThumbnailSectionWidget({super.key, this.readOnly = false});
+  const ThumbnailSectionWidget(
+      {super.key, this.readOnly = false, required this.textBackgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -27,10 +29,7 @@ class ThumbnailSectionWidget extends StatelessWidget {
               child: InputDecorator(
                   decoration: InputDecoration(
                     label: DecoratedBox(
-                        decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surfaceContainerLow),
+                        decoration: BoxDecoration(color: textBackgroundColor),
                         child: const Text(" تصویر شاخص ")),
                     focusedBorder: const OutlineInputBorder(
                       borderRadius: BorderRadius.zero,

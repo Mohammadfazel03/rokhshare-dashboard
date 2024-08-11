@@ -22,6 +22,8 @@ import 'package:dashboard/feature/movie/presentation/widget/thumbnail_section_wi
 import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/bloc/title_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_section_widget/bloc/trailer_upload_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/bloc/value_section_cubit.dart';
+import 'package:dashboard/feature/season/presentation/bloc/season_page_cubit.dart';
+import 'package:dashboard/feature/season/presentation/screen/season_page.dart';
 import 'package:dashboard/feature/series/presentation/bloc/series_page_cubit.dart';
 import 'package:dashboard/feature/series/presentation/screen/series_page.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +69,11 @@ enum RoutePath {
       path: "series/:id",
       fullPath: "/media/series/",
       title: "ویرایش سریال"),
+  season(
+      name: "season",
+      path: "season/:id",
+      fullPath: "/media/season/",
+      title: "فصل ها"),
   media(
       name: "media", path: "/media", fullPath: "/media", title: "فیلم و سریال"),
   users(name: "users", path: "/users", fullPath: "/users", title: "کاربران");
@@ -365,6 +372,18 @@ final routerConfig = GoRouter(
                                     SeriesPageCubit(repository: getIt.get())),
                           ], child: SeriesPage(isDetail: true, seriesId: id)));
                         }),
+                    GoRoute(
+                        path: RoutePath.season.path,
+                        name: RoutePath.season.name,
+                        pageBuilder:
+                            (BuildContext context, GoRouterState state) {
+                          int id = int.parse(state.pathParameters['id']!);
+                          return NoTransitionPage(
+                              child: BlocProvider(
+                                  create: (context) =>
+                                      SeasonPageCubit(repository: getIt.get()),
+                                  child: SeasonPage(seriesId: id)));
+                        })
                   ])
             ]),
           ])
