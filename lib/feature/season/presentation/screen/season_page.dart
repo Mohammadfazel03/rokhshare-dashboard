@@ -19,6 +19,7 @@ import 'package:dashboard/feature/season/presentation/widget/season_append_dialo
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:format/format.dart';
 import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart' as intl;
@@ -193,53 +194,6 @@ class _SeasonPageState extends State<SeasonPage> {
           ],
         ),
       ),
-      // child: CustomScrollView(
-      //   slivers: [
-      //
-      //     SliverPadding(
-      //       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-      //       sliver: SliverToBoxAdapter(
-      //         child: Wrap(
-      //           spacing: 8,
-      //           runSpacing: 4,
-      //           alignment: WrapAlignment.start,
-      //           runAlignment: WrapAlignment.center,
-      //           crossAxisAlignment: WrapCrossAlignment.center,
-      //           children: [
-      //             MouseRegion(
-      //               cursor: SystemMouseCursors.click,
-      //               child: GestureDetector(
-      //                 onTap: () {
-      //                   context.pop();
-      //                 },
-      //                 child: Text("فیلم و سریال / ",
-      //                     style: Theme
-      //                         .of(context)
-      //                         .textTheme
-      //                         .bodyMedium
-      //                         ?.copyWith(
-      //                         color: CustomColor.navRailTextColor
-      //                             .getColor(context))),
-      //               ),
-      //             ),
-      //             Text("فصل ها / ",
-      //                 style: Theme
-      //                     .of(context)
-      //                     .textTheme
-      //                     .bodyMedium
-      //                     ?.copyWith(
-      //                     color: CustomColor.navRailTextColorDisable
-      //                         .getColor(context))),
-      //           ],
-      //         ),
-      //       ),
-      //     ),
-      //     SliverPadding(
-      //       padding: const EdgeInsets.all(16),
-      //       sliver:
-      //     )
-      //   ],
-      // ),
     );
   }
 
@@ -299,204 +253,212 @@ class _SeasonPageState extends State<SeasonPage> {
   Widget seasonCard(Season season) {
     return Card(
       clipBehavior: Clip.hardEdge,
-      child: Stack(
-        children: [
-          Positioned.fill(
-              child: Image.network(
-            "$baseUrl${season.poster}",
-            fit: BoxFit.fill,
-          )),
-          Positioned(
-              bottom: 0,
-              right: 0,
-              left: 0,
-              top: 0,
+      child: InkWell(
+        onTap: () {
+          context.go(format(RoutePath.seasonEpisode.fullPath,
+              {'seasonId': season.id, "seriesId": widget.seriesId}));
+        },
+        child: Stack(
+          children: [
+            Positioned.fill(
+                child: Image.network(
+              "$baseUrl${season.poster}",
+              fit: BoxFit.fill,
+            )),
+            Positioned(
+                bottom: 0,
+                right: 0,
+                left: 0,
+                top: 0,
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomCenter,
+                      end: Alignment.topCenter,
+                      colors: <Color>[
+                        Color(0xb31c1b1e),
+                        Color(0x66201f22),
+                        Color(0x4d232225),
+                        Color(0x33272629),
+                        Color(0x1a2a292d),
+                        Color(0x0d2a2d31),
+                        Color(0x05313034),
+                        Color(0x002e2d31)
+                      ],
+                      tileMode: TileMode.clamp,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          season.name != null
+                              ? "فصل ${season.number}: ${season.name}"
+                              : "فصل ${season.number}",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelLarge
+                              ?.copyWith(color: const Color(0xffe5e1e6)),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          "تاریخ انتشار: ${intl.DateFormat.yMMMMd('fa_IR').format(intl.DateFormat('yyyy-MM-ddTHH:mm').parse(season.publicationDate ?? ""))}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(color: const Color(0xffe5e1e6)),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          "تعداد قسمت ها: ${season.episodeNumber}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelMedium
+                              ?.copyWith(color: const Color(0xffe5e1e6)),
+                        ), // Icons.
+                      ],
+                    ),
+                  ),
+                )),
+            Positioned(
+              top: 8,
+              right: 8,
               child: DecoratedBox(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment.topCenter,
-                    colors: <Color>[
-                      Color(0xb31c1b1e),
-                      Color(0x66201f22),
-                      Color(0x4d232225),
-                      Color(0x33272629),
-                      Color(0x1a2a292d),
-                      Color(0x0d2a2d31),
-                      Color(0x05313034),
-                      Color(0x002e2d31)
-                    ],
-                    tileMode: TileMode.clamp,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        season.name != null
-                            ? "فصل ${season.number}: ${season.name}"
-                            : "فصل ${season.number}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(color: const Color(0xffe5e1e6)),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "تاریخ انتشار: ${intl.DateFormat.yMMMMd('fa_IR').format(intl.DateFormat('yyyy-MM-ddTHH:mm').parse(season.publicationDate ?? ""))}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium
-                            ?.copyWith(color: const Color(0xffe5e1e6)),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "تعداد قسمت ها: ${season.episodeNumber}",
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelMedium
-                            ?.copyWith(color: const Color(0xffe5e1e6)),
-                      ), // Icons.
-                    ],
-                  ),
-                ),
-              )),
-          Positioned(
-            top: 8,
-            right: 8,
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                  color: Color(0x4d2e2d31), shape: BoxShape.circle),
-              child: PopupMenuButton<String>(
-                iconColor: Colors.white,
-                onSelected: (String value) {
-                  if (value == "0") {
-                    showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return Dialog(
-                            clipBehavior: Clip.hardEdge,
-                            child: SizedBox(
-                                width: min(
-                                    MediaQuery.sizeOf(context).width * 0.8,
-                                    560),
-                                child: MultiBlocProvider(
-                                  providers: [
-                                    BlocProvider.value(
-                                        value: BlocProvider.of<SeasonPageCubit>(
-                                            context)),
-                                    BlocProvider(
-                                        create: (context) => SeasonAppendCubit(
-                                            repository: getIt.get())),
-                                    BlocProvider(
-                                        create: (context) =>
-                                            IntegerFieldCubit()),
-                                    BlocProvider(
-                                        create: (context) =>
-                                            PosterSectionCubit()),
-                                    BlocProvider(
-                                        create: (context) =>
-                                            ThumbnailSectionCubit()),
-                                    BlocProvider(
-                                        create: (context) =>
-                                            TitleSectionCubit()),
-                                    BlocProvider(
-                                        create: (context) =>
-                                            DatePickerSectionCubit()),
-                                  ],
-                                  child: SeasonAppendDialog(
-                                      seriesId: widget.seriesId,
-                                      seasonId: season.id,
-                                      width: min(
-                                          MediaQuery.sizeOf(context).width *
-                                              0.8,
-                                          560)),
-                                )),
-                          );
-                        });
-                  } else {
-                    showDialog(
-                        context: context,
-                        builder: (dialogContext) => AlertDialog(
-                                title: Text(
-                                  "حذف فصل",
-                                  style: Theme.of(dialogContext)
-                                      .textTheme
-                                      .headlineSmall,
-                                ),
-                                content: Text(
-                                    "آیا از حذف فصل با شناسه ${season.id} اظمینان دارید؟",
+                    color: Color(0x4d2e2d31), shape: BoxShape.circle),
+                child: PopupMenuButton<String>(
+                  iconColor: Colors.white,
+                  onSelected: (String value) {
+                    if (value == "0") {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext dialogContext) {
+                            return Dialog(
+                              clipBehavior: Clip.hardEdge,
+                              child: SizedBox(
+                                  width: min(
+                                      MediaQuery.sizeOf(context).width * 0.8,
+                                      560),
+                                  child: MultiBlocProvider(
+                                    providers: [
+                                      BlocProvider.value(
+                                          value:
+                                              BlocProvider.of<SeasonPageCubit>(
+                                                  context)),
+                                      BlocProvider(
+                                          create: (context) =>
+                                              SeasonAppendCubit(
+                                                  repository: getIt.get())),
+                                      BlocProvider(
+                                          create: (context) =>
+                                              IntegerFieldCubit()),
+                                      BlocProvider(
+                                          create: (context) =>
+                                              PosterSectionCubit()),
+                                      BlocProvider(
+                                          create: (context) =>
+                                              ThumbnailSectionCubit()),
+                                      BlocProvider(
+                                          create: (context) =>
+                                              TitleSectionCubit()),
+                                      BlocProvider(
+                                          create: (context) =>
+                                              DatePickerSectionCubit()),
+                                    ],
+                                    child: SeasonAppendDialog(
+                                        seriesId: widget.seriesId,
+                                        seasonId: season.id,
+                                        width: min(
+                                            MediaQuery.sizeOf(context).width *
+                                                0.8,
+                                            560)),
+                                  )),
+                            );
+                          });
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (dialogContext) => AlertDialog(
+                                  title: Text(
+                                    "حذف فصل",
                                     style: Theme.of(dialogContext)
                                         .textTheme
-                                        .bodyMedium),
-                                actions: [
-                                  OutlinedButton(
-                                    onPressed: () {
-                                      Navigator.of(dialogContext).pop();
-                                    },
-                                    style: ButtonStyle(
-                                      textStyle: WidgetStateProperty.all(
-                                          Theme.of(dialogContext)
-                                              .textTheme
-                                              .labelSmall),
-                                      padding: WidgetStateProperty.all(
-                                          const EdgeInsets.all(16)),
-                                      shape: WidgetStateProperty.all(
-                                          RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(4))),
-                                    ),
-                                    child: const Text(
-                                      "انصراف",
-                                    ),
+                                        .headlineSmall,
                                   ),
-                                  FilledButton(
-                                      style: ButtonStyle(
-                                          textStyle: WidgetStateProperty.all(
-                                              Theme.of(dialogContext)
-                                                  .textTheme
-                                                  .labelSmall),
-                                          padding: WidgetStateProperty.all(
-                                              const EdgeInsets.all(16)),
-                                          alignment: Alignment.center,
-                                          shape: WidgetStateProperty.all(
-                                              RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          4)))),
+                                  content: Text(
+                                      "آیا از حذف فصل با شناسه ${season.id} اظمینان دارید؟",
+                                      style: Theme.of(dialogContext)
+                                          .textTheme
+                                          .bodyMedium),
+                                  actions: [
+                                    OutlinedButton(
                                       onPressed: () {
-                                        BlocProvider.of<SeasonPageCubit>(
-                                                context)
-                                            .delete(id: season.id!);
                                         Navigator.of(dialogContext).pop();
                                       },
+                                      style: ButtonStyle(
+                                        textStyle: WidgetStateProperty.all(
+                                            Theme.of(dialogContext)
+                                                .textTheme
+                                                .labelSmall),
+                                        padding: WidgetStateProperty.all(
+                                            const EdgeInsets.all(16)),
+                                        shape: WidgetStateProperty.all(
+                                            RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(4))),
+                                      ),
                                       child: const Text(
-                                        "بله",
-                                      )),
-                                ]));
-                  }
-                },
-                itemBuilder: (BuildContext context) {
-                  return [
-                    ["0", "ویرایش"],
-                    ["1", "حذف"]
-                  ].map((List<String> e) {
-                    return PopupMenuItem<String>(
-                        value: e[0],
-                        child: Text(e[1],
-                            style: Theme.of(context).textTheme.labelSmall));
-                  }).toList();
-                },
+                                        "انصراف",
+                                      ),
+                                    ),
+                                    FilledButton(
+                                        style: ButtonStyle(
+                                            textStyle: WidgetStateProperty.all(
+                                                Theme.of(dialogContext)
+                                                    .textTheme
+                                                    .labelSmall),
+                                            padding: WidgetStateProperty.all(
+                                                const EdgeInsets.all(16)),
+                                            alignment: Alignment.center,
+                                            shape: WidgetStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            4)))),
+                                        onPressed: () {
+                                          BlocProvider.of<SeasonPageCubit>(
+                                                  context)
+                                              .delete(id: season.id!);
+                                          Navigator.of(dialogContext).pop();
+                                        },
+                                        child: const Text(
+                                          "بله",
+                                        )),
+                                  ]));
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      ["0", "ویرایش"],
+                      ["1", "حذف"]
+                    ].map((List<String> e) {
+                      return PopupMenuItem<String>(
+                          value: e[0],
+                          child: Text(e[1],
+                              style: Theme.of(context).textTheme.labelSmall));
+                    }).toList();
+                  },
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

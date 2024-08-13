@@ -14,11 +14,11 @@ class SeasonApiService {
   }
 
   Future<dynamic> getSeason({required int id}) async {
-    return await _dio.get("/series/season/$id/");
+    return await _dio.get("season/$id/");
   }
 
   Future<dynamic> deleteSeason({required int id}) async {
-    return await _dio.delete("/series/season/$id/");
+    return await _dio.delete("season/$id/");
   }
 
   Future<dynamic> saveSeasons(
@@ -39,7 +39,7 @@ class SeasonApiService {
     if (name != null) {
       form['name'] = name;
     }
-    return await _dio.post("series/season/",
+    return await _dio.post("season/",
         options: Options(headers: {
           "contentType": "multipart/form-data",
         }),
@@ -68,7 +68,7 @@ class SeasonApiService {
     if (poster != null) {
       form['poster'] = MultipartFile.fromBytes(poster, filename: "poster.png");
     }
-    return await _dio.patch("series/season/$id/",
+    return await _dio.patch("season/$id/",
         options: Options(headers: {
           "contentType": "multipart/form-data",
         }),

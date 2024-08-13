@@ -2,7 +2,6 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
-import 'package:dashboard/feature/episode/presentation/screen/episode_page.dart';
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
@@ -25,6 +24,8 @@ import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_secti
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/bloc/value_section_cubit.dart';
 import 'package:dashboard/feature/season/presentation/bloc/season_page_cubit.dart';
 import 'package:dashboard/feature/season/presentation/screen/season_page.dart';
+import 'package:dashboard/feature/season_episode/presentation/bloc/season_episode_page_cubit.dart';
+import 'package:dashboard/feature/season_episode/presentation/screen/season_episode_page.dart';
 import 'package:dashboard/feature/series/presentation/bloc/series_page_cubit.dart';
 import 'package:dashboard/feature/series/presentation/screen/series_page.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +76,11 @@ enum RoutePath {
       path: "series/:seriesId/season",
       fullPath: "/media/series/{seriesId}/season/",
       title: "فصل ها"),
+  seasonEpisode(
+      name: "season_episode",
+      path: ":seasonId",
+      fullPath: "/media/series/{seriesId}/season/{seasonId}/",
+      title: "قسمت ها"),
   media(
       name: "media",
       path: "/media",
@@ -387,7 +393,24 @@ final routerConfig = GoRouter(
                                   create: (context) =>
                                       SeasonPageCubit(repository: getIt.get()),
                                   child: SeasonPage(seriesId: id)));
-                        })
+                        },
+                        routes: [
+                          GoRoute(
+                              path: RoutePath.seasonEpisode.path,
+                              name: RoutePath.seasonEpisode.name,
+                              pageBuilder:
+                                  (BuildContext context, GoRouterState state) {
+                                int id = int.parse(
+                                    state.pathParameters['seasonId']!);
+                                return NoTransitionPage(
+                                    child: BlocProvider(
+                                        create: (context) =>
+                                            SeasonEpisodePageCubit(
+                                                repository: getIt.get()),
+                                        child:
+                                            SeasonEpisodePage(seasonId: id)));
+                              })
+                        ]),
                   ])
             ]),
           ])
