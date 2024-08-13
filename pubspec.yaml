@@ -64,6 +64,7 @@ dependencies:
   video_player_win: ^2.3.9
   flutter_svg: ^2.0.10+1
   vector_graphics_compiler: ^1.1.11+1
+  format: ^1.5.2
 #  better_player: ^0.0.84
 #  isolate_manager: ^5.1.0
 

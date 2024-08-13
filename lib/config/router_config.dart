@@ -2,6 +2,7 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
+import 'package:dashboard/feature/episode/presentation/screen/episode_page.dart';
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
@@ -36,47 +37,50 @@ enum RoutePath {
   dashboard(
       name: "dashboard",
       path: "/dashboard",
-      fullPath: "/dashboard",
+      fullPath: "/dashboard/",
       title: "داشبورد"),
   login(name: "login", path: "/login", fullPath: "/login", title: "ورود"),
   editMovie(
       name: "edit_movie",
-      path: "movie/:id",
-      fullPath: "/media/movie/",
+      path: "movie/:movieId",
+      fullPath: "/media/movie/{movieId}/",
       title: "ویرایش فیلم"),
   detailMovie(
       name: "detail_movie",
-      path: "movie/detail/:id",
-      fullPath: "/media/movie/detail/",
+      path: "movie/:movieId/detail",
+      fullPath: "/media/movie/{movieId}/detail/",
       title: "فیلم"),
   addMovie(
       name: "add_movie",
       path: "movie",
-      fullPath: "/media/movie",
+      fullPath: "/media/movie/",
       title: "افزودن فیلم"),
   addSeries(
       name: "add_series",
       path: "series",
-      fullPath: "/media/series",
+      fullPath: "/media/series/",
       title: "افزودن سریال"),
   detailSeries(
       name: "detail_series",
-      path: "series/detail/:id",
-      fullPath: "/media/series/detail/",
+      path: "series/:seriesId/detail",
+      fullPath: "/media/series/{seriesId}/detail/",
       title: "سریال"),
   editSeries(
       name: "edit_series",
-      path: "series/:id",
-      fullPath: "/media/series/",
+      path: "series/:seriesId",
+      fullPath: "/media/series/{seriesId}/",
       title: "ویرایش سریال"),
   season(
       name: "season",
-      path: "season/:id",
-      fullPath: "/media/season/",
+      path: "series/:seriesId/season",
+      fullPath: "/media/series/{seriesId}/season/",
       title: "فصل ها"),
   media(
-      name: "media", path: "/media", fullPath: "/media", title: "فیلم و سریال"),
-  users(name: "users", path: "/users", fullPath: "/users", title: "کاربران");
+      name: "media",
+      path: "/media",
+      fullPath: "/media/",
+      title: "فیلم و سریال"),
+  users(name: "users", path: "/users", fullPath: "/users/", title: "کاربران");
 
   const RoutePath(
       {required this.name,
@@ -99,7 +103,7 @@ final routerConfig = GoRouter(
         const NotFoundPage(),
     routes: [
       GoRoute(
-          path: RoutePath.login.fullPath,
+          path: RoutePath.login.path,
           name: RoutePath.login.name,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               NoTransitionPage(
@@ -138,7 +142,7 @@ final routerConfig = GoRouter(
                         name: RoutePath.detailMovie.name,
                         pageBuilder:
                             (BuildContext context, GoRouterState state) {
-                          int id = int.parse(state.pathParameters['id']!);
+                          int id = int.parse(state.pathParameters['movieId']!);
                           return NoTransitionPage(
                               child: MultiBlocProvider(providers: [
                             BlocProvider(
@@ -182,7 +186,7 @@ final routerConfig = GoRouter(
                         name: RoutePath.editMovie.name,
                         pageBuilder:
                             (BuildContext context, GoRouterState state) {
-                          int id = int.parse(state.pathParameters['id']!);
+                          int id = int.parse(state.pathParameters['movieId']!);
                           return NoTransitionPage(
                               child: MultiBlocProvider(providers: [
                             BlocProvider(
@@ -302,7 +306,7 @@ final routerConfig = GoRouter(
                         name: RoutePath.editSeries.name,
                         pageBuilder:
                             (BuildContext context, GoRouterState state) {
-                          int id = int.parse(state.pathParameters['id']!);
+                          int id = int.parse(state.pathParameters['seriesId']!);
                           return NoTransitionPage(
                               child: MultiBlocProvider(providers: [
                             BlocProvider(
@@ -338,7 +342,7 @@ final routerConfig = GoRouter(
                         name: RoutePath.detailSeries.name,
                         pageBuilder:
                             (BuildContext context, GoRouterState state) {
-                          int id = int.parse(state.pathParameters['id']!);
+                          int id = int.parse(state.pathParameters['seriesId']!);
                           return NoTransitionPage(
                               child: MultiBlocProvider(providers: [
                             BlocProvider(
@@ -377,7 +381,7 @@ final routerConfig = GoRouter(
                         name: RoutePath.season.name,
                         pageBuilder:
                             (BuildContext context, GoRouterState state) {
-                          int id = int.parse(state.pathParameters['id']!);
+                          int id = int.parse(state.pathParameters['seriesId']!);
                           return NoTransitionPage(
                               child: BlocProvider(
                                   create: (context) =>
@@ -391,10 +395,10 @@ final routerConfig = GoRouter(
     redirect: (BuildContext context, GoRouterState state) async {
       try {
         if (await getIt.get<LocalStorageService>().getAccessToken() == null) {
-          return RoutePath.login.fullPath;
+          return RoutePath.login.path;
         }
-        if (state.uri.path == RoutePath.login.fullPath) {
-          return RoutePath.dashboard.fullPath;
+        if (state.uri.path == RoutePath.login.path) {
+          return RoutePath.dashboard.path;
         }
 
         return null;

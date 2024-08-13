@@ -4,6 +4,7 @@ import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/movie.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:format/format.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -156,7 +157,8 @@ class MovieDataGrid extends DataGridSource {
                       tooltip: "جزئیات",
                       onPressed: () {
                         _context.go(
-                            "${RoutePath.detailMovie.fullPath}${dataGridCell.value}",
+                            format(RoutePath.detailMovie.fullPath,
+                                {'movieId': dataGridCell.value}),
                             extra: _cubit);
                       },
                       icon: const Icon(
@@ -175,7 +177,8 @@ class MovieDataGrid extends DataGridSource {
                       tooltip: "ویرایش",
                       onPressed: () {
                         _context.go(
-                            "${RoutePath.editMovie.fullPath}${dataGridCell.value}",
+                            format(RoutePath.editMovie.fullPath,
+                                {'movieId': dataGridCell.value}),
                             extra: _cubit);
                       },
                       icon: const Icon(

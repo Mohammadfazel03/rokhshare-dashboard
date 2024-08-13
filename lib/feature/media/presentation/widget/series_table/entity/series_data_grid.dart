@@ -5,6 +5,7 @@ import 'package:dashboard/feature/media/data/remote/model/series.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:format/format.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -161,8 +162,8 @@ class SeriesDataGrid extends DataGridSource {
                     child: IconButton.filled(
                       tooltip: "فصل ها",
                       onPressed: () {
-                        _context.go(
-                            "${RoutePath.season.fullPath}${dataGridCell.value}");
+                        _context.go(format(RoutePath.season.fullPath,
+                            {'seriesId': dataGridCell.value}));
                       },
                       icon: SvgPicture(
                         const AssetBytesLoader('assets/svg/collection.svg.vec'),
@@ -184,7 +185,8 @@ class SeriesDataGrid extends DataGridSource {
                       tooltip: "جزئیات",
                       onPressed: () {
                         _context.go(
-                            "${RoutePath.detailSeries.fullPath}${dataGridCell.value}",
+                            format(RoutePath.detailSeries.fullPath,
+                                {'seriesId': dataGridCell.value}),
                             extra: _cubit);
                       },
                       icon: const Icon(
@@ -203,7 +205,8 @@ class SeriesDataGrid extends DataGridSource {
                       tooltip: "ویرایش",
                       onPressed: () {
                         _context.go(
-                            "${RoutePath.editSeries.fullPath}${dataGridCell.value}",
+                            format(RoutePath.editSeries.fullPath,
+                                {'seriesId': dataGridCell.value}),
                             extra: _cubit);
                       },
                       icon: const Icon(
