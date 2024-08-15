@@ -2,6 +2,10 @@ import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
+import 'package:dashboard/feature/episode/presentation/bloc/episode_page_cubit.dart';
+import 'package:dashboard/feature/episode/presentation/screen/episode_page.dart';
+import 'package:dashboard/feature/episode/presentation/widget/comment_table_widget/bloc/comment_table_cubit.dart'
+    as episode_comment;
 import 'package:dashboard/feature/home/presentation/screen/home_page.dart';
 import 'package:dashboard/feature/login/presentation/bloc/login_cubit.dart';
 import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
@@ -11,7 +15,8 @@ import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/se
 import 'package:dashboard/feature/movie/presentation/bloc/movie_page_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/screen/movie_page.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/bloc/artist_section_cubit.dart';
-import 'package:dashboard/feature/movie/presentation/widget/comment_table_widget/bloc/comment_table_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/comment_table_widget/bloc/comment_table_cubit.dart'
+    as movie_comment;
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget/bloc/genre_section_cubit.dart';
@@ -24,6 +29,7 @@ import 'package:dashboard/feature/movie/presentation/widget/trailer_upload_secti
 import 'package:dashboard/feature/movie/presentation/widget/value_section_widget/bloc/value_section_cubit.dart';
 import 'package:dashboard/feature/season/presentation/bloc/season_page_cubit.dart';
 import 'package:dashboard/feature/season/presentation/screen/season_page.dart';
+import 'package:dashboard/feature/season/presentation/widget/integer_field_widget/bloc/integer_field_cubit.dart';
 import 'package:dashboard/feature/season_episode/presentation/bloc/season_episode_page_cubit.dart';
 import 'package:dashboard/feature/season_episode/presentation/screen/season_episode_page.dart';
 import 'package:dashboard/feature/series/presentation/bloc/series_page_cubit.dart';
@@ -81,6 +87,23 @@ enum RoutePath {
       path: ":seasonId",
       fullPath: "/media/series/{seriesId}/season/{seasonId}/",
       title: "قسمت ها"),
+  addEpisode(
+      name: "add_episode",
+      path: "episode",
+      fullPath: "/media/series/{seriesId}/season/{seasonId}/episode/",
+      title: "افزودن قسمت"),
+  editEpisode(
+      name: "edit_episode",
+      path: "episode/:episodeId",
+      fullPath:
+          "/media/series/{seriesId}/season/{seasonId}/episode/{episodeId}/",
+      title: "ویرایش قسمت"),
+  detailEpisode(
+      name: "detail_episode",
+      path: "episode/:episodeId/detail",
+      fullPath:
+          "/media/series/{seriesId}/season/{seasonId}/episode/{episodeId}/detail/",
+      title: "قسمت"),
   media(
       name: "media",
       path: "/media",
@@ -156,7 +179,8 @@ final routerConfig = GoRouter(
                                     repository: getIt.get())),
                             BlocProvider(
                                 create: (context) =>
-                                    CommentTableCubit(repository: getIt.get())),
+                                    movie_comment.CommentTableCubit(
+                                        repository: getIt.get())),
                             BlocProvider.value(
                                 value: state.extra as MoviesTableCubit),
                             BlocProvider(
@@ -353,7 +377,8 @@ final routerConfig = GoRouter(
                               child: MultiBlocProvider(providers: [
                             BlocProvider(
                                 create: (context) =>
-                                    CommentTableCubit(repository: getIt.get())),
+                                    movie_comment.CommentTableCubit(
+                                        repository: getIt.get())),
                             BlocProvider(
                                 create: (context) => TrailerUploadSectionCubit(
                                     repository: getIt.get())),
@@ -400,16 +425,194 @@ final routerConfig = GoRouter(
                               name: RoutePath.seasonEpisode.name,
                               pageBuilder:
                                   (BuildContext context, GoRouterState state) {
-                                int id = int.parse(
+                                int seasonId = int.parse(
                                     state.pathParameters['seasonId']!);
+                                int seriesId = int.parse(
+                                    state.pathParameters['seriesId']!);
                                 return NoTransitionPage(
                                     child: BlocProvider(
                                         create: (context) =>
                                             SeasonEpisodePageCubit(
                                                 repository: getIt.get()),
-                                        child:
-                                            SeasonEpisodePage(seasonId: id)));
-                              })
+                                        child: SeasonEpisodePage(
+                                            seasonId: seasonId,
+                                            seriesId: seriesId)));
+                              },
+                              routes: [
+                                GoRoute(
+                                    path: RoutePath.addEpisode.path,
+                                    name: RoutePath.addEpisode.name,
+                                    pageBuilder: (BuildContext context,
+                                        GoRouterState state) {
+                                      int seasonId = int.parse(
+                                          state.pathParameters['seasonId']!);
+                                      return NoTransitionPage(
+                                          child: MultiBlocProvider(
+                                              providers: [
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    MovieUploadSectionCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                            BlocProvider.value(
+                                                value: state.extra
+                                                    as SeasonEpisodePageCubit),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    TrailerUploadSectionCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    IntegerFieldCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    PosterSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    ThumbnailSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    DatePickerSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    SynopsisSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    TitleSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    ArtistSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    EpisodePageCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                          ],
+                                              child: EpisodePage(
+                                                  seasonId: seasonId)));
+                                    }),
+                                GoRoute(
+                                    path: RoutePath.editEpisode.path,
+                                    name: RoutePath.editEpisode.name,
+                                    pageBuilder: (BuildContext context,
+                                        GoRouterState state) {
+                                      int seasonId = int.parse(
+                                          state.pathParameters['seasonId']!);
+                                      int episodeId = int.parse(
+                                          state.pathParameters['episodeId']!);
+                                      return NoTransitionPage(
+                                          child: MultiBlocProvider(
+                                              providers: [
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    MovieUploadSectionCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                            BlocProvider.value(
+                                                value: state.extra
+                                                    as SeasonEpisodePageCubit),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    TrailerUploadSectionCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    IntegerFieldCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    PosterSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    ThumbnailSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    DatePickerSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    SynopsisSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    TitleSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    ArtistSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    EpisodePageCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                          ],
+                                              child: EpisodePage(
+                                                  seasonId: seasonId,
+                                                  episodeId: episodeId)));
+                                    }),
+                                GoRoute(
+                                    path: RoutePath.detailEpisode.path,
+                                    name: RoutePath.detailEpisode.name,
+                                    pageBuilder: (BuildContext context,
+                                        GoRouterState state) {
+                                      int seasonId = int.parse(
+                                          state.pathParameters['seasonId']!);
+                                      int episodeId = int.parse(
+                                          state.pathParameters['episodeId']!);
+                                      return NoTransitionPage(
+                                          child: MultiBlocProvider(
+                                              providers: [
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    MovieUploadSectionCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    episode_comment
+                                                        .CommentTableCubit(
+                                                            repository:
+                                                                getIt.get())),
+                                            BlocProvider.value(
+                                                value: state.extra
+                                                    as SeasonEpisodePageCubit),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    TrailerUploadSectionCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    IntegerFieldCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    PosterSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    ThumbnailSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    DatePickerSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    SynopsisSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    TitleSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    ArtistSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    EpisodePageCubit(
+                                                        repository:
+                                                            getIt.get())),
+                                          ],
+                                              child: EpisodePage(
+                                                seasonId: seasonId,
+                                                episodeId: episodeId,
+                                                isDetail: true,
+                                              )));
+                                    }),
+                              ])
                         ]),
                   ])
             ]),

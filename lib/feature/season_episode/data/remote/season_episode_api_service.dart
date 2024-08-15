@@ -9,4 +9,8 @@ class SeasonEpisodeApiService {
     return await _dio
         .get("season/$seasonId/episode", queryParameters: {"page": page});
   }
+
+  Future<dynamic> deleteEpisode({required int id}) async {
+    return await _dio.delete("episode/$id/");
+  }
 }

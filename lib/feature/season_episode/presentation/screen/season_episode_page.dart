@@ -11,14 +11,17 @@ import 'package:dashboard/feature/season_episode/presentation/entity/season_epis
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:format/format.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:toastification/toastification.dart';
 
 class SeasonEpisodePage extends StatefulWidget {
   final int seasonId;
+  final int seriesId;
 
-  const SeasonEpisodePage({super.key, required this.seasonId});
+  const SeasonEpisodePage(
+      {super.key, required this.seasonId, required this.seriesId});
 
   @override
   State<SeasonEpisodePage> createState() => _SeasonEpisodePageState();
@@ -30,6 +33,8 @@ class _SeasonEpisodePageState extends State<SeasonEpisodePage> {
   @override
   void initState() {
     _dataGrid = SeasonEpisodeDataGrid(
+        seasonId: widget.seasonId,
+        seriesId: widget.seriesId,
         context: context,
         cubit: BlocProvider.of<SeasonEpisodePageCubit>(context));
     BlocProvider.of<SeasonEpisodePageCubit>(context)
@@ -112,9 +117,14 @@ class _SeasonEpisodePageState extends State<SeasonEpisodePage> {
                           ),
                           FilledButton.icon(
                             onPressed: () {
-                              // context.go(RoutePath.addMovie.fullPath,
-                              //     extra: BlocProvider.of<EpisodePageCubit>(
-                              //         context));
+                              context.go(
+                                  format(RoutePath.addEpisode.fullPath, {
+                                    "seasonId": widget.seasonId,
+                                    "seriesId": widget.seriesId
+                                  }),
+                                  extra:
+                                      BlocProvider.of<SeasonEpisodePageCubit>(
+                                          context));
                             },
                             label: const Text(
                               "افزودن",

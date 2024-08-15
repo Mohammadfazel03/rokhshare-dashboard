@@ -17,7 +17,7 @@ class Comment {
     String? title,
     String? createdAt,
     int? state,
-    Episode? episode,
+    CommentEpisode? episode,
   }) {
     _id = id;
     _user = user;
@@ -35,8 +35,9 @@ class Comment {
     _title = json['title'];
     _createdAt = json['created_at'];
     _state = json['state'];
-    _episode =
-        json['episode'] != null ? Episode.fromJson(json['episode']) : null;
+    _episode = json['episode'] != null
+        ? CommentEpisode.fromJson(json['episode'])
+        : null;
   }
 
   int? _id;
@@ -45,7 +46,7 @@ class Comment {
   String? _title;
   String? _createdAt;
   int? _state;
-  Episode? _episode;
+  CommentEpisode? _episode;
 
   int? get id => _id;
 
@@ -57,7 +58,7 @@ class Comment {
 
   String? get createdAt => _createdAt;
 
-  Episode? get episode => _episode;
+  CommentEpisode? get episode => _episode;
 
   CommentState? get state {
     if (_state != null) {
@@ -87,8 +88,8 @@ class Comment {
   }
 }
 
-class Episode {
-  Episode({
+class CommentEpisode {
+  CommentEpisode({
     int? id,
     int? number,
     String? name,
@@ -100,7 +101,7 @@ class Episode {
     _season = season;
   }
 
-  Episode.fromJson(dynamic json) {
+  CommentEpisode.fromJson(dynamic json) {
     _id = json['id'];
     _number = json['number'];
     _name = json['name'];

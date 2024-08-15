@@ -46,7 +46,7 @@ class _MovieUploadSectionWidgetState extends State<MovieUploadSectionWidget> {
               VideoPlayerController.file(File(state.file!.path));
           _videoPlayerController?.initialize().then((value) {
             BlocProvider.of<MovieUploadSectionCubit>(context)
-                .videoIsReady(_videoPlayerController!.value.duration.inMinutes);
+                .videoIsReady(_videoPlayerController!.value.duration.inSeconds);
           });
         } else if (state.networkUrl != null) {
           await _videoPlayerController?.dispose();
@@ -55,7 +55,7 @@ class _MovieUploadSectionWidgetState extends State<MovieUploadSectionWidget> {
               videoPlayerOptions: VideoPlayerOptions());
           _videoPlayerController?.initialize().then((value) {
             BlocProvider.of<MovieUploadSectionCubit>(context)
-                .videoIsReady(_videoPlayerController!.value.duration.inMinutes);
+                .videoIsReady(_videoPlayerController!.value.duration.inSeconds);
           });
         } else {
           await _videoPlayerController?.dispose();

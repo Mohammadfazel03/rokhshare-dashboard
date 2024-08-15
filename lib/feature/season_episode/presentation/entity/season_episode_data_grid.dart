@@ -1,21 +1,28 @@
 import 'package:dashboard/config/dio_config.dart';
+import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/season_episode/data/remote/model/episode.dart';
 import 'package:dashboard/feature/season_episode/presentation/bloc/season_episode_page_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:format/format.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class SeasonEpisodeDataGrid extends DataGridSource {
-  List<DataGridRow> _dataGridRows = [];
+  final List<DataGridRow> _dataGridRows = [];
   final BuildContext _context;
   final SeasonEpisodePageCubit _cubit;
+  final int seasonId;
+  final int seriesId;
 
-  ValueNotifier<bool> hovering = ValueNotifier(false);
+  final List<ValueNotifier<bool>> _hoveringItems = [];
 
   SeasonEpisodeDataGrid(
       {List<Episode>? episode,
       required BuildContext context,
-      required SeasonEpisodePageCubit cubit})
+      required SeasonEpisodePageCubit cubit,
+      required this.seasonId,
+      required this.seriesId})
       : _context = context,
         _cubit = cubit {
     if (episode != null) {
@@ -24,21 +31,30 @@ class SeasonEpisodeDataGrid extends DataGridSource {
   }
 
   void buildDataGridRows({required List<Episode> episode}) {
-    _dataGridRows = episode.map<DataGridRow>((dataGridRow) {
-      return DataGridRow(cells: [
+    for (var h in _hoveringItems) {
+      h.dispose();
+    }
+    _hoveringItems.clear();
+    _dataGridRows.clear();
+    for (var dataGridRow in episode) {
+      _hoveringItems.add(ValueNotifier(false));
+      _dataGridRows.add(DataGridRow(cells: [
         DataGridCell<int>(columnName: 'id', value: dataGridRow.id),
         DataGridCell<Episode>(columnName: 'episode', value: dataGridRow),
         DataGridCell<String>(
             columnName: 'releaseDate', value: dataGridRow.publicationDate),
         DataGridCell<int>(
             columnName: 'commentsCount', value: dataGridRow.commentsCount),
-      ]);
-    }).toList();
+      ]));
+    }
   }
 
   @override
   void dispose() {
-    hovering.dispose();
+    for (var h in _hoveringItems) {
+      h.dispose();
+    }
+    _hoveringItems.clear();
     super.dispose();
   }
 
@@ -47,8 +63,9 @@ class SeasonEpisodeDataGrid extends DataGridSource {
 
   @override
   DataGridRowAdapter? buildRow(DataGridRow row) {
+    int index = effectiveRows.indexOf(row);
     return DataGridRowAdapter(
-        color: effectiveRows.indexOf(row) % 2 == 0
+        color: index % 2 == 0
             ? Theme.of(_context).colorScheme.surfaceContainerLow
             : Theme.of(_context).colorScheme.surfaceContainer,
         cells: row.getCells().map((dataGridCell) {
@@ -58,13 +75,13 @@ class SeasonEpisodeDataGrid extends DataGridSource {
             var f = jDate.formatter;
             return MouseRegion(
               onEnter: (_) {
-                if (hovering.value == false) {
-                  hovering.value = !hovering.value;
+                if (_hoveringItems[index].value == false) {
+                  _hoveringItems[index].value = !_hoveringItems[index].value;
                 }
               },
               onExit: (_) {
-                if (hovering.value == true) {
-                  hovering.value = !hovering.value;
+                if (_hoveringItems[index].value == true) {
+                  _hoveringItems[index].value = !_hoveringItems[index].value;
                 }
               },
               child: Align(
@@ -78,13 +95,13 @@ class SeasonEpisodeDataGrid extends DataGridSource {
             Episode episode = dataGridCell.value;
             return MouseRegion(
                 onEnter: (_) {
-                  if (hovering.value == false) {
-                    hovering.value = !hovering.value;
+                  if (_hoveringItems[index].value == false) {
+                    _hoveringItems[index].value = !_hoveringItems[index].value;
                   }
                 },
                 onExit: (_) {
-                  if (hovering.value == true) {
-                    hovering.value = !hovering.value;
+                  if (_hoveringItems[index].value == true) {
+                    _hoveringItems[index].value = !_hoveringItems[index].value;
                   }
                 },
                 child: Padding(
@@ -127,7 +144,7 @@ class SeasonEpisodeDataGrid extends DataGridSource {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ValueListenableBuilder(
-                              valueListenable: hovering,
+                              valueListenable: _hoveringItems[index],
                               builder: (BuildContext context, bool value,
                                   Widget? child) {
                                 return Column(
@@ -148,17 +165,17 @@ class SeasonEpisodeDataGrid extends DataGridSource {
                                                     .onSurface)),
                                     if (!value) ...[
                                       const SizedBox(height: 4),
-                                      Expanded(
-                                          child: Text(episode.synopsis ?? "",
-                                              style: Theme.of(_context)
-                                                  .textTheme
-                                                  .labelMedium
-                                                  ?.copyWith(
-                                                      color: Theme.of(_context)
-                                                          .colorScheme
-                                                          .onSurfaceVariant),
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.justify))
+                                      Text(episode.synopsis ?? "",
+                                          style: Theme.of(_context)
+                                              .textTheme
+                                              .labelMedium
+                                              ?.copyWith(
+                                                  color: Theme.of(_context)
+                                                      .colorScheme
+                                                      .onSurfaceVariant),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
+                                          textAlign: TextAlign.justify)
                                     ] else ...[
                                       const Expanded(child: SizedBox()),
                                       Wrap(
@@ -172,10 +189,18 @@ class SeasonEpisodeDataGrid extends DataGridSource {
                                           IconButton(
                                             tooltip: "جزئیات",
                                             onPressed: () {
-                                              // _context.go(
-                                              //     format(RoutePath.detailEpisode.fullPath,
-                                              //         {'movieId': dataGridCell.value}),
-                                              //     extra: _cubit);
+                                              _context.go(
+                                                  format(
+                                                      RoutePath.detailEpisode
+                                                          .fullPath,
+                                                      {
+                                                        'episodeId':
+                                                            dataGridCell
+                                                                .value.id,
+                                                        "seasonId": seasonId,
+                                                        "seriesId": seriesId
+                                                      }),
+                                                  extra: _cubit);
                                             },
                                             icon: const Icon(
                                               Icons.message_rounded,
@@ -190,10 +215,18 @@ class SeasonEpisodeDataGrid extends DataGridSource {
                                           IconButton(
                                             tooltip: "ویرایش",
                                             onPressed: () {
-                                              // _context.go(
-                                              //     format(RoutePath.editEpisode.fullPath,
-                                              //         {'movieId': dataGridCell.value}),
-                                              //     extra: _cubit);
+                                              _context.go(
+                                                  format(
+                                                      RoutePath
+                                                          .editEpisode.fullPath,
+                                                      {
+                                                        'episodeId':
+                                                            dataGridCell
+                                                                .value.id,
+                                                        "seasonId": seasonId,
+                                                        "seriesId": seriesId
+                                                      }),
+                                                  extra: _cubit);
                                             },
                                             icon: const Icon(
                                               Icons.edit,
@@ -208,66 +241,81 @@ class SeasonEpisodeDataGrid extends DataGridSource {
                                           IconButton(
                                             tooltip: "حذف",
                                             onPressed: () {
-                                              //   showDialog(
-                                              //       context: _context,
-                                              //       builder: (dialogContext) => AlertDialog(
-                                              //           title: Text(
-                                              //             "حذف فیلم",
-                                              //             style: Theme.of(dialogContext)
-                                              //                 .textTheme
-                                              //                 .headlineSmall,
-                                              //           ),
-                                              //           content: Text(
-                                              //               "آیا از حذف فیلم با شناسه ${dataGridCell.value} اظمینان دارید؟",
-                                              //               style: Theme.of(dialogContext)
-                                              //                   .textTheme
-                                              //                   .bodyMedium),
-                                              //           actions: [
-                                              //             OutlinedButton(
-                                              //               onPressed: () {
-                                              //                 Navigator.of(dialogContext).pop();
-                                              //               },
-                                              //               style: ButtonStyle(
-                                              //                 textStyle: WidgetStateProperty.all(
-                                              //                     Theme.of(dialogContext)
-                                              //                         .textTheme
-                                              //                         .labelSmall),
-                                              //                 padding: WidgetStateProperty.all(
-                                              //                     const EdgeInsets.all(16)),
-                                              //                 shape: WidgetStateProperty.all(
-                                              //                     RoundedRectangleBorder(
-                                              //                         borderRadius:
-                                              //                         BorderRadius.circular(
-                                              //                             4))),
-                                              //               ),
-                                              //               child: const Text(
-                                              //                 "انصراف",
-                                              //               ),
-                                              //             ),
-                                              //             FilledButton(
-                                              //                 style: ButtonStyle(
-                                              //                     textStyle:
-                                              //                     WidgetStateProperty.all(
-                                              //                         Theme.of(dialogContext)
-                                              //                             .textTheme
-                                              //                             .labelSmall),
-                                              //                     padding: WidgetStateProperty.all(
-                                              //                         const EdgeInsets.all(16)),
-                                              //                     alignment: Alignment.center,
-                                              //                     shape: WidgetStateProperty.all(
-                                              //                         RoundedRectangleBorder(
-                                              //                             borderRadius:
-                                              //                             BorderRadius.circular(
-                                              //                                 4)))),
-                                              //                 onPressed: () {
-                                              //                   // _cubit.delete(
-                                              //                   //     id: dataGridCell.value);
-                                              //                   // Navigator.of(dialogContext).pop();
-                                              //                 },
-                                              //                 child: const Text(
-                                              //                   "بله",
-                                              //                 )),
-                                              //           ]));
+                                              showDialog(
+                                                  context: _context,
+                                                  builder: (dialogContext) =>
+                                                      AlertDialog(
+                                                          title: Text(
+                                                            "حذف قسمت",
+                                                            style: Theme.of(
+                                                                    dialogContext)
+                                                                .textTheme
+                                                                .headlineSmall,
+                                                          ),
+                                                          content: Text(
+                                                              "آیا از حذف قسمت با شناسه ${dataGridCell.value.id} اظمینان دارید؟",
+                                                              style: Theme.of(
+                                                                      dialogContext)
+                                                                  .textTheme
+                                                                  .bodyMedium),
+                                                          actions: [
+                                                            OutlinedButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        dialogContext)
+                                                                    .pop();
+                                                              },
+                                                              style:
+                                                                  ButtonStyle(
+                                                                textStyle: WidgetStateProperty
+                                                                    .all(Theme.of(
+                                                                            dialogContext)
+                                                                        .textTheme
+                                                                        .labelSmall),
+                                                                padding: WidgetStateProperty.all(
+                                                                    const EdgeInsets
+                                                                        .all(
+                                                                        16)),
+                                                                shape: WidgetStateProperty.all(
+                                                                    RoundedRectangleBorder(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(4))),
+                                                              ),
+                                                              child: const Text(
+                                                                "انصراف",
+                                                              ),
+                                                            ),
+                                                            FilledButton(
+                                                                style: ButtonStyle(
+                                                                    textStyle: WidgetStateProperty.all(Theme.of(
+                                                                            dialogContext)
+                                                                        .textTheme
+                                                                        .labelSmall),
+                                                                    padding: WidgetStateProperty.all(
+                                                                        const EdgeInsets
+                                                                            .all(
+                                                                            16)),
+                                                                    alignment:
+                                                                        Alignment
+                                                                            .center,
+                                                                    shape: WidgetStateProperty.all(
+                                                                        RoundedRectangleBorder(
+                                                                            borderRadius: BorderRadius.circular(4)))),
+                                                                onPressed: () {
+                                                                  _cubit.delete(
+                                                                      id: dataGridCell
+                                                                          .value
+                                                                          .id,
+                                                                      seasonId:
+                                                                          seasonId);
+                                                                  Navigator.of(
+                                                                          dialogContext)
+                                                                      .pop();
+                                                                },
+                                                                child: const Text(
+                                                                  "بله",
+                                                                )),
+                                                          ]));
                                             },
                                             icon: const Icon(
                                               Icons.delete,
@@ -293,13 +341,13 @@ class SeasonEpisodeDataGrid extends DataGridSource {
           }
           return MouseRegion(
             onEnter: (_) {
-              if (hovering.value == false) {
-                hovering.value = !hovering.value;
+              if (_hoveringItems[index].value == false) {
+                _hoveringItems[index].value = !_hoveringItems[index].value;
               }
             },
             onExit: (_) {
-              if (hovering.value == true) {
-                hovering.value = !hovering.value;
+              if (_hoveringItems[index].value == true) {
+                _hoveringItems[index].value = !_hoveringItems[index].value;
               }
             },
             child: Center(

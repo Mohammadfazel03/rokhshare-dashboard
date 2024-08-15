@@ -33,23 +33,23 @@ class SeasonEpisodePageCubit extends Cubit<SeasonEpisodePageState> {
     }
   }
 
-// void refreshPage() {
-//   getData(page: state.pageIndex);
-// }
+  void refreshPage({required int seasonId}) {
+    getData(page: state.pageIndex, seasonId: seasonId);
+  }
 
-// Future<void> delete({required int id}) async {
-//   emit(EpisodePageLoading(
-//       numberPages: state.numberPages, pageIndex: state.pageIndex));
-//   DataResponse<void> response = await _repository.deleteMovie(id: id);
-//   if (response is DataFailed) {
-//     emit(EpisodePageError(
-//         title: "خطا در حذف قسمت",
-//         error: response.error ?? "مشکلی پیش آمده است",
-//         code: response.code,
-//         pageIndex: state.pageIndex,
-//         numberPages: state.numberPages));
-//   } else {
-//     getData(page: state.pageIndex);
-//   }
-// }
+  Future<void> delete({required int id, required int seasonId}) async {
+    emit(SeasonEpisodePageLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteEpisode(id: id);
+    if (response is DataFailed) {
+      emit(SeasonEpisodePageError(
+          title: "خطا در حذف قسمت",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex, seasonId: seasonId);
+    }
+  }
 }

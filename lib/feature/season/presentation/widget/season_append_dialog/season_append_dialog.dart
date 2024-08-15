@@ -187,7 +187,11 @@ class _SeasonAppendDialogState extends State<SeasonAppendDialog> {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               const SizedBox(height: 16),
-              IntegerFieldWidget(controller: numberController),
+              IntegerFieldWidget(
+                controller: numberController,
+                label: "شماره فصل",
+                hint: "مثلاً 1",
+              ),
               const SizedBox(height: 8),
               TitleSectionWidget(
                   label: "عنوان فصل",

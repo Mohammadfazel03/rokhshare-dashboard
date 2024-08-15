@@ -6,9 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class IntegerFieldWidget extends StatelessWidget {
   final TextEditingController _controller;
   final bool readOnly;
+  final String label;
+  final String hint;
 
   IntegerFieldWidget(
-      {super.key, TextEditingController? controller, this.readOnly = false})
+      {super.key,
+      TextEditingController? controller,
+      this.readOnly = false,
+      required this.label,
+      required this.hint})
       : _controller = controller ?? TextEditingController();
 
   @override
@@ -23,9 +29,7 @@ class IntegerFieldWidget extends StatelessWidget {
             _NumberTextInputFormatter(1, 100000)
           ],
           decoration: InputDecoration(
-              hintText: "1",
-              label: const Text("شماره فصل"),
-              errorText: state.error),
+              hintText: hint, label: Text(label), errorText: state.error),
           onChanged: (value) {
             if (value.isNotEmpty) {
               BlocProvider.of<IntegerFieldCubit>(context).clearError();

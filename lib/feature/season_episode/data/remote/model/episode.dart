@@ -1,3 +1,4 @@
+import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/entity/cast.dart';
 
 class Episode {
@@ -13,8 +14,8 @@ class Episode {
     String? poster,
     String? publicationDate,
     int? season,
-    int? video,
-    int? trailer,
+    MediaFile? video,
+    MediaFile? trailer,
   }) {
     _id = id;
     _casts = casts;
@@ -39,6 +40,12 @@ class Episode {
         _casts?.add(Cast.fromJson(v));
       });
     }
+    if (json['video'] != null) {
+      _video = MediaFile.fromJson(json['video']);
+    }
+    if (json['trailer'] != null) {
+      _trailer = MediaFile.fromJson(json['trailer']);
+    }
     _commentsCount = json['comments_count'];
     _number = json['number'];
     _name = json['name'];
@@ -48,8 +55,6 @@ class Episode {
     _poster = json['poster'];
     _publicationDate = json['publication_date'];
     _season = json['season'];
-    _video = json['video'];
-    _trailer = json['trailer'];
   }
 
   int? _id;
@@ -63,8 +68,8 @@ class Episode {
   String? _poster;
   String? _publicationDate;
   int? _season;
-  int? _video;
-  int? _trailer;
+  MediaFile? _video;
+  MediaFile? _trailer;
 
   int? get id => _id;
 
@@ -88,16 +93,15 @@ class Episode {
 
   int? get season => _season;
 
-  int? get video => _video;
+  MediaFile? get video => _video;
 
-  int? get trailer => _trailer;
+  MediaFile? get trailer => _trailer;
 
   String? get humanizeTime {
     if (_time != null) {
-      var allSec = _time! * 60;
-      var hour = (allSec / 3600).floor();
-      var min = ((allSec % 3600) / 60).floor();
-      var second = allSec % 60;
+      var hour = (_time! / 3600).floor();
+      var min = ((_time! % 3600) / 60).floor();
+      var second = _time! % 60;
       String temp = "";
       if (hour > 0) {
         if (hour < 10) {
@@ -106,13 +110,13 @@ class Episode {
           temp += "$hour:";
         }
       }
-      if (min > 0) {
-        if (min < 10) {
-          temp += '0$min:';
-        } else {
-          temp += "$min:";
-        }
+
+      if (min < 10) {
+        temp += '0$min:';
+      } else {
+        temp += "$min:";
       }
+
       if (second < 10) {
         temp += '0$second';
       } else {
@@ -129,6 +133,12 @@ class Episode {
     if (_casts != null) {
       map['casts'] = _casts?.map((v) => v.toJson()).toList();
     }
+    if (_video != null) {
+      map['video'] = _video!.toJson();
+    }
+    if (_trailer != null) {
+      map['trailer'] = _trailer!.toJson();
+    }
     map['comments_count'] = _commentsCount;
     map['number'] = _number;
     map['name'] = _name;
@@ -139,7 +149,6 @@ class Episode {
     map['publication_date'] = _publicationDate;
     map['season'] = _season;
     map['video'] = _video;
-    map['trailer'] = _trailer;
     return map;
   }
 }
