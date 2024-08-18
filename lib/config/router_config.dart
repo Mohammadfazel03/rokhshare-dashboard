@@ -12,6 +12,9 @@ import 'package:dashboard/feature/login/presentation/screen/login_page.dart';
 import 'package:dashboard/feature/media/presentation/screen/media_page.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/series_table/bloc/series_table_cubit.dart';
+import 'package:dashboard/feature/media_collection/presentation/bloc/media_collection_page_cubit.dart';
+import 'package:dashboard/feature/media_collection/presentation/screen/media_collection_page.dart';
+import 'package:dashboard/feature/media_collection/presentation/widget/media_autocomplete_field/bloc/media_autocomplete_field_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/bloc/movie_page_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/screen/movie_page.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_section_widget/bloc/artist_section_cubit.dart';
@@ -104,6 +107,11 @@ enum RoutePath {
       fullPath:
           "/media/series/{seriesId}/season/{seasonId}/episode/{episodeId}/detail/",
       title: "قسمت"),
+  collection(
+      name: "collection",
+      path: "collection/:collectionId",
+      fullPath: "/media/collection/{collectionId}/",
+      title: "مجموعه"),
   media(
       name: "media",
       path: "/media",
@@ -619,6 +627,23 @@ final routerConfig = GoRouter(
                                     }),
                               ])
                         ]),
+                    GoRoute(
+                        path: RoutePath.collection.path,
+                        name: RoutePath.collection.name,
+                        pageBuilder:
+                            (BuildContext context, GoRouterState state) {
+                          int id =
+                              int.parse(state.pathParameters['collectionId']!);
+                          return NoTransitionPage(
+                              child: MultiBlocProvider(providers: [
+                            BlocProvider(
+                                create: (context) => MediaCollectionPageCubit(
+                                    repository: getIt.get())),
+                            BlocProvider(
+                                create: (_) => MediaAutocompleteFieldCubit(
+                                    repository: getIt.get()))
+                          ], child: MediaCollectionPage(collectionId: id)));
+                        }),
                   ])
             ]),
           ])

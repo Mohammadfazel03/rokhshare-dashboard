@@ -1,7 +1,12 @@
+import 'dart:math';
+
 import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
+import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/collections_table/bloc/collection_append_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/collections_table/bloc/collections_table_cubit.dart';
+import 'package:dashboard/feature/media/presentation/widget/collections_table/collection_append_dialog_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/collections_table/entity/collection_data_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +26,9 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
 
   @override
   void initState() {
-    _dataGrid = CollectionDataGrid(context: context);
+    _dataGrid = CollectionDataGrid(
+        context: context,
+        cubit: BlocProvider.of<CollectionsTableCubit>(context));
     BlocProvider.of<CollectionsTableCubit>(context).getData();
 
     super.initState();
@@ -42,9 +49,58 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "مجموعه ها",
-            style: Theme.of(context).textTheme.titleMedium,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "مجموعه ها",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              FilledButton.icon(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return Dialog(
+                          clipBehavior: Clip.hardEdge,
+                          child: SizedBox(
+                              width: min(
+                                  MediaQuery.sizeOf(context).width * 0.8, 560),
+                              child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                      value: BlocProvider.of<
+                                          CollectionsTableCubit>(context)),
+                                  BlocProvider<CollectionAppendCubit>(
+                                      create: (context) =>
+                                          CollectionAppendCubit(
+                                              repository: getIt.get())),
+                                ],
+                                child: CollectionAppendDialogWidget(
+                                    width: min(
+                                        MediaQuery.sizeOf(context).width * 0.8,
+                                        560)),
+                              )),
+                        );
+                      });
+                },
+                label: const Text(
+                  "افزودن",
+                ),
+                icon: const Icon(Icons.add),
+                style: ButtonStyle(
+                  alignment: Alignment.center,
+                  padding: WidgetStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 16)),
+                  textStyle: WidgetStateProperty.all(
+                      Theme.of(context).textTheme.labelMedium),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+                ),
+              )
+            ],
           ),
         ),
         BlocConsumer<CollectionsTableCubit, CollectionsTableState>(
@@ -88,7 +144,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                 return Expanded(
                     child: Center(
                         child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                            child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 ))));
               } else {
@@ -101,7 +157,7 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                       color: Colors.black12,
                       child: Center(
                           child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                              child: SpinKitThreeBounce(
                         color:
                             CustomColor.loginBackgroundColor.getColor(context),
                       ))),
@@ -173,7 +229,10 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('شناسه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -181,7 +240,10 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('مجموعه',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'owner',
@@ -189,7 +251,10 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('سازنده',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'date',
@@ -197,7 +262,10 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('زمان ساخت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'status',
@@ -205,7 +273,10 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('وضعیت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'actions',
@@ -213,7 +284,10 @@ class _CollectionsTableWidgetState extends State<CollectionsTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
         ]);
   }
 

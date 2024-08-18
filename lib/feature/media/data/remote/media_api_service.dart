@@ -41,9 +41,43 @@ class MediaApiService {
         .get("admin/media/artist/", queryParameters: {"page": page});
   }
 
-  Future<dynamic> getCollection({int page = 1}) async {
+  Future<dynamic> getCollections({int page = 1}) async {
     return await _dio
         .get("admin/media/collection/", queryParameters: {"page": page});
+  }
+
+  Future<dynamic> postCollection({required title, required poster}) async {
+    return await _dio.post("collection/",
+        options: Options(headers: {
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap({
+          "poster": MultipartFile.fromBytes(poster, filename: "poster.png"),
+          "name": title
+        }));
+  }
+
+  Future<dynamic> deleteCollection({required int id}) async {
+    return await _dio.delete("collection/$id/");
+  }
+
+  Future<dynamic> getCollection({required int id}) async {
+    return await _dio.get("collection/$id/");
+  }
+
+  Future<dynamic> updateCollection({required int id, poster, title}) async {
+    Map<String, dynamic> form = {};
+    if (poster != null) {
+      form['poster'] = MultipartFile.fromBytes(poster, filename: "poster.png");
+    }
+    if (title != null) {
+      form['name'] = title;
+    }
+    return await _dio.patch("collection/$id/",
+        options: Options(headers: {
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap(form));
   }
 
   Future<dynamic> postGenre({required title, required poster}) async {
@@ -151,5 +185,11 @@ class MediaApiService {
           "contentType": "multipart/form-data",
         }),
         data: FormData.fromMap(form));
+  }
+
+  Future<dynamic> changeCollectionState(
+      {required int collectionId, required int state}) async {
+    return await _dio.post("collection/$collectionId/state/",
+        data: FormData.fromMap({"state": state}));
   }
 }

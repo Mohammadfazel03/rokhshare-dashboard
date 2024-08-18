@@ -27,7 +27,15 @@ abstract class MediaRepository {
 
   Future<DataResponse<PageResponse<Collection>>> getCollections({int page = 1});
 
-  Future<DataResponse<Genre>> postGenre({required title,required poster});
+  Future<DataResponse<void>> postCollection({required title, required poster});
+
+  Future<DataResponse<void>> deleteCollection({required int id});
+
+  Future<DataResponse<Collection>> getCollection({required int id});
+
+  Future<DataResponse<void>> updateCollection({required int id, poster, title});
+
+  Future<DataResponse<Genre>> postGenre({required title, required poster});
 
   Future<DataResponse<void>> deleteGenre({required int id});
 
@@ -35,7 +43,7 @@ abstract class MediaRepository {
 
   Future<DataResponse<Genre>> updateGenre({required int id, poster, title});
 
-  Future<DataResponse<Country>> postCountry({required name,required flag});
+  Future<DataResponse<Country>> postCountry({required name, required flag});
 
   Future<DataResponse<void>> deleteCountry({required int id});
 
@@ -43,11 +51,16 @@ abstract class MediaRepository {
 
   Future<DataResponse<Country>> updateCountry({required int id, flag, name});
 
-  Future<DataResponse<Artist>> postArtist({required name,required image, required bio});
+  Future<DataResponse<Artist>> postArtist(
+      {required name, required image, required bio});
 
   Future<DataResponse<void>> deleteArtist({required int id});
 
   Future<DataResponse<Artist>> getArtist({required int id});
 
-  Future<DataResponse<Artist>> updateArtist({required int id, image, name, required bio});
+  Future<DataResponse<Artist>> updateArtist(
+      {required int id, image, name, required bio});
+
+  Future<DataResponse<void>> changeCollectionState(
+      {required int collectionId, required int state});
 }

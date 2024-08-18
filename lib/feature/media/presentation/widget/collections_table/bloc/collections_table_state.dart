@@ -5,7 +5,8 @@ sealed class CollectionsTableState {
   final int numberPages;
   final int pageIndex;
 
-  const CollectionsTableState({required this.numberPages, required this.pageIndex});
+  const CollectionsTableState(
+      {required this.numberPages, required this.pageIndex});
 }
 
 final class CollectionsTableLoading extends CollectionsTableState {
@@ -15,10 +16,12 @@ final class CollectionsTableLoading extends CollectionsTableState {
 final class CollectionsTableError extends CollectionsTableState {
   final String error;
   final int? code;
+  final String? title;
 
   const CollectionsTableError(
       {required this.error,
       this.code,
+      this.title,
       super.numberPages = 0,
       super.pageIndex = 0});
 }
