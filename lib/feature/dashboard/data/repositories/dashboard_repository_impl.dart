@@ -27,11 +27,6 @@ class DashboardRepositoryImpl extends DashboardRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
@@ -54,11 +49,6 @@ class DashboardRepositoryImpl extends DashboardRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
@@ -81,11 +71,6 @@ class DashboardRepositoryImpl extends DashboardRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
@@ -108,11 +93,6 @@ class DashboardRepositoryImpl extends DashboardRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
@@ -135,11 +115,6 @@ class DashboardRepositoryImpl extends DashboardRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
@@ -162,11 +137,6 @@ class DashboardRepositoryImpl extends DashboardRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {
           return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');

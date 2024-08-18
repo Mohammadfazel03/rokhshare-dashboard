@@ -1,13 +1,9 @@
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/movie/presentation/widget/artists_autocomplete_widget/bloc/artists_autocomplete_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/dynamic_autocomplete.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ArtistsAutocompleteController extends ValueNotifier<Artist?> {
@@ -86,11 +82,6 @@ class _ArtistsAutocompleteWidgetState extends State<ArtistsAutocompleteWidget> {
                   state.data.results ?? [], nextPageKey);
             }
           } else if (state is ArtistsAutocompleteError) {
-            if (state.code == 403) {
-              getIt.get<LocalStorageService>().logout().then((value){
-                  context.go(RoutePath.login.fullPath);
-              });
-            }
             _pagingController.error = state.error;
           }
         },

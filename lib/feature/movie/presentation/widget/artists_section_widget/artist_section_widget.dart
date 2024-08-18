@@ -21,12 +21,12 @@ class ArtistSectionWidget extends StatelessWidget {
       : _controller = controller ?? ArtistsAutocompleteController();
 
   @override
-  Widget build(BuildContext mainContext) {
+  Widget build(BuildContext context) {
     return BlocBuilder<ArtistSectionCubit, ArtistSectionState>(
       buildWhen: (p, c) {
         return p.error != c.error;
       },
-      builder: (context, state) {
+      builder: (blocContext, state) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -35,29 +35,28 @@ class ArtistSectionWidget extends StatelessWidget {
             ExpansionTile(
               maintainState: true,
               collapsedBackgroundColor:
-                  Theme.of(mainContext).colorScheme.surfaceContainerHighest,
-              backgroundColor:
-                  Theme.of(mainContext).colorScheme.surfaceContainer,
+                  Theme.of(context).colorScheme.surfaceContainerHighest,
+              backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
               shape: RoundedRectangleBorder(
                   side: BorderSide(
                       color: state.error == null
-                          ? Theme.of(mainContext).colorScheme.primary
-                          : Theme.of(mainContext).colorScheme.error,
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.error,
                       width: 2),
                   borderRadius: BorderRadius.circular(4)),
               collapsedShape: RoundedRectangleBorder(
                   side: BorderSide(
                       color: state.error == null
-                          ? Theme.of(mainContext).colorScheme.outline
-                          : Theme.of(mainContext).colorScheme.error),
+                          ? Theme.of(context).colorScheme.outline
+                          : Theme.of(context).colorScheme.error),
                   borderRadius: BorderRadius.circular(4)),
               tilePadding: const EdgeInsets.symmetric(horizontal: 8),
               textColor: state.error == null
-                  ? Theme.of(mainContext).colorScheme.primary
-                  : Theme.of(mainContext).colorScheme.error,
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.error,
               collapsedTextColor: state.error == null
-                  ? Theme.of(mainContext).colorScheme.onSurfaceVariant
-                  : Theme.of(mainContext).colorScheme.error,
+                  ? Theme.of(context).colorScheme.onSurfaceVariant
+                  : Theme.of(context).colorScheme.error,
               title: const Text(
                 "هنرمندان",
               ),
@@ -95,7 +94,7 @@ class ArtistSectionWidget extends StatelessWidget {
                                   children: [
                                     Expanded(
                                         child: selectRole(
-                                            mainContext, state.selectedRole)),
+                                            context, state.selectedRole)),
                                     const SizedBox(width: 8),
                                     IconButton(
                                         onPressed: () {
@@ -135,8 +134,7 @@ class ArtistSectionWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
-                                child: selectRole(
-                                    mainContext, state.selectedRole)),
+                                child: selectRole(context, state.selectedRole)),
                             const SizedBox(width: 8),
                             IconButton(
                                 onPressed: () {
@@ -226,8 +224,10 @@ class ArtistSectionWidget extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                 child: Text(
                   state.error!,
-                  style: Theme.of(mainContext).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(mainContext).colorScheme.error),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: Theme.of(context).colorScheme.error),
                 ),
               )
             ]

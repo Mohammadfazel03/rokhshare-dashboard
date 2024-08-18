@@ -134,12 +134,17 @@ final routerConfig = GoRouter(
       GoRoute(
           path: RoutePath.login.path,
           name: RoutePath.login.name,
-          pageBuilder: (BuildContext context, GoRouterState state) =>
-              NoTransitionPage(
-                  child: BlocProvider<LoginCubit>(
-                      create: (context) =>
-                          LoginCubit(loginRepository: getIt.get()),
-                      child: const LoginPage()))),
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            String? temp;
+            if (state.extra != null && state.extra.runtimeType == String) {
+              temp = state.extra as String;
+            }
+            return NoTransitionPage(
+                child: BlocProvider<LoginCubit>(
+                    create: (context) =>
+                        LoginCubit(loginRepository: getIt.get()),
+                    child: LoginPage(errorMessage: temp)));
+          }),
       StatefulShellRoute.indexedStack(
           builder: (BuildContext context, GoRouterState state, child) {
             return HomePage(pageScreen: child);

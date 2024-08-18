@@ -1,14 +1,10 @@
 import 'dart:math';
 
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/header_information.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttericon/elusive_icons.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'bloc/header_information_cubit.dart';
@@ -20,16 +16,7 @@ class HeaderInformationWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HeaderInformationCubit, HeaderInformationState>(
-      listener: (context, state) {
-        if (state is HeaderInformationError) {
-          if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout().then((value){
-                context.go(RoutePath.login.fullPath);
-            });
-          }
-        }
-      },
+    return BlocBuilder<HeaderInformationCubit, HeaderInformationState>(
       builder: (context, state) {
         if (state is HeaderInformationLoading) {
           return _loadingSliver(context);

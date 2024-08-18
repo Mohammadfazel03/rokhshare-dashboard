@@ -1,6 +1,3 @@
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
@@ -19,7 +16,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:toastification/toastification.dart';
@@ -78,11 +74,6 @@ class _SeasonAppendDialogState extends State<SeasonAppendDialog> {
         BlocProvider.of<SeasonPageCubit>(context).refresh();
         Navigator.of(context).pop();
       } else if (state is SeasonAppendFailed) {
-        if (state.code == 403) {
-          getIt.get<LocalStorageService>().logout().then((value) {
-            context.go(RoutePath.login.fullPath);
-          });
-        }
         toastification.showCustom(
             animationDuration: const Duration(milliseconds: 300),
             context: context,

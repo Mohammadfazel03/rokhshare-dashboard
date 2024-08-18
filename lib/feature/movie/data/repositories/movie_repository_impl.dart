@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:typed_data';
+
 import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
@@ -30,11 +31,7 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
@@ -59,11 +56,7 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
@@ -88,11 +81,7 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
@@ -183,10 +172,8 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
         } else if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
         }
@@ -240,10 +227,8 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
         } else if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
         }
@@ -268,11 +253,7 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
@@ -297,11 +278,7 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
@@ -326,10 +303,8 @@ class MovieRepositoryImpl extends MovieRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
         } else if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
         }

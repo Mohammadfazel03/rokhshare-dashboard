@@ -1,13 +1,9 @@
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/multi_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class CountryMultiSelectorWidget extends StatefulWidget {
@@ -41,11 +37,6 @@ class _CountryMultiSelectorWidgetState
     return BlocConsumer<CountryMultiSelectorCubit, CountryMultiSelectorState>(
       listener: (context, state) {
         if (state.status == CountryMultiSelectorStatus.fail) {
-          if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout().then((value){
-                context.go(RoutePath.login.fullPath);
-            });
-          }
           toastification.showCustom(
               animationDuration: const Duration(milliseconds: 300),
               context: context,

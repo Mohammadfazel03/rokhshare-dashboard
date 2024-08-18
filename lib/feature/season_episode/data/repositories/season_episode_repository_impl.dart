@@ -25,11 +25,7 @@ class SeasonEpisodeRepositoryImpl extends SeasonEpisodeRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
@@ -52,11 +48,7 @@ class SeasonEpisodeRepositoryImpl extends SeasonEpisodeRepository {
     } catch (e) {
       if (e is DioException) {
         DioException exception = e;
-        if (exception.response?.statusCode == 403) {
-          return const DataFailed(
-              'این نشست غیر فعال شده است. لطفا دوباره وارد شوید.',
-              code: 403);
-        } else if (exception.response?.statusCode == 404) {
+        if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();

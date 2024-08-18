@@ -1,6 +1,4 @@
 import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
@@ -80,11 +78,6 @@ class _SeriesTableWidgetState extends State<SeriesTableWidget> {
         BlocConsumer<SeriesTableCubit, SeriesTableState>(
           listener: (context, state) {
             if (state is SeriesTableError) {
-              if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout().then((value) {
-                  context.go(RoutePath.login.fullPath);
-                });
-              }
               if (_dataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
                     animationDuration: const Duration(milliseconds: 300),

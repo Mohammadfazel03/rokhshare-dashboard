@@ -16,7 +16,9 @@ import 'package:toastification/toastification.dart';
 import '../widget/password_input_widget.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  final String? errorMessage;
+
+  const LoginPage({super.key, this.errorMessage});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -30,6 +32,23 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    if (widget.errorMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        toastification.showCustom(
+            animationDuration: const Duration(milliseconds: 300),
+            context: context,
+            alignment: Alignment.bottomRight,
+            autoCloseDuration: const Duration(seconds: 4),
+            direction: TextDirection.rtl,
+            builder: (BuildContext context, ToastificationItem holder) {
+              return ErrorSnackBarWidget(
+                item: holder,
+                title: "خطا",
+                message: widget.errorMessage!,
+              );
+            });
+      });
+    }
     super.initState();
   }
 
@@ -114,9 +133,10 @@ class _LoginPageState extends State<LoginPage> {
                                                   enabled: state is! LoggingIn,
                                                   controller:
                                                       usernameController,
-                                                  decoration: const InputDecoration(
-                                                      hintText:
-                                                          "test@email.com"));
+                                                  decoration:
+                                                      const InputDecoration(
+                                                          hintText:
+                                                              "test@email.com"));
                                             },
                                           ),
                                           const SizedBox(height: 24),
@@ -162,12 +182,14 @@ class _LoginPageState extends State<LoginPage> {
               }
               return const SizedBox();
             },
-            listener: (BuildContext context, LoginState state) async {
+            listener: (BuildContext context, LoginState state) {
               if (state is LoginSuccessfully) {
-                await getIt
+                getIt
                     .get<LocalStorageService>()
-                    .login(state.accessToken, state.refreshToken);
-                context.go(RoutePath.dashboard.fullPath);
+                    .login(state.accessToken, state.refreshToken)
+                    .then((_) {
+                  context.go(RoutePath.dashboard.fullPath);
+                });
               } else if (state is LoginFailed) {
                 toastification.showCustom(
                     animationDuration: const Duration(milliseconds: 300),

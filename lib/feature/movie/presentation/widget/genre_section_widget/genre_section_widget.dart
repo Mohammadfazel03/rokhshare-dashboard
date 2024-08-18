@@ -1,13 +1,9 @@
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget/bloc/genre_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/multi_selector_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
 
 class GenreSectionWidget extends StatefulWidget {
@@ -38,11 +34,6 @@ class _GenreSectionWidgetState extends State<GenreSectionWidget> {
     return BlocConsumer<GenreSectionCubit, GenreSectionState>(
       listener: (context, state) {
         if (state.status == GenreSectionStatus.fail) {
-          if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout().then((value){
-                context.go(RoutePath.login.fullPath);
-            });
-          }
           toastification.showCustom(
               animationDuration: const Duration(milliseconds: 300),
               context: context,

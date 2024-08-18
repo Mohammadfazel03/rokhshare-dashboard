@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/dio_config.dart';
-import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
@@ -75,11 +74,6 @@ class _SeasonPageState extends State<SeasonPage> {
             _pagingController.appendPage(state.data.results ?? [], nextPageKey);
           }
         } else if (state is SeasonPageError) {
-          if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout().then((value) {
-              context.go(RoutePath.login.fullPath);
-            });
-          }
           if (state.code == 1) {
             toastification.showCustom(
                 animationDuration: const Duration(milliseconds: 300),

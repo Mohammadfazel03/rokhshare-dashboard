@@ -1,15 +1,11 @@
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/presentation/common/custom_grid_column_sizer.dart';
-import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/entity/comment_data_grid.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/bloc/recently_comment_cubit.dart';
+import 'package:dashboard/feature/dashboard/presentation/widget/recently_comment/entity/comment_data_grid.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:toastification/toastification.dart';
 
@@ -53,11 +49,6 @@ class _RecentlyCommentWidgetState extends State<RecentlyCommentWidget> {
         BlocConsumer<RecentlyCommentCubit, RecentlyCommentState>(
           listener: (context, state) {
             if (state is RecentlyCommentError) {
-              if (state.code == 403) {
-                getIt.get<LocalStorageService>().logout().then((value) {
-                  context.go(RoutePath.login.fullPath);
-                });
-              }
               if (_commentDataGrid.rows.isNotEmpty) {
                 toastification.showCustom(
                     animationDuration: const Duration(milliseconds: 300),

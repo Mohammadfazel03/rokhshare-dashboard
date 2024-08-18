@@ -1,8 +1,5 @@
 import 'dart:ui';
 
-import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/local_storage_service.dart';
-import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/movies_table/bloc/movies_table_cubit.dart';
@@ -100,11 +97,6 @@ class _MoviePageState extends State<MoviePage> {
           BlocProvider.of<MoviesTableCubit>(context).getData();
           context.pop();
         } else if (state is MoviePageFailAppend) {
-          if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout().then((value) {
-              context.go(RoutePath.login.fullPath);
-            });
-          }
           toastification.showCustom(
               animationDuration: const Duration(milliseconds: 300),
               context: context,
@@ -119,11 +111,19 @@ class _MoviePageState extends State<MoviePage> {
                 );
               });
         } else if (state is MoviePageFail) {
-          if (state.code == 403) {
-            getIt.get<LocalStorageService>().logout().then((value) {
-              context.go(RoutePath.login.fullPath);
-            });
-          }
+          toastification.showCustom(
+              animationDuration: const Duration(milliseconds: 300),
+              context: context,
+              alignment: Alignment.bottomRight,
+              autoCloseDuration: const Duration(seconds: 4),
+              direction: TextDirection.rtl,
+              builder: (BuildContext context, ToastificationItem holder) {
+                return ErrorSnackBarWidget(
+                  item: holder,
+                  title: "خطا در دریافت اظلاعات",
+                  message: state.message,
+                );
+              });
         } else if (state is MoviePageSuccess) {
           _movie = state.data;
           BlocProvider.of<GenreSectionCubit>(context).getData();
