@@ -24,6 +24,12 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) async {
+    if (err.shouldLogout) {
+      await getIt.get<LocalStorageService>().logout();
+      routerConfig.go(RoutePath.login.fullPath,
+          extra: "این نشست غیر فعال شده است. لطفا دوباره وارد شوید.");
+      return;
+    }
     if (!err.shouldRetry || err.requestOptions.isRetriedAttempt) {
       handler.next(err);
       return;
@@ -87,6 +93,10 @@ extension on DioException {
   bool get shouldRetry =>
       response?.statusCode == HttpStatus.forbidden &&
       response?.data['code'] == 'token_not_valid';
+
+  bool get shouldLogout =>
+      response?.statusCode == HttpStatus.forbidden &&
+      response?.data['code'] == 'user_not_found';
 }
 
 Dio getDioConfiguration() {
