@@ -15,12 +15,14 @@ final class SlidersTableLoading extends SlidersTableState {
 final class SlidersTableError extends SlidersTableState {
   final String error;
   final int? code;
+  final String? title;
 
   const SlidersTableError(
       {required this.error,
       this.code,
       super.numberPages = 0,
-      super.pageIndex = 0});
+      super.pageIndex = 0,
+      this.title});
 }
 
 final class SlidersTableSuccess extends SlidersTableState {

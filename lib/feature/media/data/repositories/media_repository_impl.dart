@@ -1,4 +1,3 @@
-import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:dashboard/feature/media/data/remote/media_api_service.dart';
 import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/data/remote/model/collection.dart';
@@ -6,10 +5,12 @@ import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/media/data/remote/model/movie.dart';
 import 'package:dashboard/feature/media/data/remote/model/series.dart';
+import 'package:dashboard/feature/media/data/remote/model/slider.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
 import 'package:dashboard/utils/data_response.dart';
 import 'package:dashboard/utils/page_response.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 
 class MediaRepositoryImpl extends MediaRepository {
   final MediaApiService _api;
@@ -164,10 +165,136 @@ class MediaRepositoryImpl extends MediaRepository {
   Future<DataResponse<PageResponse<SliderModel>>> getSliders(
       {int page = 1}) async {
     try {
-      Response response = await _api.getSlider(page: page);
+      Response response = await _api.getSliders(page: page);
       if (response.statusCode == 200) {
         return DataSuccess(PageResponse.fromJson(
             response.data, (s) => SliderModel.fromJson(s)));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<String>> saveSlider(
+      {required int mediaId,
+      required int priority,
+      required String title,
+      required String description,
+      required Uint8List thumbnail,
+      required Uint8List poster,
+      required String thumbnailName,
+      required String posterName}) async {
+    try {
+      Response response = await _api.saveSliders(
+          mediaId: mediaId,
+          priority: priority,
+          title: title,
+          description: description,
+          thumbnail: thumbnail,
+          poster: poster,
+          thumbnailName: thumbnailName,
+          posterName: posterName);
+      if (response.statusCode == 201) {
+        return const DataSuccess("ok");
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<SliderModel>> getSlider({required int id}) async {
+    try {
+      Response response = await _api.getSlider(id: id);
+      if (response.statusCode == 200) {
+        return DataSuccess(SliderModel.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<String>> editSlider(
+      {required int id,
+      int? mediaId,
+      int? priority,
+      String? title,
+      String? description,
+      Uint8List? thumbnail,
+      Uint8List? poster,
+      String? thumbnailName,
+      String? posterName}) async {
+    try {
+      Response response = await _api.editSliders(
+          id: id,
+          mediaId: mediaId,
+          priority: priority,
+          title: title,
+          description: description,
+          thumbnail: thumbnail,
+          poster: poster,
+          thumbnailName: thumbnailName,
+          posterName: posterName);
+      if (response.statusCode == 200) {
+        return const DataSuccess("ok");
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<void>> deleteSlider({required int id}) async {
+    try {
+      Response response = await _api.deleteSlider(id: id);
+      if (response.statusCode == 204) {
+        return const DataSuccess(null);
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {
@@ -338,7 +465,7 @@ class MediaRepositoryImpl extends MediaRepository {
       Response response =
           await _api.postCollection(title: title, poster: poster);
       if (response.statusCode == 201) {
-        return DataSuccess(Genre.fromJson(response.data));
+        return const DataSuccess(null);
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {

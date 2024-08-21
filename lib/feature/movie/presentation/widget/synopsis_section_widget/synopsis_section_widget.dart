@@ -5,9 +5,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class SynopsisSectionWidget extends StatelessWidget {
   final TextEditingController _controller;
   final bool readOnly;
+  final String? hintText;
+  final String label;
+  final int maxLines;
 
-  SynopsisSectionWidget(
-      {super.key, TextEditingController? controller, this.readOnly = false})
+  SynopsisSectionWidget({super.key,
+    TextEditingController? controller,
+    this.readOnly = false,
+    this.hintText = "خلاصه داستان...",
+    this.label = "خلاصه داستان",
+    this.maxLines = 5})
       : _controller = controller ?? TextEditingController();
 
   @override
@@ -17,11 +24,9 @@ class SynopsisSectionWidget extends StatelessWidget {
         return TextField(
           readOnly: readOnly,
           controller: _controller,
-          maxLines: 5,
+          maxLines: maxLines,
           decoration: InputDecoration(
-              hintText: "خلاصه داستان...",
-              label: const Text("خلاصه داستان"),
-              errorText: state.error),
+              hintText: hintText, label: Text(label), errorText: state.error),
           onChanged: (value) {
             if (value.isNotEmpty) {
               BlocProvider.of<SynopsisSectionCubit>(context).clearError();

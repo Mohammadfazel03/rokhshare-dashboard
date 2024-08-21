@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
+import 'package:dashboard/feature/media/data/remote/model/slider.dart';
 import 'package:dashboard/feature/media/data/repositories/media_repository.dart';
 import 'package:dashboard/utils/data_response.dart';
 import 'package:dashboard/utils/page_response.dart';
@@ -29,6 +29,22 @@ class SlidersTableCubit extends Cubit<SlidersTableState> {
           data: response.data!,
           numberPages: response.data!.totalPages!,
           pageIndex: page));
+    }
+  }
+
+  Future<void> delete({required int id}) async {
+    emit(SlidersTableLoading(
+        numberPages: state.numberPages, pageIndex: state.pageIndex));
+    DataResponse<void> response = await _repository.deleteSlider(id: id);
+    if (response is DataFailed) {
+      emit(SlidersTableError(
+          title: "خطا در حذف صفحه اول",
+          error: response.error ?? "مشکلی پیش آمده است",
+          code: response.code,
+          pageIndex: state.pageIndex,
+          numberPages: state.numberPages));
+    } else {
+      getData(page: state.pageIndex);
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class MediaApiService {
   final Dio _dio;
@@ -31,9 +32,78 @@ class MediaApiService {
     return await _dio.get("country/", queryParameters: {"page": page});
   }
 
-  Future<dynamic> getSlider({int page = 1}) async {
-    return await _dio
-        .get("admin/media/slider/", queryParameters: {"page": page});
+  Future<dynamic> getSliders({int page = 1}) async {
+    Map<String, dynamic> query = {"page": page};
+    return await _dio.get("slider/", queryParameters: query);
+  }
+
+  Future<dynamic> getSlider({required int id}) async {
+    return await _dio.get("slider/$id/");
+  }
+
+  Future<dynamic> deleteSlider({required int id}) async {
+    return await _dio.delete("slider/$id/");
+  }
+
+  Future<dynamic> saveSliders(
+      {required int mediaId,
+      required int priority,
+      required String title,
+      required String description,
+      required Uint8List thumbnail,
+      required Uint8List poster,
+      required String thumbnailName,
+      required String posterName}) async {
+    Map<String, dynamic> form = {
+      "poster": MultipartFile.fromBytes(poster, filename: posterName),
+      "thumbnail": MultipartFile.fromBytes(thumbnail, filename: thumbnailName),
+      "media": mediaId,
+      "priority": priority,
+      "title": title,
+      "description": description,
+    };
+    return await _dio.post("slider/",
+        options: Options(headers: {
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap(form));
+  }
+
+  Future<dynamic> editSliders(
+      {required int id,
+      int? mediaId,
+      int? priority,
+      String? title,
+      String? description,
+      Uint8List? thumbnail,
+      Uint8List? poster,
+      String? thumbnailName,
+      String? posterName}) async {
+    Map<String, dynamic> form = {};
+    if (title != null) {
+      form['title'] = title;
+    }
+    if (description != null) {
+      form['description'] = description;
+    }
+    if (mediaId != null) {
+      form['media'] = mediaId;
+    }
+    if (priority != null) {
+      form['priority'] = priority;
+    }
+    if (thumbnail != null) {
+      form['thumbnail'] =
+          MultipartFile.fromBytes(thumbnail, filename: thumbnailName);
+    }
+    if (poster != null) {
+      form['poster'] = MultipartFile.fromBytes(poster, filename: posterName);
+    }
+    return await _dio.patch("slider/$id/",
+        options: Options(headers: {
+          "contentType": "multipart/form-data",
+        }),
+        data: FormData.fromMap(form));
   }
 
   Future<dynamic> getArtists({int page = 1}) async {

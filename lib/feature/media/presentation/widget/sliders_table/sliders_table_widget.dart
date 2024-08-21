@@ -1,8 +1,19 @@
+import 'dart:math';
+
 import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
+import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
+import 'package:dashboard/feature/media/presentation/widget/sliders_table/bloc/slider_append_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/sliders_table/bloc/sliders_table_cubit.dart';
 import 'package:dashboard/feature/media/presentation/widget/sliders_table/entity/slider_data_grid.dart';
+import 'package:dashboard/feature/media/presentation/widget/sliders_table/slider_append_dialog_widget.dart';
+import 'package:dashboard/feature/media_collection/presentation/widget/media_autocomplete_field/bloc/media_autocomplete_field_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/poster_section_widget/bloc/poster_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/synopsis_section_widget/bloc/synopsis_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/thumbnail_section_widget/bloc/thumbnail_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/title_section_widget/bloc/title_section_cubit.dart';
+import 'package:dashboard/feature/season/presentation/widget/integer_field_widget/bloc/integer_field_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -42,9 +53,73 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(
-            "صفجه اول",
-            style: Theme.of(context).textTheme.titleMedium,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "صفجه اول",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              FilledButton.icon(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext dialogContext) {
+                        return Dialog(
+                          clipBehavior: Clip.hardEdge,
+                          child: SizedBox(
+                              width: min(
+                                  MediaQuery.sizeOf(context).width * 0.8, 560),
+                              child: MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                      value: BlocProvider.of<SlidersTableCubit>(
+                                          context)),
+                                  BlocProvider<SliderAppendCubit>(
+                                      create: (context) => SliderAppendCubit(
+                                          repository: getIt.get())),
+                                  BlocProvider<TitleSectionCubit>(
+                                      create: (context) => TitleSectionCubit()),
+                                  BlocProvider<SynopsisSectionCubit>(
+                                      create: (context) =>
+                                          SynopsisSectionCubit()),
+                                  BlocProvider<ThumbnailSectionCubit>(
+                                      create: (context) =>
+                                          ThumbnailSectionCubit()),
+                                  BlocProvider<PosterSectionCubit>(
+                                      create: (context) =>
+                                          PosterSectionCubit()),
+                                  BlocProvider<IntegerFieldCubit>(
+                                      create: (context) => IntegerFieldCubit()),
+                                  BlocProvider<MediaAutocompleteFieldCubit>(
+                                      create: (context) =>
+                                          MediaAutocompleteFieldCubit(
+                                              repository: getIt.get())),
+                                ],
+                                child: SliderAppendDialogWidget(
+                                    width: min(
+                                        MediaQuery.sizeOf(context).width * 0.8,
+                                        660)),
+                              )),
+                        );
+                      });
+                },
+                label: const Text(
+                  "افزودن",
+                ),
+                icon: const Icon(Icons.add),
+                style: ButtonStyle(
+                  padding: WidgetStateProperty.all(
+                      const EdgeInsets.symmetric(horizontal: 16)),
+                  textStyle: WidgetStateProperty.all(
+                      Theme.of(context).textTheme.labelMedium),
+                  shape: WidgetStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4))),
+                ),
+              ),
+            ],
           ),
         ),
         BlocConsumer<SlidersTableCubit, SlidersTableState>(
@@ -87,7 +162,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                 return Expanded(
                     child: Center(
                         child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                            child: SpinKitThreeBounce(
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 ))));
               } else {
@@ -100,7 +175,7 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                       color: Colors.black12,
                       child: Center(
                           child: RepaintBoundary(
-              child: SpinKitThreeBounce(
+                              child: SpinKitThreeBounce(
                         color:
                             CustomColor.loginBackgroundColor.getColor(context),
                       ))),
@@ -172,7 +247,10 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('الویت',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'media',
@@ -180,7 +258,10 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('فیلم',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 100,
               columnName: 'title',
@@ -188,7 +269,10 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عنوان',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
           GridColumn(
               minimumWidth: 140,
               columnName: 'actions',
@@ -196,7 +280,10 @@ class _SlidersTableWidgetState extends State<SlidersTableWidget> {
                   alignment: Alignment.center,
                   child: Text('عملیات',
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.onSecondaryContainer)))),
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer)))),
         ]);
   }
 
