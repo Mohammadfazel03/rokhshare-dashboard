@@ -7,21 +7,45 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../movie/data/remote/model/movie.dart';
 
+class MediaAutocompleteController extends ChangeNotifier {
+  Media? media;
+  String? error;
+
+  void setMedia(Media? media) {
+    this.media = media;
+    notifyListeners();
+  }
+
+  void setError(String error) {
+    this.error = error;
+    notifyListeners();
+  }
+
+  void clearError() {
+    error = null;
+    notifyListeners();
+  }
+}
+
 class MediaAutocompleteField extends StatefulWidget {
   final void Function(Media media) selectMedia;
+  final MediaAutocompleteController? controller;
 
-  const MediaAutocompleteField({super.key, required this.selectMedia});
+  const MediaAutocompleteField(
+      {super.key, required this.selectMedia, this.controller});
 
   @override
   State<MediaAutocompleteField> createState() => _MediaAutocompleteFieldState();
 }
 
 class _MediaAutocompleteFieldState extends State<MediaAutocompleteField> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _textEditController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final LayerLink _layerLink = LayerLink();
   OverlayEntry? _overlayEntry;
   final ScrollController _scrollController = ScrollController();
+
+  MediaAutocompleteController? get controller => widget.controller;
 
   @override
   void initState() {
@@ -32,7 +56,7 @@ class _MediaAutocompleteFieldState extends State<MediaAutocompleteField> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _textEditController.dispose();
     _focusNode.removeListener(_focusListener);
     _focusNode.dispose();
     _scrollController.removeListener(_onScroll);
@@ -164,7 +188,9 @@ class _MediaAutocompleteFieldState extends State<MediaAutocompleteField> {
                             return InkWell(
                               onTap: () {
                                 widget.selectMedia(media);
-                                _controller.clear();
+                                controller?.setMedia(media);
+                                controller?.clearError();
+                                _textEditController.clear();
                                 _focusNode.unfocus();
                                 _overlayEntry?.remove();
                                 _overlayEntry = null;
@@ -256,19 +282,71 @@ class _MediaAutocompleteFieldState extends State<MediaAutocompleteField> {
   @override
   Widget build(BuildContext context) {
     return CompositedTransformTarget(
-      link: _layerLink,
-      child: TextField(
-        controller: _controller,
-        focusNode: _focusNode,
-        readOnly: false,
-        onChanged: (text) {
-          BlocProvider.of<MediaAutocompleteFieldCubit>(context)
-              .fetchMoreSuggestions(page: 1, query: text, retry: true);
-        },
-        decoration: const InputDecoration(
-          labelText: 'افزودن فیلم و سریال',
-        ),
-      ),
-    );
+        link: _layerLink,
+        child: controller != null
+            ? ListenableBuilder(
+                listenable: controller!,
+                builder: (BuildContext context, widget) {
+                  return TextField(
+                    controller: _textEditController,
+                    focusNode: _focusNode,
+                    onChanged: (text) {
+                      BlocProvider.of<MediaAutocompleteFieldCubit>(context)
+                          .fetchMoreSuggestions(
+                              page: 1, query: text, retry: true);
+                    },
+                    decoration: InputDecoration(
+                        labelText: 'انتخاب فیلم و سریال',
+                        floatingLabelBehavior: controller?.media != null
+                            ? FloatingLabelBehavior.always
+                            : FloatingLabelBehavior.auto,
+                        errorText: controller?.error,
+                        prefixIcon: controller?.media != null
+                            ? Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const SizedBox(width: 15),
+                                  Text(
+                                    controller?.media?.name ?? "",
+                                    textAlign: TextAlign.center,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onSurface),
+                                  ),
+                                ],
+                              )
+                            : null,
+                        suffixIcon: controller?.media != null ||
+                                _textEditController.text.isNotEmpty
+                            ? IconButton(
+                                onPressed: () {
+                                  _textEditController.clear();
+                                  controller!.setMedia(null);
+                                },
+                                icon:
+                                    const Icon(Icons.clear, color: Colors.red),
+                                padding: const EdgeInsets.all(4),
+                              )
+                            : null),
+                  );
+                },
+              )
+            : TextField(
+                controller: _textEditController,
+                focusNode: _focusNode,
+                onChanged: (text) {
+                  BlocProvider.of<MediaAutocompleteFieldCubit>(context)
+                      .fetchMoreSuggestions(page: 1, query: text, retry: true);
+                },
+                decoration: const InputDecoration(
+                  labelText: 'افزودن فیلم و سریال',
+                ),
+              ));
   }
 }
