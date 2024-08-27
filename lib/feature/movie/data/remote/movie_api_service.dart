@@ -162,4 +162,45 @@ class MovieApiService {
     return await _dio.post("comment/$commentId/state/",
         data: FormData.fromMap({"state": state}));
   }
+
+  Future<dynamic> getGalleryOfMedia(
+      {required int mediaId, int page = 1}) async {
+    Map<String, dynamic> query = {"page": page};
+    return await _dio.get("media/$mediaId/gallery", queryParameters: query);
+  }
+
+  Future<dynamic> getGalleryOfEpisode(
+      {required int episodeId, int page = 1}) async {
+    Map<String, dynamic> query = {"page": page};
+    return await _dio.get("episode/$episodeId/gallery", queryParameters: query);
+  }
+
+  Future<dynamic> saveGallery(
+      {required int? mediaId,
+      required int fileId,
+      required String description,
+      required int? episodeId}) async {
+    return await _dio.post("gallery/", data: {
+      "media": mediaId,
+      "file": fileId,
+      "description": description,
+      "episode": episodeId
+    });
+  }
+
+  Future<dynamic> editGallery(
+      {required int id,
+      required int? fileId,
+      required String? description}) async {
+    return await _dio.patch("gallery/$id/",
+        data: {"file": fileId, "description": description});
+  }
+
+  Future<dynamic> deleteGallery({required int id}) async {
+    return await _dio.delete("gallery/$id/");
+  }
+
+  Future<dynamic> getGallery({required int id}) async {
+    return await _dio.get("gallery/$id/");
+  }
 }

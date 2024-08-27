@@ -6,6 +6,7 @@ import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/movie/data/remote/model/comment.dart';
 import 'package:dashboard/feature/movie/data/remote/model/file_response.dart';
+import 'package:dashboard/feature/movie/data/remote/model/gallery.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/remote/movie_api_service.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
@@ -307,6 +308,162 @@ class MovieRepositoryImpl extends MovieRepository {
           return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
         } else if (exception.response?.statusCode == 404) {
           return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<PageResponse<Gallery>>> getGalleryOfMedia(
+      {required int mediaId, int page = 1}) async {
+    try {
+      Response response =
+          await _api.getGalleryOfMedia(page: page, mediaId: mediaId);
+      if (response.statusCode == 200) {
+        return DataSuccess(
+            PageResponse.fromJson(response.data, (s) => Gallery.fromJson(s)));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<PageResponse<Gallery>>> getGalleryOfEpisode(
+      {required int episodeId, int page = 1}) async {
+    try {
+      Response response =
+          await _api.getGalleryOfEpisode(page: page, episodeId: episodeId);
+      if (response.statusCode == 200) {
+        return DataSuccess(
+            PageResponse.fromJson(response.data, (s) => Gallery.fromJson(s)));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.', code: 404);
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<void>> deleteGallery({required int id}) async {
+    try {
+      Response response = await _api.deleteGallery(id: id);
+      if (response.statusCode == 204) {
+        return const DataSuccess(null);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<void>> editGallery(
+      {required int id,
+      required int? fileId,
+      required String? description}) async {
+    try {
+      Response response = await _api.editGallery(
+          id: id, fileId: fileId, description: description);
+      if (response.statusCode == 200) {
+        return const DataSuccess(null);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<Gallery>> getGallery({required int id}) async {
+    try {
+      Response response = await _api.getGallery(id: id);
+      if (response.statusCode == 200) {
+        return DataSuccess(Gallery.fromJson(response.data));
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 404) {
+          return const DataFailed('صفحه مورد نظر یافت نشد.');
+        }
+        int cat = ((exception.response?.statusCode ?? 0) / 100).round();
+        if (cat == 5) {
+          return const DataFailed('سایت در حال تعمیر است بعداً تلاش کنید.');
+        }
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    }
+  }
+
+  @override
+  Future<DataResponse<void>> saveGallery(
+      {required int? mediaId,
+      required int fileId,
+      required String description,
+      required int? episodeId}) async {
+    try {
+      Response response = await _api.saveGallery(
+          episodeId: episodeId,
+          mediaId: mediaId,
+          fileId: fileId,
+          description: description);
+      if (response.statusCode == 201) {
+        return const DataSuccess(null);
+      }
+      return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
+    } catch (e) {
+      if (e is DioException) {
+        DioException exception = e;
+        if (exception.response?.statusCode == 400) {
+          return const DataFailed('مقادیر را به درستی و کامل وارد کنید.');
         }
         int cat = ((exception.response?.statusCode ?? 0) / 100).round();
         if (cat == 5) {

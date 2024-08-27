@@ -2,8 +2,9 @@ import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/data/remote/model/country.dart';
 import 'package:dashboard/feature/media/data/remote/model/genre.dart';
 import 'package:dashboard/feature/movie/data/remote/model/comment.dart';
-import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/remote/model/file_response.dart';
+import 'package:dashboard/feature/movie/data/remote/model/gallery.dart';
+import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/utils/data_response.dart';
 import 'package:dashboard/utils/page_response.dart';
 import 'package:flutter/foundation.dart';
@@ -64,4 +65,23 @@ abstract class MovieRepository {
 
   Future<DataResponse<void>> changeCommentState(
       {required int commentId, required int state});
+
+  Future<DataResponse<PageResponse<Gallery>>> getGalleryOfMedia(
+      {required int mediaId, int page = 1});
+
+  Future<DataResponse<PageResponse<Gallery>>> getGalleryOfEpisode(
+      {required int episodeId, int page = 1});
+
+  Future<DataResponse<void>> saveGallery(
+      {required int? mediaId,
+      required int? episodeId,
+      required int fileId,
+      required String description});
+
+  Future<DataResponse<void>> editGallery(
+      {required int id, required int? fileId, required String? description});
+
+  Future<DataResponse<void>> deleteGallery({required int id});
+
+  Future<DataResponse<Gallery>> getGallery({required int id});
 }

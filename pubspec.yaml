@@ -67,6 +67,7 @@ dependencies:
   format: ^1.5.2
   fc_native_video_thumbnail: ^0.11.1
   path_provider: ^2.1.4
+  flutter_animate: ^4.5.0
 #  better_player: ^0.0.84
 #  isolate_manager: ^5.1.0
 
