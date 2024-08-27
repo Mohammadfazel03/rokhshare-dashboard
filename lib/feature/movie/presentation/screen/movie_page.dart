@@ -13,6 +13,7 @@ import 'package:dashboard/feature/movie/presentation/widget/country_multi_select
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/country_multi_selector_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/date_picker_section_widget.dart';
+import 'package:dashboard/feature/movie/presentation/widget/gallery_table_widget/gallery_table_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget/bloc/genre_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget/genre_section_widget.dart';
 import 'package:dashboard/feature/movie/presentation/widget/movie_upload_section_widget/bloc/movie_upload_section_cubit.dart';
@@ -222,6 +223,16 @@ class _MoviePageState extends State<MoviePage> {
                         height: 410,
                         child: Card(
                             child: CommentTableWidget(
+                                mediaId: state.data.media!.id!)),
+                      ))),
+                  SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      sliver: SliverToBoxAdapter(
+                          child: SizedBox(
+                        height: 410,
+                        child: Card(
+                            child: GalleryTableWidget(
+                                episodeId: null,
                                 mediaId: state.data.media!.id!)),
                       )))
                 ]

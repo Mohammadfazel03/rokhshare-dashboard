@@ -22,6 +22,7 @@ import 'package:dashboard/feature/movie/presentation/widget/comment_table_widget
     as movie_comment;
 import 'package:dashboard/feature/movie/presentation/widget/country_multi_selector_widget/bloc/country_multi_selector_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/date_picker_section_widget/bloc/date_picker_section_cubit.dart';
+import 'package:dashboard/feature/movie/presentation/widget/gallery_table_widget/bloc/gallery_table_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/genre_section_widget/bloc/genre_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/movie_upload_section_widget/bloc/movie_upload_section_cubit.dart';
 import 'package:dashboard/feature/movie/presentation/widget/poster_section_widget/bloc/poster_section_cubit.dart';
@@ -221,6 +222,9 @@ final routerConfig = GoRouter(
                                 create: (context) => ArtistSectionCubit()),
                             BlocProvider(
                                 create: (context) =>
+                                    GalleryTableCubit(repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
                                     MoviePageCubit(repository: getIt.get())),
                           ], child: MoviePage(movieId: id, isDetail: true)));
                         }),
@@ -415,6 +419,9 @@ final routerConfig = GoRouter(
                             BlocProvider(
                                 create: (context) =>
                                     GenreSectionCubit(repository: getIt.get())),
+                            BlocProvider(
+                                create: (context) =>
+                                    GalleryTableCubit(repository: getIt.get())),
                             BlocProvider(
                                 create: (context) =>
                                     SeriesPageCubit(repository: getIt.get())),
@@ -613,6 +620,11 @@ final routerConfig = GoRouter(
                                             BlocProvider(
                                                 create: (context) =>
                                                     ArtistSectionCubit()),
+                                            BlocProvider(
+                                                create: (context) =>
+                                                    GalleryTableCubit(
+                                                        repository:
+                                                            getIt.get())),
                                             BlocProvider(
                                                 create: (context) =>
                                                     EpisodePageCubit(
