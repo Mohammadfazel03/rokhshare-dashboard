@@ -6,7 +6,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toastification/toastification.dart';
-import 'package:video_player/video_player.dart';
 
 class TrailerUploadSectionWidget extends StatefulWidget {
   final double height;
@@ -22,79 +21,52 @@ class TrailerUploadSectionWidget extends StatefulWidget {
 
 class _TrailerUploadSectionWidgetState
     extends State<TrailerUploadSectionWidget> {
-  VideoPlayerController? _videoPlayerController;
 
   @override
   void dispose() {
-    _videoPlayerController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TrailerUploadSectionCubit, TrailerUploadSectionState>(
-      listenWhen: (p, c) {
-        return p.networkUrl != c.networkUrl || p.file != c.file;
-      },
-      listener: (context, state) async {
-        if (state.file != null) {
-          await _videoPlayerController?.dispose();
-          _videoPlayerController =
-              VideoPlayerController.file(File(state.file!.path));
-          _videoPlayerController?.initialize().then((value) {
-            BlocProvider.of<TrailerUploadSectionCubit>(context).videoIsReady();
-          });
-        } else if (state.networkUrl != null) {
-          await _videoPlayerController?.dispose();
-          _videoPlayerController =
-              VideoPlayerController.networkUrl(Uri.parse(state.networkUrl!));
-          _videoPlayerController?.initialize().then((value) {
-            BlocProvider.of<TrailerUploadSectionCubit>(context).videoIsReady();
-          });
-        } else {
-          await _videoPlayerController?.dispose();
-          _videoPlayerController = null;
+    return BlocConsumer<TrailerUploadSectionCubit, TrailerUploadSectionState>(
+      listener: (context, state) {
+        if (state.error != null) {
+          toastification.showCustom(
+              animationDuration: const Duration(milliseconds: 300),
+              context: context,
+              alignment: Alignment.bottomRight,
+              autoCloseDuration: const Duration(seconds: 4),
+              direction: TextDirection.rtl,
+              builder: (BuildContext context, ToastificationItem holder) {
+                return ErrorSnackBarWidget(
+                  item: holder,
+                  title: state.error?.title ?? "خطا در بارگذاری پیش نمایش",
+                  message: state.error!.message,
+                );
+              });
         }
       },
-      child: BlocConsumer<TrailerUploadSectionCubit, TrailerUploadSectionState>(
-        listener: (context, state) {
-          if (state.error != null) {
-            toastification.showCustom(
-                animationDuration: const Duration(milliseconds: 300),
-                context: context,
-                alignment: Alignment.bottomRight,
-                autoCloseDuration: const Duration(seconds: 4),
-                direction: TextDirection.rtl,
-                builder: (BuildContext context, ToastificationItem holder) {
-                  return ErrorSnackBarWidget(
-                    item: holder,
-                    title: state.error?.title ?? "خطا در بارگذاری پیش نمایش",
-                    message: state.error!.message,
-                  );
-                });
-          }
-        },
-        buildWhen: (p, c) {
-          return p.isUploading != c.isUploading ||
-              p.isPaused != c.isPaused ||
-              p.isUploaded != c.isUploaded ||
-              p.file != c.file;
-        },
-        builder: (context, state) {
-          Widget child = selectFile();
-          if (state.isUploading == true) {
-            child = uploadingFile(state.isPaused ?? false);
-          } else if (state.isUploaded == true) {
-            child = uploadedFile();
-          }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[AspectRatio(aspectRatio: 5 / 3, child: child)],
-            ),
-          );
-        },
-      ),
+      buildWhen: (p, c) {
+        return p.isUploading != c.isUploading ||
+            p.isPaused != c.isPaused ||
+            p.isUploaded != c.isUploaded ||
+            p.file != c.file;
+      },
+      builder: (context, state) {
+        Widget child = selectFile();
+        if (state.isUploading == true) {
+          child = uploadingFile(state.isPaused ?? false);
+        } else if (state.isUploaded == true) {
+          child = uploadedFile();
+        }
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[AspectRatio(aspectRatio: 5 / 3, child: child)],
+          ),
+        );
+      },
     );
   }
 
@@ -141,7 +113,8 @@ class _TrailerUploadSectionWidgetState
           child:
               BlocBuilder<TrailerUploadSectionCubit, TrailerUploadSectionState>(
             buildWhen: (p, c) {
-              return p.networkVideoIsReady != c.networkVideoIsReady;
+              return p.thumbnailNetworkUrl != c.thumbnailNetworkUrl ||
+                  p.thumbnailFilePath != c.thumbnailFilePath;
             },
             builder: (context, state) {
               return DecoratedBox(
@@ -150,9 +123,10 @@ class _TrailerUploadSectionWidgetState
                     borderRadius: BorderRadius.circular(4)),
                 child: Stack(
                   children: [
-                    state.networkVideoIsReady == true
+                    state.thumbnailFilePath != null
                         ? Positioned.fill(
-                            child: VideoPlayer(_videoPlayerController!))
+                            child: Image.memory(File(state.thumbnailFilePath!)
+                                .readAsBytesSync()))
                         : Center(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
@@ -234,35 +208,39 @@ class _TrailerUploadSectionWidgetState
   Widget uploadedFile() {
     return BlocBuilder<TrailerUploadSectionCubit, TrailerUploadSectionState>(
       buildWhen: (p, c) {
-        return p.networkVideoIsReady != c.networkVideoIsReady;
+        return p.thumbnailNetworkUrl != c.thumbnailNetworkUrl ||
+            p.thumbnailFilePath != c.thumbnailFilePath;
       },
       builder: (context, state) {
+        Widget thumbnailWidget = Center(
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+          Icon(
+            Icons.video_file_rounded,
+            size: widget.height,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "فایل آماده انتشار است.",
+            style: Theme.of(context).textTheme.bodySmall,
+            textAlign: TextAlign.center,
+          )
+        ]));
+        if (state.thumbnailFilePath != null) {
+          thumbnailWidget = Positioned.fill(
+              child: Image.memory(
+                  File(state.thumbnailFilePath!).readAsBytesSync()));
+        }
+        if (state.thumbnailNetworkUrl != null) {
+          thumbnailWidget =
+              Positioned.fill(child: Image.network(state.thumbnailNetworkUrl!));
+        }
         return DecoratedBox(
             decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(4)),
             child: Stack(
               children: [
-                state.networkVideoIsReady == true
-                    ? Positioned.fill(
-                        child: VideoPlayer(_videoPlayerController!))
-                    : Center(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.video_file_rounded,
-                              size: widget.height,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "پیش نمایش آماده انتشار است.",
-                              style: Theme.of(context).textTheme.bodySmall,
-                              textAlign: TextAlign.center,
-                            )
-                          ],
-                        ),
-                      ),
+                thumbnailWidget,
                 if (!widget.readOnly) ...[
                   Positioned(
                     top: 8,

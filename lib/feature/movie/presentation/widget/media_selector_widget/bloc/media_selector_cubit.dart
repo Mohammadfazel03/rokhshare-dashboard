@@ -194,11 +194,11 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
       if ((mediaFile.mimetype?.contains('video') ?? false) &&
           mediaFile.thumbnail != null) {
         emit(MediaSelectorState.initNetwork(
-            networkUrl: mediaFile.thumbnail!, fileId: mediaFile.id!));
+            thumbnailNetworkUrl: mediaFile.thumbnail!, fileId: mediaFile.id!));
       } else if ((mediaFile.mimetype?.contains('image') ?? false) &&
           mediaFile.file != null) {
         emit(MediaSelectorState.initNetwork(
-            networkUrl: mediaFile.file!, fileId: mediaFile.id!));
+            thumbnailNetworkUrl: mediaFile.file!, fileId: mediaFile.id!));
       }
     }
   }

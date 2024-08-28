@@ -94,7 +94,7 @@ class MediaSelectorState {
             isCanceled: false);
 
   MediaSelectorState.initNetwork({
-    required String networkUrl,
+    required String thumbnailNetworkUrl,
     required int fileId,
   }) : this(
             file: null,
@@ -108,7 +108,7 @@ class MediaSelectorState {
             fileId: fileId,
             error: null,
             thumbnailFilePath: null,
-            thumbnailNetworkUrl: networkUrl,
+            thumbnailNetworkUrl: thumbnailNetworkUrl,
             isCanceled: false);
 
   MediaSelectorState copyWith(

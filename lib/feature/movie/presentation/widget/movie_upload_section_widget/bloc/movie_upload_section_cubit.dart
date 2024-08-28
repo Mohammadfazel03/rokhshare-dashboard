@@ -1,12 +1,17 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
 import 'package:dashboard/utils/background_file_reader.dart';
 import 'package:dashboard/utils/data_response.dart';
+import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cross_file/cross_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'movie_upload_section_state.dart';
 
@@ -37,6 +42,47 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
         totalChunks: (file.size / chunkSize).ceil(),
       ));
       _startUpload();
+      _getVideoDuration();
+      _generateThumbnail();
+    }
+  }
+
+  Future<void> _getVideoDuration() async {
+    if (state.file?.path != null) {
+      final process = await Process.start(
+        'ffprobe',
+        [
+          '-v',
+          'error',
+          '-show_entries',
+          'format=duration',
+          '-of',
+          'default=noprint_wrappers=1:nokey=1',
+          state.file!.path
+        ],
+      );
+      final output = await process.stdout.transform(const Utf8Decoder()).first;
+      emit(state.copyWith(duration: num.parse(output).round()));
+    }
+  }
+
+  void _generateThumbnail() async {
+    if (state.file?.path != null) {
+      final plugin = FcNativeVideoThumbnail();
+      final temp = await getTemporaryDirectory();
+      try {
+        final thumbnailGenerated = await plugin.getVideoThumbnail(
+            srcFile: state.file!.path,
+            destFile: "${temp.path}\\video_thumbnail.jpeg",
+            width: 1024,
+            height: 1024,
+            format: 'jpeg',
+            quality: 90);
+        if (thumbnailGenerated) {
+          emit(state.copyWith(
+              thumbnailFilePath: "${temp.path}\\video_thumbnail.jpeg"));
+        }
+      } catch (err) {}
     }
   }
 
@@ -55,7 +101,7 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
             if (res is DataSuccess) {
               if (res.data?.id != null && state.isCanceled != true) {
                 emit(MovieUploadSectionState.completeUpload(
-                    networkVideoIsReady: state.networkVideoIsReady,
+                    thumbnailFilePath: state.thumbnailFilePath,
                     file: state.file!,
                     fileId: res.data!.id!,
                     duration: state.duration));
@@ -156,11 +202,9 @@ class MovieUploadSectionCubit extends Cubit<MovieUploadSectionState> {
   void initialMovie(MediaFile? mediaFile, int? time) {
     if (mediaFile != null && time != null) {
       emit(MovieUploadSectionState.initNetwork(
-          fileId: mediaFile.id!, duration: time, networkUrl: mediaFile.file!));
+          fileId: mediaFile.id!,
+          duration: time,
+          thumbnailNetworkUrl: mediaFile.thumbnail));
     }
-  }
-
-  void videoIsReady(int? duration) {
-    emit(state.copyWith(networkVideoIsReady: true, duration: duration));
   }
 }

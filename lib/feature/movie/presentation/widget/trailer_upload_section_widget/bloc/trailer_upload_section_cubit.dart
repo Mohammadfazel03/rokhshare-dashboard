@@ -173,14 +173,17 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
  */
 
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
+import 'package:cross_file/cross_file.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
 import 'package:dashboard/utils/background_file_reader.dart';
 import 'package:dashboard/utils/data_response.dart';
+import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:cross_file/cross_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'trailer_upload_section_state.dart';
 
@@ -211,6 +214,27 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
         totalChunks: (file.size / chunkSize).ceil(),
       ));
       _startUpload();
+      _generateThumbnail();
+    }
+  }
+
+  void _generateThumbnail() async {
+    if (state.file?.path != null) {
+      final plugin = FcNativeVideoThumbnail();
+      final temp = await getTemporaryDirectory();
+      try {
+        final thumbnailGenerated = await plugin.getVideoThumbnail(
+            srcFile: state.file!.path,
+            destFile: "${temp.path}\\video_thumbnail.jpeg",
+            width: 1024,
+            height: 1024,
+            format: 'jpeg',
+            quality: 90);
+        if (thumbnailGenerated) {
+          emit(state.copyWith(
+              thumbnailFilePath: "${temp.path}\\video_thumbnail.jpeg"));
+        }
+      } catch (err) {}
     }
   }
 
@@ -230,8 +254,8 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
               if (res.data?.id != null && state.isCanceled != true) {
                 emit(TrailerUploadSectionState.completeUpload(
                     file: state.file!,
-                    networkVideoIsReady: state.networkVideoIsReady,
-                    fileId: res.data!.id!));
+                    fileId: res.data!.id!,
+                    thumbnailFilePath: state.thumbnailFilePath));
                 worker?.close();
                 worker = null;
               } else if (state.isCanceled != true) {
@@ -327,13 +351,9 @@ class TrailerUploadSectionCubit extends Cubit<TrailerUploadSectionState> {
   }
 
   void initialTrailer(MediaFile? mediaFile) {
-    if (mediaFile != null && mediaFile.file != null) {
+    if (mediaFile != null) {
       emit(TrailerUploadSectionState.initNetwork(
-          networkUrl: mediaFile.file!, fileId: mediaFile.id!));
+          thumbnailNetworkUrl: mediaFile.thumbnail, fileId: mediaFile.id!));
     }
-  }
-
-  void videoIsReady() {
-    emit(state.copyWith(networkVideoIsReady: true));
   }
 }
