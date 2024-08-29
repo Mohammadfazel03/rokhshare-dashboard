@@ -1,4 +1,3 @@
-import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/feature/season_episode/data/remote/model/episode.dart';
 import 'package:dashboard/feature/season_episode/presentation/bloc/season_episode_page_cubit.dart';
@@ -116,7 +115,7 @@ class SeasonEpisodeDataGrid extends DataGridSource {
                                   child: ClipRRect(
                                       borderRadius: BorderRadius.circular(8),
                                       child: Image.network(
-                                          "$baseUrl${episode.thumbnail}")),
+                                          "${episode.thumbnail}")),
                                 ),
                                 if (episode.humanizeTime != null)
                                   Positioned(

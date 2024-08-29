@@ -1,4 +1,3 @@
-import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -45,7 +44,7 @@ class SliderDataGrid extends DataGridSource {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  "$baseUrl${dataGridCell.value.poster}",
+                  "${dataGridCell.value.poster}",
                   height: 96,
                   width: 64,
                   fit: BoxFit.cover,

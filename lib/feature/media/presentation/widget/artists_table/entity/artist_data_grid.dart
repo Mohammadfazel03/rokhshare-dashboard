@@ -1,6 +1,6 @@
 import 'dart:math';
+
 import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/feature/media/data/remote/model/artist.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/artist_append_dialog_widget.dart';
 import 'package:dashboard/feature/media/presentation/widget/artists_table/bloc/artist_append_cubit.dart';
@@ -57,7 +57,7 @@ class ArtistDataGrid extends DataGridSource {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(32),
                       child: Image.network(
-                        "$baseUrl${dataGridCell.value.image}",
+                        "${dataGridCell.value.image}",
                         height: 32,
                         width: 32,
                         fit: BoxFit.cover,

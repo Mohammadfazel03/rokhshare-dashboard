@@ -1,4 +1,3 @@
-import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/comment.dart';
 import 'package:dashboard/feature/movie/data/remote/model/comment.dart' as c2;
@@ -51,7 +50,7 @@ class CommentDataGrid extends DataGridSource {
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: Image.network(
-                  "$baseUrl${dataGridCell.value.poster}",
+                  "${dataGridCell.value.poster}",
                   height: 96,
                   width: 64,
                   fit: BoxFit.cover,

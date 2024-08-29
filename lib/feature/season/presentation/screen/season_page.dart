@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:dashboard/config/dependency_injection.dart';
-import 'package:dashboard/config/dio_config.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/login/presentation/widget/error_snackbar_widget.dart';
@@ -256,7 +255,7 @@ class _SeasonPageState extends State<SeasonPage> {
           children: [
             Positioned.fill(
                 child: Image.network(
-              "$baseUrl${season.poster}",
+              "${season.poster}",
               fit: BoxFit.fill,
             )),
             Positioned(
