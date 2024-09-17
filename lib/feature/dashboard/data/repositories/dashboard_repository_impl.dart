@@ -6,6 +6,7 @@ import 'package:dashboard/feature/dashboard/data/remote/model/plan.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/slider.dart';
 import 'package:dashboard/feature/dashboard/data/remote/model/user.dart';
 import 'package:dashboard/utils/data_response.dart';
+import 'package:dashboard/utils/page_response.dart';
 import 'package:dio/dio.dart';
 
 import 'dashboard_repository.dart';
@@ -37,13 +38,13 @@ class DashboardRepositoryImpl extends DashboardRepository {
   }
 
   @override
-  Future<DataResponse<List<User>>> getRecentlyUser() async {
+  Future<DataResponse<PageResponse<User>>> getRecentlyUser(
+      {int page = 1}) async {
     try {
-      Response response = await _api.getRecentlyUser();
+      Response response = await _api.getRecentlyUser(page: page);
       if (response.statusCode == 200) {
-        List<User> users =
-            ((response.data) as List).map((e) => User.fromJson(e)).toList();
-        return DataSuccess(users);
+        return DataSuccess(
+            PageResponse.fromJson(response.data, (s) => User.fromJson(s)));
       }
       return const DataFailed('در برقرای ارتباط مشکلی پیش آمده است.');
     } catch (e) {

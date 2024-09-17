@@ -9,8 +9,8 @@ class DashboardApiService {
     return await _dio.get("dashboard/header/");
   }
 
-  Future<dynamic> getRecentlyUser() async {
-    return await _dio.get("dashboard/recently_user/");
+  Future<dynamic> getRecentlyUser({int page = 1}) async {
+    return await _dio.get("user/", queryParameters: {"page": page});
   }
 
   Future<dynamic> getPopularPlan() async {

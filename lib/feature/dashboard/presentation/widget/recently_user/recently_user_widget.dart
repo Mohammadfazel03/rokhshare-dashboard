@@ -1,3 +1,4 @@
+import 'package:dashboard/common/paginator_widget/pagination_widget.dart';
 import 'package:dashboard/config/theme/colors.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/bloc/recently_user_cubit.dart';
 import 'package:dashboard/feature/dashboard/presentation/widget/recently_user/entity/user_data_grid.dart';
@@ -9,7 +10,9 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:toastification/toastification.dart';
 
 class RecentlyUserWidget extends StatefulWidget {
-  const RecentlyUserWidget({super.key});
+  final bool hasPagination;
+
+  const RecentlyUserWidget({super.key, this.hasPagination = false});
 
   @override
   State<RecentlyUserWidget> createState() => _RecentlyUserWidgetState();
@@ -64,7 +67,7 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                     });
               }
             } else if (state is RecentlyUserSuccess) {
-              _userDataGrid.buildDataGridRows(users: state.data);
+              _userDataGrid.buildDataGridRows(users: state.data.results ?? []);
             }
           },
           builder: (context, state) {
@@ -89,7 +92,22 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
                   color: CustomColor.loginBackgroundColor.getColor(context),
                 ))));
               } else {
-                return Expanded(child: userTable());
+                return Expanded(
+                    child: Stack(
+                  children: [
+                    Positioned.fill(child: userTable()),
+                    Positioned.fill(
+                        child: Container(
+                      color: Colors.black12,
+                      child: Center(
+                          child: RepaintBoundary(
+                              child: SpinKitThreeBounce(
+                        color:
+                            CustomColor.loginBackgroundColor.getColor(context),
+                      ))),
+                    ))
+                  ],
+                ));
               }
             } else if (state is RecentlyUserError) {
               if (_userDataGrid.rows.isEmpty) {
@@ -101,6 +119,40 @@ class _RecentlyUserWidgetState extends State<RecentlyUserWidget> {
             return Expanded(child: _error(null));
           },
         ),
+        if (widget.hasPagination) ...[
+          BlocBuilder<RecentlyUserCubit, RecentlyUserState>(
+            buildWhen: (current, previous) {
+              return current.numberPages != previous.numberPages ||
+                  current.pageIndex != previous.pageIndex;
+            },
+            builder: (context, state) {
+              if (state.numberPages != 0) {
+                return Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Flexible(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: PaginationWidget(
+                            totalPages: state.numberPages,
+                            currentPage: state.pageIndex,
+                            onChangePage: (page) {
+                              if (BlocProvider.of<RecentlyUserCubit>(context)
+                                  .state is! RecentlyUserLoading) {
+                                BlocProvider.of<RecentlyUserCubit>(context)
+                                    .getData(page: page);
+                              }
+                            }),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return const SizedBox();
+            },
+          )
+        ]
       ],
     );
   }
