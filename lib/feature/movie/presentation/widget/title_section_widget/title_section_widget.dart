@@ -6,7 +6,7 @@ class TitleSectionWidget extends StatelessWidget {
   final TextEditingController _controller;
   final bool readOnly;
   final String? hintText;
-  final String label;
+  final String? label;
 
   TitleSectionWidget({super.key,
     TextEditingController? controller,
@@ -24,7 +24,7 @@ class TitleSectionWidget extends StatelessWidget {
           controller: _controller,
           decoration: InputDecoration(
             hintText: hintText,
-            label: Text(label),
+            label: label != null ? Text(label!) : null,
             errorText: state.error,
           ),
           onChanged: (value) {

@@ -121,6 +121,8 @@ class ArtistDataGrid extends DataGridSource {
                         size: 16,
                       ),
                       style: ButtonStyle(
+                          iconColor: WidgetStatePropertyAll(
+                              Theme.of(_context).colorScheme.onPrimary),
                           shape: WidgetStateProperty.all(RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8)))),
                     ),
@@ -169,15 +171,19 @@ class ArtistDataGrid extends DataGridSource {
                                       ),
                                       FilledButton(
                                           style: ButtonStyle(
-                                              textStyle: WidgetStateProperty.all(
-                                                  Theme.of(dialogContext)
-                                                      .textTheme
-                                                      .labelSmall),
+                                              textStyle:
+                                                  WidgetStateProperty.all(
+                                                      Theme.of(dialogContext)
+                                                          .textTheme
+                                                          .labelSmall),
                                               padding: WidgetStateProperty.all(
                                                   const EdgeInsets.all(16)),
                                               alignment: Alignment.center,
                                               shape: WidgetStateProperty.all(
-                                                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)))),
+                                                  RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              4)))),
                                           onPressed: () {
                                             _cubit.delete(
                                                 id: dataGridCell.value);

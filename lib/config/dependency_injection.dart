@@ -1,5 +1,8 @@
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/theme/theme_cubit.dart';
+import 'package:dashboard/feature/advertise/data/remote/advertise_api_service.dart';
+import 'package:dashboard/feature/advertise/data/repositories/advertise_repository.dart';
+import 'package:dashboard/feature/advertise/data/repositories/advertise_repository_impl.dart';
 import 'package:dashboard/feature/dashboard/data/remote/dashboard_api_service.dart';
 import 'package:dashboard/feature/dashboard/data/repositories/dashboard_repository.dart';
 import 'package:dashboard/feature/dashboard/data/repositories/dashboard_repository_impl.dart';
@@ -84,6 +87,10 @@ Future<void> setup() async {
       .registerLazySingleton(() => MediaCollectionApiService(dio: getIt.get()));
   getIt.registerLazySingleton<MediaCollectionRepository>(
       () => MediaCollectionRepositoryImpl(api: getIt.get()));
+
+  getIt.registerLazySingleton(() => AdvertiseApiService(dio: getIt.get()));
+  getIt.registerLazySingleton<AdvertiseRepository>(
+      () => AdvertiseRepositoryImpl(api: getIt.get()));
 
   // register state managements
   getIt.registerLazySingleton(() => ThemeCubit());

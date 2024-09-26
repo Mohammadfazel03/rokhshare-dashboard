@@ -10,9 +10,13 @@ import 'package:toastification/toastification.dart';
 class MovieUploadSectionWidget extends StatefulWidget {
   final double height;
   final bool readOnly;
+  final double ratio;
 
   const MovieUploadSectionWidget(
-      {super.key, required this.height, this.readOnly = false});
+      {super.key,
+      required this.height,
+      this.readOnly = false,
+      this.ratio = 5 / 3});
 
   @override
   State<MovieUploadSectionWidget> createState() =>
@@ -61,7 +65,9 @@ class _MovieUploadSectionWidgetState extends State<MovieUploadSectionWidget> {
         return Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[AspectRatio(aspectRatio: 5 / 3, child: child)],
+            children: <Widget>[
+              AspectRatio(aspectRatio: widget.ratio, child: child)
+            ],
           ),
         );
       },

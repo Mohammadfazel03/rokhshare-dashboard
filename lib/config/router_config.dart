@@ -1,6 +1,7 @@
 import 'package:dashboard/config/dependency_injection.dart';
 import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/feature/404/presentation/screen/not_found_page.dart';
+import 'package:dashboard/feature/advertise/presentation/screen/advertise_page.dart';
 import 'package:dashboard/feature/dashboard/presentation/screen/dashboard_page.dart';
 import 'package:dashboard/feature/episode/presentation/bloc/episode_page_cubit.dart';
 import 'package:dashboard/feature/episode/presentation/screen/episode_page.dart';
@@ -118,6 +119,11 @@ enum RoutePath {
       path: "/media",
       fullPath: "/media/",
       title: "فیلم و سریال"),
+  advertise(
+      name: "advertise",
+      path: "/advertise",
+      fullPath: "/advertise/",
+      title: "تبلیغات و طرح ها"),
   users(name: "users", path: "/users", fullPath: "/users/", title: "کاربران");
 
   const RoutePath(
@@ -172,6 +178,13 @@ final routerConfig = GoRouter(
                   name: RoutePath.users.name,
                   pageBuilder: (BuildContext context, GoRouterState state) =>
                       const NoTransitionPage(child: UserPage()))
+            ]),
+            StatefulShellBranch(routes: [
+              GoRoute(
+                  path: RoutePath.advertise.path,
+                  name: RoutePath.advertise.name,
+                  pageBuilder: (BuildContext context, GoRouterState state) =>
+                      const NoTransitionPage(child: AdvertisePage()))
             ]),
             StatefulShellBranch(routes: [
               GoRoute(

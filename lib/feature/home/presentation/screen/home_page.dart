@@ -270,14 +270,19 @@ class _HomePageState extends State<HomePage> {
                   }),
               const SizedBox(height: 8),
               sidebarItem(
-                  selected: false, icon: FontAwesome5.ad, title: "تبلیغات"),
+                  selected: widget.pageScreen.currentIndex == 2,
+                  icon: FontAwesome5.ad,
+                  title: "تبلیغات",
+                  onClick: () {
+                    widget.pageScreen.goBranch(2);
+                  }),
               const SizedBox(height: 8),
               sidebarItem(
-                  selected: widget.pageScreen.currentIndex == 2,
+                  selected: widget.pageScreen.currentIndex == 3,
                   icon: FontAwesome.video,
                   title: "فیلم و سریال",
                   onClick: () {
-                    widget.pageScreen.goBranch(2);
+                    widget.pageScreen.goBranch(3);
                   }),
               const SizedBox(height: 8),
             ],
