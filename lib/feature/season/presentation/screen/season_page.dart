@@ -33,28 +33,6 @@ class SeasonPage extends StatefulWidget {
 }
 
 class _SeasonPageState extends State<SeasonPage> {
-  final PagingController<int, Season?> _pagingController =
-      PagingController(firstPageKey: 0);
-
-  @override
-  void initState() {
-    super.initState();
-    _pagingController.addPageRequestListener((page) async {
-      if (page == 0) {
-        _pagingController.appendPage([null], 1);
-      } else {
-        BlocProvider.of<SeasonPageCubit>(context)
-            .getData(seriesId: widget.seriesId);
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _pagingController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.sizeOf(context).width - 32;
@@ -63,34 +41,20 @@ class _SeasonPageState extends State<SeasonPage> {
     }
     return BlocListener<SeasonPageCubit, SeasonPageState>(
       listener: (context, state) {
-        if (state is SeasonPageSuccess) {
-          final isLastPage =
-              state.data.totalPages == _pagingController.value.nextPageKey;
-          if (isLastPage) {
-            _pagingController.appendLastPage(state.data.results ?? []);
-          } else {
-            final nextPageKey = (_pagingController.value.nextPageKey ?? 1) + 1;
-            _pagingController.appendPage(state.data.results ?? [], nextPageKey);
-          }
-        } else if (state is SeasonPageError) {
-          if (state.code == 1) {
-            toastification.showCustom(
-                animationDuration: const Duration(milliseconds: 300),
-                context: context,
-                alignment: Alignment.bottomRight,
-                autoCloseDuration: const Duration(seconds: 4),
-                direction: TextDirection.rtl,
-                builder: (BuildContext context, ToastificationItem holder) {
-                  return ErrorSnackBarWidget(
-                    item: holder,
-                    title: state.title ?? "خطا در دریافت فصل ها",
-                    message: state.error,
-                  );
-                });
-          }
-          _pagingController.error = state.error;
-        } else if (state is SeasonPageRefresh) {
-          _pagingController.refresh();
+        if (state.error != null) {
+          toastification.showCustom(
+              animationDuration: const Duration(milliseconds: 300),
+              context: context,
+              alignment: Alignment.bottomRight,
+              autoCloseDuration: const Duration(seconds: 4),
+              direction: TextDirection.rtl,
+              builder: (BuildContext context, ToastificationItem holder) {
+                return ErrorSnackBarWidget(
+                  item: holder,
+                  title: state.error?.title ?? "خطا در دریافت فصل ها",
+                  message: state.error?.error ?? "",
+                );
+              });
         }
       },
       child: Padding(
@@ -137,35 +101,46 @@ class _SeasonPageState extends State<SeasonPage> {
                   const SizedBox(
                     height: 16,
                   ),
-                  Expanded(
-                    child: PagedGridView<int, Season?>(
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Season?>(
-                          itemBuilder: (context, item, index) {
-                        if (index == 0) {
-                          return addWidget();
-                        } else {
-                          return seasonCard(item!);
-                        }
-                      }),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: (width / (300 * 3 / 4)).round(),
-                        childAspectRatio: 3 / 4,
-                        mainAxisSpacing: 4,
-                        crossAxisSpacing: 4,
-                      ),
-                    ),
-                  ),
+                  BlocBuilder<SeasonPageCubit, SeasonPageState>(
+                    buildWhen: (p, c) {
+                      return !(c.deleteLoading != p.deleteLoading ||
+                          c.deleteError != p.deleteError);
+                    },
+                    builder: (context, state) {
+                      return Expanded(
+                        child: PagedGridView<int, Season?>(
+                          state: state,
+                          fetchNextPage: () {
+                            BlocProvider.of<SeasonPageCubit>(context).getData(seriesId: widget.seriesId);
+                          },
+                          builderDelegate: PagedChildBuilderDelegate<Season?>(
+                              itemBuilder: (context, item, index) {
+                            if (index == 0) {
+                              return addWidget();
+                            } else {
+                              return seasonCard(item!);
+                            }
+                          }),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: (width / (300 * 3 / 4)).round(),
+                            childAspectRatio: 3 / 4,
+                            mainAxisSpacing: 4,
+                            crossAxisSpacing: 4,
+                          ),
+                        ),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
             BlocBuilder<SeasonPageCubit, SeasonPageState>(
               buildWhen: (p, c) {
-                return (p is SeasonPageLoading && p.code != 1) ||
-                    (c is SeasonPageLoading && c.code != 1);
+                return (p.deleteLoading) || (c.deleteLoading);
               },
               builder: (context, state) {
-                if (state is SeasonPageLoading) {
+                if (state.isLoading) {
                   return Positioned.fill(
                     child: Container(
                       color: Colors.transparent,
