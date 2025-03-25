@@ -9,9 +9,10 @@ class ErrorBloc {
 }
 
 class MovieUploadSectionState {
-  final XFile? file;
+  final ChunkedStreamReader<int>? chunkedStreamReader;
   final String? thumbnailNetworkUrl;
   final String? thumbnailFilePath;
+  final String? filename;
   final int? currentChunk;
   final int? totalChunks;
   final double? progress;
@@ -26,10 +27,11 @@ class MovieUploadSectionState {
   final int? duration;
 
   const MovieUploadSectionState(
-      {required this.file,
-      required this.currentChunk,
-      required this.totalChunks,
+      {required this.chunkedStreamReader,
+        required this.currentChunk,
+        required this.totalChunks,
       required this.progress,
+      required this.filename,
       required this.uploadId,
       required this.error,
       required this.fileId,
@@ -43,10 +45,11 @@ class MovieUploadSectionState {
       this.retry = 3});
 
   const MovieUploadSectionState.init(
-      {this.file,
-      this.currentChunk,
-      this.totalChunks,
+      {this.chunkedStreamReader,
+        this.currentChunk,
+        this.totalChunks,
       this.progress,
+      this.filename,
       this.uploadId,
       this.isUploaded,
       this.isUploading,
@@ -60,12 +63,13 @@ class MovieUploadSectionState {
       this.retry = 3});
 
   MovieUploadSectionState.startUpload(
-      {required XFile file, required int totalChunks})
+      {required ChunkedStreamReader<int> chunkedStreamReader, required int totalChunks, required String filename})
       : this(
-            file: file,
-            currentChunk: 0,
-            totalChunks: totalChunks,
+            chunkedStreamReader: chunkedStreamReader,
+      currentChunk: 0,
+      totalChunks: totalChunks,
             progress: 0,
+      filename:filename,
             uploadId: null,
             isPaused: false,
             isUploaded: false,
@@ -82,9 +86,10 @@ class MovieUploadSectionState {
       required int fileId,
       required int? duration})
       : this(
-            file: null,
-            currentChunk: null,
-            totalChunks: null,
+      filename: null,
+            chunkedStreamReader: null,
+      currentChunk: null,
+      totalChunks: null,
             progress: 100,
             uploadId: null,
             isPaused: false,
@@ -98,14 +103,16 @@ class MovieUploadSectionState {
             duration: duration);
 
   MovieUploadSectionState.completeUpload(
-      {required XFile file,
-      required String? thumbnailFilePath,
+      {
+        required String? filename,
+        required String? thumbnailFilePath,
       required int fileId,
       required int? duration})
       : this(
-            file: file,
-            currentChunk: null,
-            totalChunks: null,
+      filename:filename,
+            chunkedStreamReader: null,
+      currentChunk: null,
+      totalChunks: null,
             progress: 100,
             uploadId: null,
             isPaused: false,
@@ -119,11 +126,12 @@ class MovieUploadSectionState {
             duration: duration);
 
   MovieUploadSectionState copyWith(
-      {XFile? file,
-      int? currentChunk,
-      int? totalChunks,
+      {ChunkedStreamReader<int>? chunkedStreamReader,
+        int? currentChunk,
+        int? totalChunks,
       double? progress,
       String? uploadId,
+      String? filename,
       bool? isUploading,
       bool? isUploaded,
       bool? isPaused,
@@ -135,11 +143,12 @@ class MovieUploadSectionState {
       int? retry,
       int? duration}) {
     return MovieUploadSectionState(
-        file: file ?? this.file,
+        chunkedStreamReader: chunkedStreamReader ?? this.chunkedStreamReader,
         currentChunk: currentChunk ?? this.currentChunk,
         totalChunks: totalChunks ?? this.totalChunks,
         progress: progress ?? this.progress,
         uploadId: uploadId ?? this.uploadId,
+        filename: filename ?? this.filename,
         error: error ?? this.error,
         fileId: fileId ?? this.fileId,
         isPaused: isPaused ?? this.isPaused,

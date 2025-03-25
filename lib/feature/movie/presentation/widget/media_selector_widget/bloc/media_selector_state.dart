@@ -9,7 +9,8 @@ class ErrorBloc {
 }
 
 class MediaSelectorState {
-  final XFile? file;
+  final ChunkedStreamReader<int>? chunkedStreamReader;
+  final String? filename;
   final String? thumbnailNetworkUrl;
   final String? thumbnailFilePath;
   final int? currentChunk;
@@ -25,7 +26,8 @@ class MediaSelectorState {
   final int retry;
 
   const MediaSelectorState({
-    required this.file,
+    required this.chunkedStreamReader,
+    required this.filename,
     required this.currentChunk,
     required this.totalChunks,
     required this.progress,
@@ -42,7 +44,8 @@ class MediaSelectorState {
   });
 
   const MediaSelectorState.init(
-      {this.file,
+      {this.filename,
+        this.chunkedStreamReader,
       this.currentChunk,
       this.thumbnailFilePath,
       this.totalChunks,
@@ -58,9 +61,10 @@ class MediaSelectorState {
       this.thumbnailNetworkUrl});
 
   MediaSelectorState.startUpload(
-      {required XFile file, required int totalChunks})
+      {required ChunkedStreamReader<int> chunkedStreamReader, required int totalChunks, required String filename})
       : this(
-            file: file,
+    filename: filename,
+            chunkedStreamReader: chunkedStreamReader,
             currentChunk: 0,
             totalChunks: totalChunks,
             progress: 0,
@@ -75,11 +79,12 @@ class MediaSelectorState {
             isCanceled: false);
 
   MediaSelectorState.completeUpload({
-    required XFile file,
+    required String filename,
     required int fileId,
     required String? thumbnailFilePath,
   }) : this(
-            file: file,
+    chunkedStreamReader: null,
+            filename: filename,
             currentChunk: null,
             totalChunks: null,
             progress: 100,
@@ -97,7 +102,8 @@ class MediaSelectorState {
     required String thumbnailNetworkUrl,
     required int fileId,
   }) : this(
-            file: null,
+    filename: null,
+            chunkedStreamReader: null,
             currentChunk: null,
             totalChunks: null,
             progress: 100,
@@ -112,7 +118,8 @@ class MediaSelectorState {
             isCanceled: false);
 
   MediaSelectorState copyWith(
-      {XFile? file,
+      {ChunkedStreamReader<int>? chunkedStreamReader,
+      String? filename,
       String? thumbnailNetworkUrl,
       String? thumbnailFilePath,
       int? currentChunk,
@@ -127,7 +134,8 @@ class MediaSelectorState {
       bool? isCanceled,
       int? retry}) {
     return MediaSelectorState(
-        file: file ?? this.file,
+      chunkedStreamReader: chunkedStreamReader ?? this.chunkedStreamReader,
+        filename: filename ?? this.filename,
         currentChunk: currentChunk ?? this.currentChunk,
         totalChunks: totalChunks ?? this.totalChunks,
         progress: progress ?? this.progress,

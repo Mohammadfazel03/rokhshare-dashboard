@@ -53,7 +53,7 @@ class _MovieUploadSectionWidgetState extends State<MovieUploadSectionWidget> {
         return p.isUploading != c.isUploading ||
             p.isPaused != c.isPaused ||
             p.isUploaded != c.isUploaded ||
-            p.file != c.file;
+            p.chunkedStreamReader != c.chunkedStreamReader;
       },
       builder: (context, state) {
         Widget child = selectFile();

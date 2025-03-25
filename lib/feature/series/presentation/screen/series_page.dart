@@ -584,7 +584,7 @@ class _SeriesPageState extends State<SeriesPage> {
               message: "لطفا ابتدا پیش نمایش را به صورت کامل بارگذاری کنید.",
             );
           });
-    } else if (trailerBloc.state.file != null) {
+    } else if (trailerBloc.state.filename != null) {
       trailer = trailerBloc.state.fileId;
     }
 

@@ -1,33 +1,23 @@
 import 'dart:async';
 
+import 'package:async/async.dart';
 import 'package:bloc/bloc.dart';
-import 'package:cross_file/cross_file.dart';
 import 'package:dashboard/feature/movie/data/remote/model/movie.dart';
 import 'package:dashboard/feature/movie/data/repositories/movie_repository.dart';
-import 'package:dashboard/utils/background_file_reader.dart';
 import 'package:dashboard/utils/data_response.dart';
-import 'package:fc_native_video_thumbnail/fc_native_video_thumbnail.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
-import 'package:path_provider/path_provider.dart';
 
 part 'media_selector_state.dart';
 
 class MediaSelectorCubit extends Cubit<MediaSelectorState> {
   final MovieRepository _repository;
-  static const int chunkSize = 1024 * 1024 * 2;
-  BackgroundFileReader? worker;
+  static const int chunkSize = 1024 * 512;
 
   MediaSelectorCubit({required MovieRepository repository})
       : _repository = repository,
         super(const MediaSelectorState.init());
 
-  @override
-  Future<void> close() {
-    worker?.close();
-    worker = null;
-    return super.close();
-  }
 
   void pickFile() async {
     FilePickerResult? result = await FilePicker.platform
@@ -36,44 +26,12 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
     if (files?.isNotEmpty ?? false) {
       final file = files![0];
       emit(MediaSelectorState.startUpload(
-        file: file.xFile,
-        totalChunks: (file.size / chunkSize).ceil(),
+          filename: file.name,
+          chunkedStreamReader: ChunkedStreamReader(file.readStream!),
+          totalChunks: (file.size / chunkSize).ceil()
       ));
       _startUpload();
-      _generateThumbnail(file.extension);
-    }
-  }
-
-  void _generateThumbnail(String? extension) async {
-    final videoType = [
-      'avi',
-      'flv',
-      'mkv',
-      'mp4',
-      'mov',
-      'mpeg',
-      'wmv',
-      'webm'
-    ];
-    final imageType = ['gif', 'jpeg', 'jpg', 'png', 'bmp'];
-    if ((videoType.contains(extension)) && state.file?.path != null) {
-      final plugin = FcNativeVideoThumbnail();
-      final temp = await getTemporaryDirectory();
-      try {
-        final thumbnailGenerated = await plugin.getVideoThumbnail(
-            srcFile: state.file!.path,
-            destFile: "${temp.path}\\media_thumbnail.jpeg",
-            width: 1024,
-            height: 1024,
-            format: 'jpeg',
-            quality: 90);
-        if (thumbnailGenerated) {
-          emit(state.copyWith(
-              thumbnailFilePath: "${temp.path}\\media_thumbnail.jpeg"));
-        }
-      } catch (err) {}
-    } else if (imageType.contains(extension)) {
-      emit(state.copyWith(thumbnailFilePath: state.file?.path));
+      // _generateThumbnail(file.extension);
     }
   }
 
@@ -84,7 +42,7 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
           _repository
               .uploadFile(
                   fileBytes: chunk,
-                  filename: state.file?.name ?? "",
+                  filename: state.filename ?? "test",
                   chunkIndex: state.currentChunk!,
                   totalChunk: state.totalChunks!,
                   uploadId: state.uploadId)
@@ -92,11 +50,9 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
             if (res is DataSuccess) {
               if (res.data?.id != null && state.isCanceled != true) {
                 emit(MediaSelectorState.completeUpload(
+                    filename: state.filename ?? "test",
                     thumbnailFilePath: state.thumbnailFilePath,
-                    file: state.file!,
                     fileId: res.data!.id!));
-                worker?.close();
-                worker = null;
               } else if (state.isCanceled != true) {
                 emit(state.copyWith(
                     uploadId: res.data!.uploadId,
@@ -152,8 +108,6 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
           });
         }
       }, onError: (e) {
-        worker?.close();
-        worker = null;
         emit(MediaSelectorState.init(
             error: ErrorBloc(
                 message: "خطای غیر منتظره ای در بارگذاری فایل به وجود آمد.",
@@ -163,11 +117,7 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
   }
 
   Future<Uint8List> _chunkFile() async {
-    worker ??= await BackgroundFileReader.spawn();
-    if (state.file != null && state.currentChunk != null) {
-      return worker!.readChunkFile(state.file!, chunkSize, state.currentChunk!);
-    }
-    throw Exception();
+    return Uint8List.fromList(await state.chunkedStreamReader!.readChunk(chunkSize));
   }
 
   void pauseUpload() {
@@ -179,8 +129,6 @@ class MediaSelectorCubit extends Cubit<MediaSelectorState> {
   }
 
   void cancelUpload() {
-    worker?.close();
-    worker = null;
     emit(const MediaSelectorState.init());
   }
 

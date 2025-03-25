@@ -648,7 +648,7 @@ class _MoviePageState extends State<MoviePage> {
               message: "لطفا ابتدا فیلم را به صورت کامل بارگذاری کنید.",
             );
           });
-    } else if (movieBloc.state.file != null) {
+    } else if (movieBloc.state.filename != null) {
       video = movieBloc.state.fileId;
       time = movieBloc.state.duration;
     }
@@ -669,7 +669,7 @@ class _MoviePageState extends State<MoviePage> {
               message: "لطفا ابتدا پیش نمایش را به صورت کامل بارگذاری کنید.",
             );
           });
-    } else if (trailerBloc.state.file != null) {
+    } else if (trailerBloc.state.filename != null) {
       trailer = trailerBloc.state.fileId;
     }
 
