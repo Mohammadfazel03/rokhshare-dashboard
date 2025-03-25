@@ -597,7 +597,7 @@ class _MoviePageState extends State<MoviePage> {
       BlocProvider.of<MoviePageCubit>(context).saveMovie(
           synopsis: synopsisController.text,
           name: titleController.text,
-          time: movieBloc.state.duration ?? 1,
+          time: movieBloc.state.duration ?? 0,
           genres: genresBloc.state.selectedItem.map((e) => e.id!).toList(),
           countries:
               countriesBloc.state.selectedItem.map((e) => e.id!).toList(),
