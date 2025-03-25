@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:dashboard/config/dependency_injection.dart';
+import 'package:dashboard/config/local_storage_service.dart';
 import 'package:dashboard/config/router_config.dart';
 import 'package:dashboard/config/theme/theme_cubit.dart';
 import 'package:dashboard/feature/home/presentation/widget/sidebar.dart';
@@ -139,20 +141,37 @@ class _HomePageState extends State<HomePage> {
                       color: Theme.of(context).colorScheme.onSurfaceVariant,
                     )),
                 const SizedBox(width: 8),
-                SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: DecoratedBox(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          color: Colors.white,
-                          border: Border.all(width: 0),
-                          image: const DecorationImage(
+                PopupMenuButton(
+                  onSelected: (int value) async {
+                    if (value == 1) {
+                      await getIt.get<LocalStorageService>().logout();
+                      routerConfig.go(RoutePath.login.fullPath);
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem<int>(
+                        value: 1,
+                        child: Text("خروج از حساب",
+                            style: Theme.of(context).textTheme.labelLarge),
+                      )
+                    ];
+                  },
+                  child: SizedBox(
+                    width: 32,
+                    height: 32,
+                    child: DecoratedBox(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: Colors.white,
+                            border: Border.all(width: 0),
+                            image: const DecorationImage(
                               // scale: 0.1,
-                              fit: BoxFit.fill,
-                              image: AssetImage(
-                                'assets/images/man.png',
-                              )))),
+                                fit: BoxFit.fill,
+                                image: AssetImage(
+                                  'assets/images/man.png',
+                                )))),
+                  ),
                 ),
               ],
             ),
