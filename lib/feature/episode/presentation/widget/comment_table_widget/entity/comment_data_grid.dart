@@ -169,12 +169,12 @@ class CommentDataGrid extends DataGridSource {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(dataGridCell.value[0],
+                  Text(dataGridCell.value[0] ?? "بدون عنوان",
                       style: Theme.of(_context)
                           .textTheme
                           .labelLarge
                           ?.copyWith(fontWeight: FontWeight.bold)),
-                  Text(dataGridCell.value[1],
+                  Text(dataGridCell.value[1] ?? "",
                       style: Theme.of(_context).textTheme.labelMedium),
                 ],
               ),
